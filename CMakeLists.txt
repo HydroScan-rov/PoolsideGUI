@@ -28,7 +28,6 @@ set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
 
-        Communication/SerialClient.cpp
         Communication/UdpClient.cpp
 
         Control/ControlBase.cpp

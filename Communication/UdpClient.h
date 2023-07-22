@@ -23,12 +23,11 @@ signals:
     void dataUpdated();
 
 private:
-    QUdpSocket* senderSocket;
-    QUdpSocket* receiverSocket;
+    QUdpSocket* senderSocket;  // from pult to ROV
+    QUdpSocket* receiverSocket;  // from ROV to pult
+    
     IServerData* uv_interface;
     QTimer* timeoutTimer;
-
-    void connectToHost();
 
 private slots:
     void readPendingDatagrams();
