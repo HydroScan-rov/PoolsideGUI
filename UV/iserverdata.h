@@ -7,10 +7,7 @@
 #include "ibasicdata.h"
 #include "uv_state.h"
 
-/** \brief Interface for accessing data in UV_State to form QByteArray messages
- *
- */
-class IServerData: public IBasicData {
+class IServerData : public IBasicData {
 public:
     IServerData();
 
@@ -27,145 +24,157 @@ public:
 private:
     QDataStream* port;
 
-    /** \brief Structure for storing and processing data from the STM32 normal request message protocol
-     * Normal request message contains vehicle movement control data, devices control values and various flags
-     * Shore send requests and STM send responses
-     */
+    // from pult to ROV
     struct RequestNormalMessage {
-        /// Type code for the normal message protocol
         const static uint8_t type = 0xA5;
-        uint8_t flags; //stabilize_flags, thrusters_on, reset_imu
-        int16_t march;
-        int16_t lag;
-        int16_t depth;
-        int16_t roll;
-        int16_t pitch;
-        int16_t yaw;
 
-        int8_t dev[6];
-        uint16_t checksum;
+        uint8_t flags; // [0]thrusters_on, [1]reset_imu, [2]reset_depth, [3]rgb_light_on, [4]lower_light_on,
+
+        float_t march; // NED coordinate system
+        float_t lag;
+        float_t depth;
+        float_t roll;
+        float_t pitch;
+        float_t yaw;
+
+        uint8_t stab_flags; // [0]march, [1]lag, [2]depth, [3]roll, [4]pitch, [5]yaw
+        uint8_t control_mode; // [0]handle , [1]auto (set depth and yaw, pitch and roll = 0), [2]maneuverable (set depth, yaw, pitch and roll)
+
+        uint8_t power_lower_light; // 0-255
+
+        uint8_t r_rgb_light; // 0-255
+        uint8_t g_rgb_light;
+        uint8_t b_rgb_light;
+
+        uint16_t checksum;  // 1(type) + 30(message) + 2(checksum) = 33 dyte
     };
 
-    /** \brief Structure for storing and processing data from the STM32 normal response message protocol
-     * Normal response message contains various telemetry (orientation sensors, current of the thrusters and devices, leak data and internal errors)
-     * Shore send requests and STM send responses
-     */
+    // from ROV to pult
     struct ResponseNormalMessage {
-        float roll;
-        float pitch;
-        float yaw;
-        float depth;
+        float_t depth;
+        float_t roll;
+        float_t pitch;
+        float_t yaw;
 
-        float rollSpeed;
-        float pitchSpeed;
-        float yawSpeed;
+        float_t distance_l; // distance from laser rangefinder
+        float_t distance_r;
 
-        uint16_t checksum;
+        float_t speed_down; // speed signal from jetson
+        float_t speed_right;
+
+        float_t current_logic_electronics; // from jetson + raspberry dc-dc
+        float_t current_vma[8];
+        float_t voltage_battery_cell[4];
+        float_t voltage_battery; // 56
+
+        uint16_t checksum;  // 88(message) + 2(checksum) = 90 dyte
     };
 
-    /** \brief Structure for storing and processing data from the STM32 configuration request message protocol
-     * Configuration request message protocol is used for movement control of the UV and tuning selected stabilization contour
-     * Shore send requests and STM send responses
-     */
+    // from pult to ROV
     struct RequestConfigMessage {
-        /// Type code for the Config message protocol
         const static uint8_t type = 0x55;
-        uint8_t flags; //stabilize_flags, thrusters_on, reset_imu
 
-        uint8_t contour;
+        uint8_t flags; // [0]thrusters_on, [1]reset_imu, [2]reset_depth, [3]rgb_light_on, [4]lower_light_on,
+        uint8_t stab_flags; // stab [0]march, [1]lag, [2]depth, [3]roll, [4]pitch, [5]yaw, [6]thrusters_on, [6]reset_imu
 
-        int16_t march;
-        int16_t lag;
-        int16_t depth;
-        int16_t roll;
-        int16_t pitch;
-        int16_t yaw;
+        uint8_t current_contour; // current contour: [0]march, [1]lag, [2]depth, [3]roll, [4]pitch, [5]yaw
 
-        float pJoyUnitCast;
-        float pSpeedDyn;
-        float pErrGain;
+        float_t march;
+        float_t lag;
+        float_t depth;
+        float_t roll;
+        float_t pitch;
+        float_t yaw;
 
-        float posFilterT;
-        float posFilterK;
-        float speedFilterT;
-        float speedFilterK;
+        float_t dt;
+        float_t k_joy;
+        float_t k_tuning;
 
-        float pid_pGain;
-        float pid_iGain;
-        float pid_iMax;
-        float pid_iMin;
+        float_t pid_kp;
+        float_t pid_ki;
+        float_t pid_kd;
+        float_t pid_max_i;
+        float_t pid_min_i;
+        float_t pid_max;
+        float_t pid_min;
 
-        float pThrustersMin;
-        float pThrustersMax;
+        float_t posFilter_t;
+        float_t posFilter_k;
+        float_t speedFilter_y;
+        float_t speedFilter_k;
 
-        uint16_t checksum;
+        float_t out_max;
+        float_t out_min;
+
+        uint16_t checksum; // 1(type) + 91(message) + 2(checksum) = 94 dyte
     };
 
-    /** \brief Structure for storing and processing data from the STM32 configuration response message protocol
-     * Configuration response message contains orientation sensor information and internal variables of the selected stabilization contour
-     * Shore send requests and STM send responses
-     */
+    // from ROV to pult
     struct ResponseConfigMessage {
-        float roll;
-        float pitch;
-        float yaw;
-        float depth;
+        float_t depth;
+        float_t roll;
+        float_t pitch;
+        float_t yaw;
 
-        float rollSpeed;
-        float pitchSpeed;
-        float yawSpeed;
+        float_t input;
+        float_t pos_filtered;
+        float_t speed_filtered;
 
-        float inputSignal;
-        float speedSignal;
-        float posSignal;
+        float_t joy_gained;
+        float_t target_integrator;
 
-        float joyUnitCasted;
-        float posError;
-        float joy_iValue;
-        float speedError;
-        float dynSummator;
-        float pidValue;
-        float posErrorAmp;
-        float speedFiltered;
-        float posFiltered;
-        float pid_iValue;
-        float pid_pValue;
-        float outputSignal;
+        float_t pid_pre_error;
+        float_t pid_error;
+        float_t pid_integral;
+        float_t pid_Pout;
+        float_t pid_Iout;
+        float_t pid_Dout;
+        float_t pid_output;
 
-        uint16_t checksum;
+        float_t tuning_summator;
+        float_t speed_error;
+        float_t out_pre_saturation;
+        float_t out;
+
+        float_t current_logic_electronics; // from jetson + raspberry dc-dc
+        float_t current_vma[8];
+        float_t voltage_battery_cell[4];
+        float_t voltage_battery; // 56
+
+        uint16_t checksum; // 136(message) + 2(checksum) = 138 dyte
     };
 
-    /** \brief Structure for storing and processing data from the STM32 direct request message protocol
-     * Direcy request message protocol is used for controlling and tuning one particular thruster
-     * Shore send requests and STM send responses
-     */
+    // from pult to ROV
     struct RequestDirectMessage {
-        /// Type code for the Direct message protocol
         const static uint8_t type = 0xAA;
 
-        uint8_t id;
-        uint8_t adress;
+        uint8_t flags; // [0]thrusters_on, [1]reset_imu, [2]reset_depth, [3]rgb_light_on, [4]lower_light_on,
 
-        int8_t velocity;
+        uint8_t id; // 0..7
+        uint8_t adress; // 0..7
+
+        float_t target_forse; // newton
 
         uint8_t reverse;
-        int8_t kForward;
-        int8_t kBackward;
+        float_t k_forward;
+        float_t k_backward;
 
-        int8_t sForward;
-        int8_t sBackward;
+        int16_t s_forward; // max PWM
+        int16_t s_backward; // min PWM
 
-        uint16_t checksum;
+        uint16_t checksum; // 1(type) + 20(message) + 2(checksum) = 24 dyte
     };
 
-    /** \brief Structure for storing and processing data from the STM32 direct response message protocol
-     * Direct response message contains current and status information from particular thruster
-     * Shore send requests and STM send responses
-     */
+    // from ROV to pult
     struct ResponseDirectMessage {
-        uint8_t id;
+        uint8_t id; // 0..7
 
-        uint16_t checksum;
+        float_t current_logic_electronics; // from jetson + raspberry dc-dc
+        float_t current_vma[8];
+        float_t voltage_battery_cell[4];
+        float_t voltage_battery; // 56
+
+        uint16_t checksum; // 57(message) + 2(checksum) = 59 dyte
     };
 
     void parseNormalMessage(QByteArray msg);
