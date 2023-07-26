@@ -1,6 +1,6 @@
-#include "uv_controlcontour.h"
+#include "uv_controlCircuit.h"
 
-UV_ControlContour::UV_ControlContour() {
+UV_ControlCircuit::UV_ControlCircuit() {
     constant.pJoyUnitCast = 0;
     constant.pSpeedDyn = 0;
     constant.pErrGain = 0;

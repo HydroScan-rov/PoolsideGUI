@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1041</width>
-    <height>263</height>
+    <width>1064</width>
+    <height>236</height>
    </rect>
   </property>
   <property name="palette">
@@ -458,22 +458,16 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_9">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2"/>
-    </item>
-    <item>
      <layout class="QHBoxLayout" name="horizontalLayout_6">
       <item>
-       <widget class="QGroupBox" name="groupBox_2">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
+       <widget class="QGroupBox" name="groupBox_PackageMode">
         <property name="title">
-         <string/>
+         <string>Package Mode</string>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
          <property name="leftMargin">
           <number>3</number>
          </property>
@@ -487,120 +481,26 @@
           <number>3</number>
          </property>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout">
-           <item>
-            <layout class="QVBoxLayout" name="verticalLayout_21">
-             <item>
-              <widget class="QPushButton" name="pushButton_ResetIMU">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>Reset IMU</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QCheckBox" name="checkBox_ThrustersON">
-               <property name="text">
-                <string>Thrusters ON</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <layout class="QVBoxLayout" name="verticalLayout_13">
-               <item>
-                <widget class="QRadioButton" name="radioButton_UDP">
-                 <property name="text">
-                  <string>UDP</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QRadioButton" name="radioButton_Serial">
-                 <property name="text">
-                  <string>Serial</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pushButton_ReconnectROV">
-                 <property name="text">
-                  <string>Reconnect ROV</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item>
-       <widget class="QGroupBox" name="groupBox_Depth">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>70</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="title">
-         <string>Depth</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_10">
-         <item>
-          <widget class="QProgressBar" name="progressBar_Depth">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
+          <widget class="QRadioButton" name="radioButton_PackageNormal">
+           <property name="text">
+            <string>Normal</string>
            </property>
-           <property name="maximum">
-            <number>10</number>
-           </property>
-           <property name="value">
-            <number>3</number>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="invertedAppearance">
+           <property name="checked">
             <bool>true</bool>
            </property>
-           <property name="textDirection">
-            <enum>QProgressBar::TopToBottom</enum>
-           </property>
-           <property name="format">
-            <string>%p%</string>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="radioButton_PackageConfig">
+           <property name="text">
+            <string>Config</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_BarDepth">
+          <widget class="QRadioButton" name="radioButton_PackageDirect">
            <property name="text">
-            <string>0</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
+            <string>Direct</string>
            </property>
           </widget>
          </item>
@@ -608,58 +508,49 @@
        </widget>
       </item>
       <item>
-       <widget class="QGroupBox" name="groupBox_Pitch">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>60</width>
-          <height>16777215</height>
-         </size>
-        </property>
+       <layout class="QVBoxLayout" name="verticalLayout_21">
+        <item>
+         <widget class="QPushButton" name="pushButton_ResetIMU">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Reset IMU</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox_ThrustersON">
+          <property name="text">
+           <string>Thrusters ON</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox">
         <property name="title">
-         <string>Pitch</string>
+         <string>Control Mode</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_11">
+        <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <widget class="QProgressBar" name="progressBar_Pitch">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimum">
-            <number>-180</number>
-           </property>
-           <property name="maximum">
-            <number>180</number>
-           </property>
-           <property name="value">
-            <number>0</number>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
+          <widget class="QRadioButton" name="radioButton_2">
+           <property name="text">
+            <string>RadioButton</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_BarPitch">
+          <widget class="QRadioButton" name="radioButton">
            <property name="text">
-            <string>0</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
+            <string>RadioButton</string>
            </property>
           </widget>
          </item>
@@ -667,16 +558,39 @@
        </widget>
       </item>
       <item>
-       <widget class="PicFrame" name="compassFrame" native="true"/>
+       <layout class="QVBoxLayout" name="verticalLayout_20">
+        <item>
+         <widget class="QCheckBox" name="checkBox_StabilizeRoll">
+          <property name="text">
+           <string>Stabilize Roll</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox_StabilizePitch">
+          <property name="text">
+           <string>Stabilize Pitch</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox_StabilizeYaw">
+          <property name="text">
+           <string>Stabilize Yaw</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox_StabilizeDepth">
+          <property name="text">
+           <string>Stabilize Depth</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <widget class="QGroupBox" name="groupBox_9">
-        <property name="maximumSize">
-         <size>
-          <width>120</width>
-          <height>16777215</height>
-         </size>
-        </property>
         <property name="title">
          <string>Impact</string>
         </property>
@@ -841,13 +755,6 @@
              </property>
             </widget>
            </item>
-           <item>
-            <widget class="QLabel" name="label_4">
-             <property name="text">
-              <string>Dev</string>
-             </property>
-            </widget>
-           </item>
           </layout>
          </item>
          <item>
@@ -868,13 +775,6 @@
            </item>
            <item>
             <widget class="QLabel" name="label_DevicesTilt">
-             <property name="text">
-              <string>0</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_DevicesDev">
              <property name="text">
               <string>0</string>
              </property>
@@ -935,13 +835,6 @@
              </property>
             </widget>
            </item>
-           <item>
-            <widget class="QLabel" name="label_12">
-             <property name="text">
-              <string>Depth</string>
-             </property>
-            </widget>
-           </item>
           </layout>
          </item>
          <item>
@@ -967,14 +860,72 @@
              </property>
             </widget>
            </item>
-           <item>
-            <widget class="QLabel" name="label_TelemetryDepth">
-             <property name="text">
-              <string>0</string>
-             </property>
-            </widget>
-           </item>
           </layout>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_Depth">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>70</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="title">
+            <string>Depth</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_10">
+            <item>
+             <widget class="QProgressBar" name="progressBar_Depth">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximum">
+               <number>10</number>
+              </property>
+              <property name="value">
+               <number>3</number>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="invertedAppearance">
+               <bool>true</bool>
+              </property>
+              <property name="textDirection">
+               <enum>QProgressBar::TopToBottom</enum>
+              </property>
+              <property name="format">
+               <string>%p%</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_BarDepth">
+              <property name="text">
+               <string>0</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -988,7 +939,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1041</width>
+     <width>1064</width>
      <height>22</height>
     </rect>
    </property>
@@ -1026,13 +977,6 @@
    </property>
   </action>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>PicFrame</class>
-   <extends>QWidget</extends>
-   <header>picframe.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

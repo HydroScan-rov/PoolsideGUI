@@ -1,4 +1,4 @@
-#include "iserverdata.h"
+#include "i_serverData.h"
 
 #include <QDebug>
 #include <string>
@@ -93,6 +93,8 @@ QByteArray IServerData::generateNormalMessage() {
     for (int i = 0; i < 6; i++) {
         stream << req.dev[i];
     }
+
+    // qDebug() << msg.data();
 
     uint16_t checksum = getCheckSumm16b(msg.data(), msg.size());
     stream << checksum;

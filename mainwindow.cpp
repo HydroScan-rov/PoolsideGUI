@@ -14,14 +14,6 @@ MainWindow::MainWindow(QWidget* parent): QMainWindow(parent) {
     connect(action_SettingsThruster, SIGNAL(triggered()), &thrusterWindow, SLOT(show()));
     connect(action_SettingsControlSystem, SIGNAL(triggered()), &stabilizationWindow, SLOT(show()));
 
-    // connect(radioButton_Serial, SIGNAL(clicked()), this, SLOT(connectSerialClick()));
-    // connect(radioButton_UDP, SIGNAL(clicked()), this, SLOT(connectUDPClick()));
-    // connect(pushButton_ReconnectROV, SIGNAL(clicked()), this, SLOT(reconnectcROVclick()));
-
-    // uv_interface.setConnectionMode(e_Connection::CONNECTION_SERIAL);
-    // serial_client = new SerialClient();
-    // connect(serial_client, SIGNAL(dataUpdatedSerialClient()), this, SLOT(updateUi()));
-
     uv_interface.setConnectionMode(e_Connection::CONNECTION_UDP);
     udp_client = new UdpClient();
     connect(udp_client, SIGNAL(dataUpdated()), this, SLOT(updateUi()));
@@ -30,10 +22,8 @@ MainWindow::MainWindow(QWidget* parent): QMainWindow(parent) {
     connect(update_timer, SIGNAL(timeout()), this, SLOT(updateUi()));
     update_timer->start(10);
 
-    // joystick = new Joystick(10);
     gamepad = new Gamepad(10);
 
-    connect(this, SIGNAL(updateCompass(double)), compassFrame, SLOT(setYaw(double)));
     connect(pushButton_ResetIMU, SIGNAL(pressed()), this, SLOT(resetImu()));
     connect(pushButton_ResetIMU, SIGNAL(released()), this, SLOT(clearResetImu()));
 
@@ -62,30 +52,17 @@ void MainWindow::updateUi() {
     // Get data from UVState object
     ImuData sensors = uv_interface.getImuData();
 
-sensors.yaw = sensors.yaw/2;
     // Update user interface
-    prev_yaw = label_TelemetryYaw->text().toDouble();
-
-
-    if (prev_yaw > 150 and prev_yaw < 180 and sensors.yaw < 30) yaw_plus180 = true;
-    if (prev_yaw > 330 and sensors.yaw < 30) yaw_plus180 = false;
-
-    if (prev_yaw < 30 and sensors.yaw > 150) yaw_plus180 = true;
-    if (prev_yaw > 180 and prev_yaw < 210 and sensors.yaw > 150) yaw_plus180 = false;
-
     progressBar_Depth->setValue(static_cast<int>(sensors.depth));
-    progressBar_Pitch->setValue(static_cast<int>(sensors.pitch));
 
     label_BarDepth->setText(QString::number(sensors.depth, 'f', 2));
-    label_BarPitch->setText(QString::number(sensors.pitch, 'f', 2));
 
     label_TelemetryRoll->setText(QString::number(sensors.roll, 'f', 2));
     label_TelemetryPitch->setText(QString::number(sensors.pitch, 'f', 2));
-    label_TelemetryYaw->setText(QString::number(sensors.yaw + (180 * yaw_plus180), 'f', 2));
-    label_TelemetryDepth->setText(QString::number(sensors.depth, 'f', 2));
+    label_TelemetryYaw->setText(QString::number(sensors.yaw, 'f', 2));
 
     // Update drawing of a compass
-    emit updateCompass(sensors.yaw + (180 * yaw_plus180));
+    emit updateCompass(sensors.yaw);
 
     ControlData control = uv_interface.getControlData();
     label_ImpactMarch->setText(QString::number(control.march, 'f', 2));
@@ -98,7 +75,6 @@ sensors.yaw = sensors.yaw/2;
     label_DevicesGrabber->setText(QString::number(uv_interface.getDeviceVelocity(DEVICE_GRAB)));
     label_DevicesGrabberRotation->setText(QString::number(uv_interface.getDeviceVelocity(DEVICE_GRAB_ROTATE)));
     label_DevicesTilt->setText(QString::number(uv_interface.getDeviceVelocity(DEVICE_TILT)));
-    label_DevicesDev->setText(QString::number(uv_interface.getDeviceVelocity(DEVICE_DEV1)));
 }
 
 void MainWindow::resetImu() {
@@ -109,3 +85,36 @@ void MainWindow::clearResetImu() {
     uv_interface.setResetImu(false);
 }
 
+// void MainWindow::normalPackageClick() {
+//     radioButton_PackageDirect->setChecked(false);
+//     radioButton_PackageConfig->setChecked(false);
+//     uv_interface.setPackegeMode(PACKAGE_NORMAL);
+// }
+
+// void MainWindow::configPackageClick() {
+//     radioButton_PackageNormal->setChecked(false);
+//     radioButton_PackageDirect->setChecked(false);
+//     uv_interface.setPackegeMode(PACKAGE_CONFIG);
+// }
+
+// void MainWindow::directPackageClick() {
+//     radioButton_PackageNormal->setChecked(false);
+//     radioButton_PackageConfig->setChecked(false);
+//     uv_interface.setPackegeMode(PACKAGE_DIRECT);
+// }
+
+// void MainWindow::stabilizeRollToggled(bool state) {
+//     uv_interface.setStabRoll(state);
+// }
+
+// void MainWindow::stabilizePitchToggled(bool state) {
+//     uv_interface.setStabPitch(state);
+// }
+
+// void MainWindow::stabilizeYawToggled(bool state) {
+//     uv_interface.setStabYaw(state);
+// }
+
+// void MainWindow::stabilizeDepthToggled(bool state) {
+//     uv_interface.setStabDepth(state);
+// }

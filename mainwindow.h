@@ -20,8 +20,7 @@
 
 #include "ui_mainwindow.h"
 
-#include "UV/iuserinterfacedata.h"
-#include "Communication/SerialClient.h"
+#include "UV/i_userInterfaceiata.h"
 #include "Communication/UdpClient.h"
 #include "Control/Joystick.h"
 #include "Control/Gamepad.h"
@@ -45,7 +44,6 @@ private:
     StabilizationWindow stabilizationWindow;
     ThrusterWindow thrusterWindow;
 
-    SerialClient* serial_client;
     UdpClient* udp_client;
 
     QTimer* update_timer;

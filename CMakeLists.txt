@@ -47,13 +47,12 @@ set(PROJECT_SOURCES
         ThrusterSettings/Thruster.cpp
         ThrusterSettings/ThrusterWindow.cpp
 
-        UV/ibasicdata.cpp
-        UV/icontroldata.cpp
-        UV/iserverdata.cpp
-        UV/ituningdata.cpp
-        UV/iuserinterfacedata.cpp
-        UV/uv_controlcontour.cpp
-        UV/uv_device.cpp
+        UV/i_basicData.cpp
+        UV/i_controlData.cpp
+        UV/i_serverData.cpp
+        UV/i_tuningData.cpp
+        UV/i_userInterfaceData.cpp
+        UV/uv_controlCircuit.cpp
         UV/uv_state.cpp
         UV/uv_thruster.cpp
 )

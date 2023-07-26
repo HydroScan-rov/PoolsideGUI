@@ -7,48 +7,61 @@
 #include <QUdpSocket>
 #include "uv_device.h"
 #include "uv_thruster.h"
-#include "uv_controlcontour.h"
+#include "uv_controlCircuit.h"
 
-enum e_packageMode {
+enum e_packageMode : unsigned char {
     PACKAGE_NORMAL,
     PACKAGE_CONFIG,
     PACKAGE_DIRECT,
 };
 
-enum e_Countour {
-    CONTOUR_DEPTH,
-    CONTOUR_MARCH,
-    CONTOUR_LAG,
-    CONTOUR_YAW,
-    CONTOUR_ROLL,
-    CONTOUR_PITCH,
+enum e_controlMode : unsigned char {
+    MODE_HANDLE,
+    MODE_AUTO,
+    MODE_MANEUVERABLE,
 };
 
-enum e_Connection {
-    CONNECTION_UDP,
-    CONNECTION_SERIAL,
+enum e_circuit : unsigned char {
+    MARCH,
+    LAG,
+    DEPTH,
+    ROLL,
+    PITCH,
+    YAW,
 };
 
-enum e_Device {
-    DEVICE_GRAB,
-    DEVICE_GRAB_ROTATE,
-    DEVICE_TILT,
-    DEVICE_DEV1,
-    DEVICE_DEV2,
-    DEVICE_DEV3
-};
+struct Sensors {
+    Sensors();
 
-struct ImuData {
-    ImuData();
-
+    float depth;
     float roll;
     float pitch;
     float yaw;
-    float rollSpeed;
-    float pitchSpeed;
-    float yawSpeed;
-    float depth;
+
+    float distance_l; // distance from laser rangefinder
+    float distance_r;
+
+    float speed_down; // speed signal from jetson
+    float speed_right;
 };
+
+struct Telemetry {
+    Telemetry();
+
+    float current_logic_electronics; // from jetson + raspberry dc-dc
+    float current_vma[8];
+    float voltage_battery_cell[4];
+    float voltage_battery; // 56
+}
+
+struct Light {
+    Light();
+
+    uint8_t power_lower_light;
+    uint8_t r_rgb_light;
+    uint8_t g_rgb_light;
+    uint8_t b_rgb_light;
+}
 
 struct ControlData {
     ControlData();
@@ -66,35 +79,41 @@ public:
     UV_State();
     ~UV_State();
 
-    int udpHostAddressthrusterAmount;
-    void setThrusterNext();
-    void setThrusterAmount(int thrusterAmount);
-    int getThrusterAmount();
-
     ControlData control;
-    ImuData imu;
 
-    UV_Device device[6];
-    UV_Thruster* thruster;
+    Sensors sensors;
+    Light light;
+    Telemetry telemetry;
+
+    UV_Thruster thruster[8];
+    void setThrusterNext();
     int currentThruster;
-    int thrusterAmount;
-    UV_ControlContour controlContour[6];
-    e_Countour currentControlContour;
 
-    e_Connection currentConnectionMode;
+    UV_ControlCircuit controlCircuit[6];
+    e_circuit currentCircuit;
+
     e_packageMode currentPackageMode;
 
-    QString udpHostAddress = "192.168.31.100";
-    quint16 udpHostPort = 7756;
+    QString udpHostAddress;
+    quint16 udpHostPort;
 
     // Flags
-    bool stabRoll;
-    bool stabYaw; 
-    bool stabPitch;
-    bool stabDepth;
+    bool thrusters_on;
+    bool reset_imu;
+    bool reset_depth;
+    bool rgb_light_on;
+    bool lower_light_on;
 
-    bool resetImu;
-    bool thrustersON;
+    bool stab_march;
+    bool stab_lag;
+    bool stab_depth;
+    bool stab_roll;
+    bool stab_pitch;
+    bool stab_yaw;
+
+    bool control_handle;
+    bool control_auto;
+    bool control_maneuverable;
 };
 
 #endif // UV_STATE_H

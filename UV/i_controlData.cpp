@@ -1,4 +1,4 @@
-#include "icontroldata.h"
+#include "i_controlData.h"
 
 IControlData::IControlData() :
         IBasicData() {

@@ -41,7 +41,6 @@ private:
         uint8_t control_mode; // [0]handle , [1]auto (set depth and yaw, pitch and roll = 0), [2]maneuverable (set depth, yaw, pitch and roll)
 
         uint8_t power_lower_light; // 0-255
-
         uint8_t r_rgb_light; // 0-255
         uint8_t g_rgb_light;
         uint8_t b_rgb_light;

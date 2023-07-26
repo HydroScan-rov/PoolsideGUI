@@ -13,11 +13,13 @@ public:
     bool power = false;
 
     int id;
-    int adress;
+    int adress; //  location on the ROV
 
     int8_t velocity;
 
     bool reverse;
+
+    // relative to the positive directions of the X and Z axes on the ROV
     int8_t kForward;
     int8_t kBackward;
 
