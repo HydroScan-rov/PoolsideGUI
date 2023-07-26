@@ -57,37 +57,37 @@ StabilizationWindow::StabilizationWindow(QWidget* parent):
 
 void StabilizationWindow::ContourChangedYaw() {
     currentContour = CONTOUR_YAW;
-    interface.setCurrentControlContour(CONTOUR_YAW);
+    interface.setCurrentCircuit(CONTOUR_YAW);
     FillUiConstants();
 }
 
 void StabilizationWindow::ContourChangedRoll() {
     currentContour = CONTOUR_ROLL;
-    interface.setCurrentControlContour(CONTOUR_ROLL);
+    interface.setCurrentCircuit(CONTOUR_ROLL);
     FillUiConstants();
 }
 
 void StabilizationWindow::ContourChangedPitch() {
     currentContour = CONTOUR_PITCH;
-    interface.setCurrentControlContour(CONTOUR_PITCH);
+    interface.setCurrentCircuit(CONTOUR_PITCH);
     FillUiConstants();
 }
 
 void StabilizationWindow::ContourChangedDepth() {
     currentContour = CONTOUR_DEPTH;
-    interface.setCurrentControlContour(CONTOUR_DEPTH);
+    interface.setCurrentCircuit(CONTOUR_DEPTH);
     FillUiConstants();
 }
 
 void StabilizationWindow::ContourChangedMarch() {
     currentContour = CONTOUR_MARCH;
-    interface.setCurrentControlContour(CONTOUR_MARCH);
+    interface.setCurrentCircuit(CONTOUR_MARCH);
     FillUiConstants();
 }
 
 void StabilizationWindow::ContourChangedLag() {
     currentContour = CONTOUR_LAG;
-    interface.setCurrentControlContour(CONTOUR_LAG);
+    interface.setCurrentCircuit(CONTOUR_LAG);
     FillUiConstants();
 }
 
@@ -110,7 +110,7 @@ void StabilizationWindow::ContourEdited() {
     ConstantsControlContour[currentContour].pThrustersMax = float(ui->doubleSpinBox_CS_pThrustersMax->value());
     ConstantsControlContour[currentContour].pThrustersCast = float(ui->doubleSpinBox_CS_pThrustersCast->value());
 
-    interface.setControlContourConstants(ConstantsControlContour[currentContour]);
+    interface.setCircuitConstants(ConstantsControlContour[currentContour]);
 }
 
 void StabilizationWindow::saveConfigClicked() {
@@ -139,7 +139,7 @@ void StabilizationWindow::FillUiConstants() {
 }
 
 void StabilizationWindow::FillUiStates() {
-    StateControlContour[currentContour] = interface.getControlContourState(currentContour);
+    StateControlContour[currentContour] = interface.getCircuitStates(currentContour);
 
     ui->lineEdit_CS_inputSignal->setText(QString::number(StateControlContour[currentContour].inputSignal));
     ui->lineEdit_CS_speedSignal->setText(QString::number(StateControlContour[currentContour].speedSignal));
@@ -164,6 +164,7 @@ void StabilizationWindow::FillUiStates() {
 void StabilizationWindow::getJsonFromFile() {
     std::ifstream file(jsonName.toStdString());
     allStabilizationJson = json::parse(file);
+    // qDebug() << allStabilizationJson[std::to_string(1) +/ "_pJoyUnitCast"];
     file.close();
 }
 
@@ -208,7 +209,7 @@ void StabilizationWindow::getConstantsFromJson() {
         ConstantsControlContour[i].pThrustersMin = allStabilizationJson[std::to_string(i) + "_pThrustersMin"];
         ConstantsControlContour[i].pThrustersMax = allStabilizationJson[std::to_string(i) + "_pThrustersMax"];
         ConstantsControlContour[i].pThrustersCast = allStabilizationJson[std::to_string(i) + "_pThrustersCast"];
-        interface.setControlContourConstants(ConstantsControlContour[i], static_cast<e_Countour>(i));
+        interface.setCircuitConstants(ConstantsControlContour[i], static_cast<e_Countour>(i));
     };
 }
 
@@ -231,9 +232,7 @@ void StabilizationWindow::createDefaultStabilizationJson() {
         allStabilizationJson[std::to_string(i) + "_pThrustersMin"] = 1;
         allStabilizationJson[std::to_string(i) + "_pThrustersMax"] = 1;
         allStabilizationJson[std::to_string(i) + "_pThrustersCast"] = 1;
-
     }
-
 }
 
 void StabilizationWindow::saveToFile() {

@@ -1,5 +1,5 @@
-#ifndef UV_THRUSTERS_H
-#define UV_THRUSTERS_H
+#ifndef UV_THRUSTER_H
+#define UV_THRUSTER_H
 
 #include <QString>
 
@@ -27,4 +27,4 @@ public:
     int8_t sBackward;
 };
 
-#endif // UV_THRUSTERS_H
+#endif // UV_THRUSTER_H

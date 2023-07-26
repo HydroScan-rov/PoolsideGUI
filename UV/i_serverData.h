@@ -1,10 +1,10 @@
-#ifndef ISERVERDATA_H
-#define ISERVERDATA_H
+#ifndef I_SERVERDATA_H
+#define I_SERVERDATA_H
 
 #include <QDataStream>
 #include <QByteArray>
 
-#include "ibasicdata.h"
+#include "i_basicData.h"
 #include "uv_state.h"
 
 class IServerData : public IBasicData {
@@ -193,4 +193,4 @@ private:
     void pullFromStructure(ResponseDirectMessage res);
 };
 
-#endif // ISERVERDATA_H
+#endif // I_SERVERDATA_H

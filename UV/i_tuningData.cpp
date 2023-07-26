@@ -61,27 +61,27 @@ void ITuningData::setThrusterPower(int slot, bool power) {
     }
 }
 
-UV_StabilizationState ITuningData::getControlContourState(e_Countour countour) {
-    UV_StabilizationState data;
+UV_CircuitStates ITuningData::getCircuitStates(e_Countour countour) {
+    UV_CircuitStates data;
     UVMutex.lock();
     data = UVState.controlContour[countour].state;
     UVMutex.unlock();
     return data;
 }
 
-void ITuningData::setControlContourConstants(UV_StabilizationConstants constants) {
+void ITuningData::setCircuitConstants(UV_CircuitConstants constants) {
     UVMutex.lock();
     UVState.controlContour[UVState.currentControlContour].constant = constants;
     UVMutex.unlock();
 }
 
-void ITuningData::setControlContourConstants(UV_StabilizationConstants constants, e_Countour countour) {
+void ITuningData::setCircuitConstants(UV_CircuitConstants constants, e_Countour countour) {
     UVMutex.lock();
     UVState.controlContour[countour].constant = constants;
     UVMutex.unlock();
 }
 
-void ITuningData::setCurrentControlContour(e_Countour contour) {
+void ITuningData::setCurrentCircuit(e_Countour contour) {
     UVMutex.lock();
     UVState.currentControlContour = contour;
     UVMutex.unlock();

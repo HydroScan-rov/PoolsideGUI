@@ -1,7 +1,7 @@
-#ifndef IUSERINTERFACEDATA_H
-#define IUSERINTERFACEDATA_H
+#ifndef I_USERINTERFACEDATA_H
+#define I_USERINTERFACEDATA_H
 
-#include "ibasicdata.h"
+#include "i_basicData.h"
 #include "uv_state.h"
 
 class IUserInterfaceData: public IBasicData {
@@ -25,4 +25,4 @@ public:
 
 };
 
-#endif // IUSERINTERFACEDATA_H
+#endif // I_USERINTERFACEDATA_H

@@ -38,7 +38,6 @@ UV_State::UV_State() {
     udpHostAddress = "192.168.31.100";
     udpHostPort = 5000;
 
-    resetImu = false;
 
     thrusters_on = false;
     reset_imu = false;
@@ -52,8 +51,8 @@ UV_State::UV_State() {
     stab_roll = false;
     stab_pitch = false;
     stab_yaw = false;
-    
-    control_mode = false;
+
+    control_handle = false;
     control_auto = false;
     control_maneuverable = false;
 }

@@ -53,8 +53,8 @@ private:
 
     // x_protocol* X_Protocol;
     e_Countour currentContour;
-    UV_StabilizationConstants ConstantsControlContour[6];
-    UV_StabilizationState StateControlContour[6];
+    UV_CircuitConstants ConstantsControlContour[6];
+    UV_CircuitStates StateControlContour[6];
 
     void FillUiConstants();
     void FillUiStates();

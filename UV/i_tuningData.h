@@ -1,7 +1,7 @@
-#ifndef ITHRUSTERTUNINGDATA_H
-#define ITHRUSTERTUNINGDATA_H
+#ifndef I_TUNINGDATA_H
+#define I_TUNINGDATA_H
 
-#include "ibasicdata.h"
+#include "i_basicData.h"
 
 #include <QDebug>
 /** \brief Interface for accessing data in UV_State to alter specific thruster parameters
@@ -17,10 +17,10 @@ public:
     UV_Thruster getThrusterData(int slot);
     void setThrusterPower(int slot, bool power);
 
-    UV_StabilizationState getControlContourState(e_Countour countour);
-    void setControlContourConstants(UV_StabilizationConstants constants);
-    void setControlContourConstants(UV_StabilizationConstants constants, e_Countour countour);
-    void setCurrentControlContour(e_Countour contour);
+    UV_CircuitStates getCircuitStates(e_Countour countour);
+    void setCircuitConstants(UV_CircuitConstants constants);
+    void setCircuitConstants(UV_CircuitConstants constants, e_Countour countour);
+    void setCurrentCircuit(e_Countour contour);
 };
 
-#endif // ITHRUSTERTUNINGDATA_H
+#endif // I_TUNINGDATA_H

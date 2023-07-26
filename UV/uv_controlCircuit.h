@@ -1,14 +1,7 @@
-#ifndef UV_STABILIZATION_H
-#define UV_STABILIZATION_H
+#ifndef UV_CONTROLCIRCUIT_H
+#define UV_CONTROLCIRCUIT_H
 
-struct UV_StabilizationConstants {
-    float march;
-    float lag;
-    float depth;
-    float roll;
-    float pitch;
-    float yaw;
-
+struct UV_CircuitConstants {
     float dt;
     float k_joy;
     float k_tuning;
@@ -30,7 +23,7 @@ struct UV_StabilizationConstants {
     float out_min;
 };
 
-struct UV_StabilizationState {
+struct UV_CircuitStates {
 float input;
 float pos_filtered;
 float speed_filtered;
@@ -59,8 +52,8 @@ class UV_ControlCircuit {
 public:
     UV_ControlCircuit();
 
-    UV_StabilizationConstants constant;
-    UV_StabilizationState state;
+    UV_CircuitConstants constants;
+    UV_CircuitStates states;
 };
 
-#endif // UV_STABILIZATION_H
+#endif // UV_CONTROLCIRCUIT_H

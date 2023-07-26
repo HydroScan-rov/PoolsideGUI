@@ -1,7 +1,7 @@
-#ifndef ICONTROLDATA_H
-#define ICONTROLDATA_H
+#ifndef I_CONTROLDATA_H
+#define I_CONTROLDATA_H
 
-#include "ibasicdata.h"
+#include "i_basicData.h"
 #include "uv_state.h"
 
 class IControlData : public IBasicData {
@@ -19,4 +19,4 @@ public:
     void setDeviceVelocity(e_Device device, double velocity);
 };
 
-#endif // ICONTROLDATA_H
+#endif // I_CONTROLDATA_H
