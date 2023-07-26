@@ -1,12 +1,12 @@
 #include "uv_thruster.h"
 
 UV_Thruster::UV_Thruster() {
-    name = "THRUSTER";
+    power = false;
 
     id = 0;
     adress = 0;
 
-    velocity = 0;
+    target_forse = 0;
 
     reverse = false;
     kForward = 1;

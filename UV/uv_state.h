@@ -80,6 +80,7 @@ public:
     ~UV_State();
 
     ControlData control;
+    e_controlMode currentControlMode;
 
     Sensors sensors;
     Light light;
@@ -110,10 +111,6 @@ public:
     bool stab_roll;
     bool stab_pitch;
     bool stab_yaw;
-
-    bool control_handle;
-    bool control_auto;
-    bool control_maneuverable;
 };
 
 #endif // UV_STATE_H

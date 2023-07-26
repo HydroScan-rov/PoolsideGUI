@@ -13,13 +13,9 @@ public:
 
     QByteArray generateMessage();
     void parseMessage(QByteArray message);
+
     e_packageMode getCurrentPackageMode();
-
-    int getThrusterAmount();
-    QString getUdpHostAddress();
-    quint16 getUdpHostPort();
-
-    e_Countour getCurrentControlContour();
+    e_Countour getCurrentCircuit();
 
 private:
     QDataStream* port;
@@ -76,7 +72,7 @@ private:
         uint8_t flags; // [0]thrusters_on, [1]reset_imu, [2]reset_depth, [3]rgb_light_on, [4]lower_light_on,
         uint8_t stab_flags; // stab [0]march, [1]lag, [2]depth, [3]roll, [4]pitch, [5]yaw, [6]thrusters_on, [6]reset_imu
 
-        uint8_t current_contour; // current contour: [0]march, [1]lag, [2]depth, [3]roll, [4]pitch, [5]yaw
+        uint8_t current_circuit; // current contour: [0]march, [1]lag, [2]depth, [3]roll, [4]pitch, [5]yaw
 
         float_t march;
         float_t lag;
@@ -157,7 +153,6 @@ private:
         uint8_t reverse;
         float_t k_forward;
         float_t k_backward;
-
         int16_t s_forward; // max PWM
         int16_t s_backward; // min PWM
 
@@ -176,21 +171,27 @@ private:
         uint16_t checksum; // 57(message) + 2(checksum) = 59 dyte
     };
 
-    void parseNormalMessage(QByteArray msg);
-    void parseConfigMessage(QByteArray msg);
-    void parseDirectMessage(QByteArray msg);
-
     QByteArray generateNormalMessage();
     QByteArray generateConfigMessage();
     QByteArray generateDirectMessage();
-
     void fillStructure(RequestNormalMessage& req);
     void fillStructure(RequestConfigMessage& req);
     void fillStructure(RequestDirectMessage& req);
+    void fillFlags(uint8_t& flags);
+    void fillStabFlags(uint8_t& stabFlags);
+    void fillControlMode(uint8_t& controlMode);
 
+    void parseNormalMessage(QByteArray msg);
+    void parseConfigMessage(QByteArray msg);
+    void parseDirectMessage(QByteArray msg);
     void pullFromStructure(ResponseNormalMessage res);
     void pullFromStructure(ResponseConfigMessage res);
     void pullFromStructure(ResponseDirectMessage res);
+
+    uint16_t getCheckSumm16b(char* pcBlock, int len);
+    uint8_t isCheckSumm16bCorrect(char* pcBlock, int len);
+    void setBit(uint8_t& byte, uint8_t bit, bool state);
+    bool setBit(uint8_t& input, uint8_t bit);
 };
 
 #endif // I_SERVERDATA_H

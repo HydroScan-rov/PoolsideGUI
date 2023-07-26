@@ -4,72 +4,68 @@
 #include <string>
 #include <sstream>
 
-uint16_t getCheckSumm16b(char* pcBlock, int len);
-uint8_t isCheckSumm16bCorrect(char* pcBlock, int len);
-
-void set_bit(uint8_t& byte, uint8_t bit, bool state);
-
 IServerData::IServerData()
     : IBasicData() {
 }
 
-int IServerData::getThrusterAmount() {
-    int thrusterAmount;
+e_Countour IServerData::getCurrentCircuit() {
+    e_circuit currentCircuit;
+
     UVMutex.lock();
-    thrusterAmount = UVState.getThrusterAmount();
+    currentCircuit = UVState.currentCircuit;
     UVMutex.unlock();
-    return thrusterAmount;
+
+    return currentCircuit;
 }
 
-QString IServerData::getUdpHostAddress() {
-    QString udpHostAddress;
-    UVMutex.lock();
-    udpHostAddress = UVState.udpHostAddress;
-    UVMutex.unlock();
-    return udpHostAddress;
-}
-
-quint16 IServerData::getUdpHostPort() {
-    quint16 udpHostPort;
-    UVMutex.lock();
-    udpHostPort = UVState.udpHostPort;
-    UVMutex.unlock();
-    return udpHostPort;
-}
-
-e_Countour IServerData::getCurrentControlContour() {
-    e_Countour currentControlContour;
+e_packageMode IServerData::getCurrentPackageMode() {
+    e_packageMode currentPackageMode;
 
     UVMutex.lock();
-    currentControlContour = UVState.currentControlContour;
+    currentPackageMode = UVState.currentPackageMode;
     UVMutex.unlock();
 
-    return currentControlContour;
+    return currentPackageMode;
 }
 
 QByteArray IServerData::generateMessage() {
     QByteArray formed;
     formed.clear();
     switch (getCurrentPackageMode()) {
-    case PACKAGE_NORMAL:
-        formed = generateNormalMessage();
-        break;
-    case PACKAGE_CONFIG:
-        formed = generateConfigMessage();
-        break;
-    case PACKAGE_DIRECT:
-        formed = generateDirectMessage();
-        break;
+        case PACKAGE_NORMAL:
+            formed = generateNormalMessage();
+            break;
+        case PACKAGE_CONFIG:
+            formed = generateConfigMessage();
+            break;
+        case PACKAGE_DIRECT:
+            formed = generateDirectMessage();
+            break;
     }
     return formed;
 }
 
-e_packageMode IServerData::getCurrentPackageMode() {
-    e_packageMode currentPackageMode;
-    UVMutex.lock();
-    currentPackageMode = UVState.currentPackageMode;
-    UVMutex.unlock();
-    return currentPackageMode;
+void IServerData::fillFlags(uint8_t& flags) {
+    setBit(req.flags, 0, UVState.thrusters_on);
+    setBit(req.flags, 1, UVState.reset_imu);
+    setBit(req.flags, 2, UVState.reset_depth);
+    setBit(req.flags, 3, UVState.rgb_light_on);
+    setBit(req.flags, 4, UVState.lower_light_on);
+}
+
+void IServerData::fillStabFlags(uint8_t& stabFlags) {
+    setBit(req.stab_flags, 0, UVState.stab_march);
+    setBit(req.stab_flags, 1, UVState.stab_lag);
+    setBit(req.stab_flags, 2, UVState.stab_depth);
+    setBit(req.stab_flags, 3, UVState.stab_roll);
+    setBit(req.stab_flags, 4, UVState.stab_pitch);
+    setBit(req.stab_flags, 5, UVState.stab_yaw);
+}
+
+void IServerData::fillControlMode(uint8_t& controlMode) {
+    for (e_controlMode i = MODE_HANDLE; i < MODE_MANEUVERABLE; i++) {
+        UVState.currentControlMode == i ? setBit(req.control_mode, i, true);
+    }
 }
 
 QByteArray IServerData::generateNormalMessage() {
@@ -83,18 +79,23 @@ QByteArray IServerData::generateNormalMessage() {
     fillStructure(req);
 
     stream << req.type;
+
     stream << req.flags;
+
     stream << req.march;
     stream << req.lag;
     stream << req.depth;
     stream << req.roll;
     stream << req.pitch;
     stream << req.yaw;
-    for (int i = 0; i < 6; i++) {
-        stream << req.dev[i];
-    }
 
-    // qDebug() << msg.data();
+    stream << req.stab_flags;
+    stream << req.control_mode;
+
+    stream << req.power_lower_light;
+    stream << req.r_rgb_light;
+    stream << req.g_rgb_light;
+    stream << req.b_rgb_light;
 
     uint16_t checksum = getCheckSumm16b(msg.data(), msg.size());
     stream << checksum;
@@ -104,12 +105,7 @@ QByteArray IServerData::generateNormalMessage() {
 void IServerData::fillStructure(RequestNormalMessage& req) {
     UVMutex.lock();
 
-    set_bit(req.flags, 0, UVState.stabRoll);
-    set_bit(req.flags, 1, UVState.stabYaw);
-    set_bit(req.flags, 2, UVState.stabPitch);
-    set_bit(req.flags, 3, UVState.stabDepth);
-    set_bit(req.flags, 4, UVState.resetImu);
-    set_bit(req.flags, 5, UVState.thrustersON);
+    fillFlags(req.flags);
 
     req.march = UVState.control.march;
     req.lag = UVState.control.lag;
@@ -118,9 +114,13 @@ void IServerData::fillStructure(RequestNormalMessage& req) {
     req.pitch = UVState.control.pitch;
     req.yaw = UVState.control.yaw;
 
-    for (int i = 0; i < 6; i++) {
-        req.dev[i] = UVState.device[i].velocity;
-    }
+    fillStabFlags(req.stab_flags);
+    fillControlMode(req.control_mode);
+
+    req.power_lower_light = UVState.light.power_lower_light;
+    req.r_rgb_light = UVState.light.r_rgb_light;
+    req.g_rgb_light = UVState.light.g_rgb_light;
+    req.b_rgb_light = UVState.light.b_rgb_light;
 
     UVMutex.unlock();
 }
@@ -136,7 +136,11 @@ QByteArray IServerData::generateConfigMessage() {
     fillStructure(req);
 
     stream << req.type;
-    stream << req.contour;
+
+    stream << req.flags;
+    stream << req.stab_flags;
+
+    stream << req.current_contour;
 
     stream << req.march;
     stream << req.lag;
@@ -145,32 +149,40 @@ QByteArray IServerData::generateConfigMessage() {
     stream << req.pitch;
     stream << req.yaw;
 
-    stream << req.pJoyUnitCast;
-    stream << req.pSpeedDyn;
-    stream << req.pErrGain;
+    stream << req.dt;
+    stream << req.k_joy;
+    stream << req.k_tuning;
 
-    stream << req.posFilterT;
-    stream << req.posFilterK;
-    stream << req.speedFilterT;
-    stream << req.speedFilterK;
+    stream << req.pid_kp;
+    stream << req.pid_ki;
+    stream << req.pid_kd;
+    stream << req.pid_max_i;
+    stream << req.pid_min_i;
+    stream << req.pid_max;
+    stream << req.pid_min;
 
-    stream << req.pid_pGain;
-    stream << req.pid_iGain;
-    stream << req.pid_iMax;
-    stream << req.pid_iMin;
+    stream << req.posFilter_t;
+    stream << req.posFilter_k;
+    stream << req.speedFilter_y;
+    stream << req.speedFilter_k;
 
-    stream << req.pThrustersMin;
-    stream << req.pThrustersMax;
+    stream << req.out_max;
+    stream << req.out_min;
 
     uint16_t checksum = getCheckSumm16b(msg.data(), msg.size());
     stream << checksum;
-
     return msg;
 }
 
 void IServerData::fillStructure(RequestConfigMessage& req) {
     UVMutex.lock();
-    e_Countour currentControlContour = UVState.currentControlContour;
+
+    fillFlags(req.flags);
+    fillFlags(req.stab_flags);
+
+    for (e_circuit i = MARCH; i < YAW; i++) {
+        UVState.currentCircuit == i ? setBit(req.current_circuit, i, true);
+    }
 
     req.march = UVState.control.march;
     req.lag = UVState.control.lag;
@@ -179,19 +191,25 @@ void IServerData::fillStructure(RequestConfigMessage& req) {
     req.pitch = UVState.control.pitch;
     req.yaw = UVState.control.yaw;
 
-    req.pJoyUnitCast = UVState.controlContour[currentControlContour].constant.pJoyUnitCast;
-    req.pSpeedDyn = UVState.controlContour[currentControlContour].constant.pSpeedDyn;
-    req.pErrGain = UVState.controlContour[currentControlContour].constant.pErrGain;
-    req.posFilterT = UVState.controlContour[currentControlContour].constant.posFilterT;
-    req.posFilterK = UVState.controlContour[currentControlContour].constant.posFilterK;
-    req.speedFilterT = UVState.controlContour[currentControlContour].constant.speedFilterT;
-    req.speedFilterK = UVState.controlContour[currentControlContour].constant.speedFilterK;
-    req.pid_pGain = UVState.controlContour[currentControlContour].constant.pid_pGain;
-    req.pid_iGain = UVState.controlContour[currentControlContour].constant.pid_iGain;
-    req.pid_iMax = UVState.controlContour[currentControlContour].constant.pid_iMax;
-    req.pid_iMin = UVState.controlContour[currentControlContour].constant.pid_iMin;
-    req.pThrustersMin = UVState.controlContour[currentControlContour].constant.pThrustersMin;
-    req.pThrustersMax = UVState.controlContour[currentControlContour].constant.pThrustersMax;
+    req.dt = UVState.controlCircuit[UVState.currentCircuit].constant.dt;
+    req.k_joy = UVState.controlCircuit[UVState.currentCircuit].constant.k_joy;
+    req.k_tuning = UVState.controlCircuit[UVState.currentCircuit].constant.k_tuning;
+
+    req.pid_kp = UVState.controlCircuit[UVState.currentCircuit].constant.pid_kp;
+    req.pid_ki = UVState.controlCircuit[UVState.currentCircuit].constant.pid_ki;
+    req.pid_kd = UVState.controlCircuit[UVState.currentCircuit].constant.pid_kd;
+    req.pid_max_i = UVState.controlCircuit[UVState.currentCircuit].constant.pid_max_i;
+    req.pid_min_i = UVState.controlCircuit[UVState.currentCircuit].constant.pid_min_i;
+    req.pid_max = UVState.controlCircuit[UVState.currentCircuit].constant.pid_max;
+    req.pid_min = UVState.controlCircuit[UVState.currentCircuit].constant.pid_min;
+
+    req.posFilter_t = UVState.controlCircuit[UVState.currentCircuit].constant.posFilter_t;
+    req.posFilter_k = UVState.controlCircuit[UVState.currentCircuit].constant.posFilter_k;
+    req.speedFilter_y = UVState.controlCircuit[UVState.currentCircuit].constant.speedFilter_y;
+    req.speedFilter_k = UVState.controlCircuit[UVState.currentCircuit].constant.speedFilter_k;
+
+    req.out_max = UVState.controlCircuit[UVState.currentCircuit].constant.out_max;
+    req.out_min = UVState.controlCircuit[UVState.currentCircuit].constant.out_min;
 
     UVMutex.unlock();
 }
@@ -207,14 +225,19 @@ QByteArray IServerData::generateDirectMessage() {
     fillStructure(req);
 
     stream << req.type;
+
+    stream << req.flags;
+
     stream << req.id;
     stream << req.adress;
-    stream << req.velocity;
+
+    stream << req.target_forse;
+
     stream << req.reverse;
-    stream << req.kForward;
-    stream << req.kBackward;
-    stream << req.sForward;
-    stream << req.sBackward;
+    stream << req.k_forward;
+    stream << req.k_backward;
+    stream << req.s_forward;
+    stream << req.s_backward;
 
     uint16_t checksum = getCheckSumm16b(msg.data(), msg.size());
     stream << checksum;
@@ -229,15 +252,14 @@ void IServerData::fillStructure(RequestDirectMessage& req) {
     req.adress = UVState.thruster[UVState.currentThruster].adress;
 
     if (UVState.thruster[UVState.currentThruster].power == false) {
-        req.velocity = 0;
+        req.target_forse = 0;
     } else {
-        req.velocity = UVState.thruster[UVState.currentThruster].velocity;
+        req.target_forse = UVState.thruster[UVState.currentThruster].target_forse;
     }
 
     req.reverse = UVState.thruster[UVState.currentThruster].reverse;
     req.kForward = UVState.thruster[UVState.currentThruster].kForward;
     req.kBackward = UVState.thruster[UVState.currentThruster].kBackward;
-
     req.sForward = UVState.thruster[UVState.currentThruster].sForward;
     req.sBackward = UVState.thruster[UVState.currentThruster].sBackward;
 
@@ -246,17 +268,17 @@ void IServerData::fillStructure(RequestDirectMessage& req) {
 
 void IServerData::parseMessage(QByteArray message) {
     switch (getCurrentPackageMode()) {
-    case PACKAGE_NORMAL:
-        parseNormalMessage(message);
-        break;
-    case PACKAGE_CONFIG:
-        parseConfigMessage(message);
-        break;
-    case PACKAGE_DIRECT:
-        parseDirectMessage(message);
-        break;
-    default:
-        throw std::invalid_argument("invalid PackageMode");
+        case PACKAGE_NORMAL:
+            parseNormalMessage(message);
+            break;
+        case PACKAGE_CONFIG:
+            parseConfigMessage(message);
+            break;
+        case PACKAGE_DIRECT:
+            parseDirectMessage(message);
+            break;
+        default:
+            throw std::invalid_argument("invalid PackageMode");
     }
 }
 
@@ -268,27 +290,33 @@ void IServerData::parseNormalMessage(QByteArray msg) {
     stream.setByteOrder(QDataStream::LittleEndian);
     stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
 
-
+    stream >> res.depth;
     stream >> res.roll;
     stream >> res.pitch;
     stream >> res.yaw;
-    stream >> res.depth;
 
-    stream >> res.rollSpeed;
-    stream >> res.pitchSpeed;
-    stream >> res.yawSpeed;
+    stream >> res.distance_l;
+    stream >> res.distance_r;
+
+    stream >> res.speed_down;
+    stream >> res.speed_right;
+
+    stream >> res.current_logic_electronics;
+    for (size_t i = 0; i < 8; i++) { stream >> res.current_vma[i]; }
+    for (size_t i = 0; i < 4; i++) { stream >> res.voltage_battery_cell[i]; }
+    stream >> res.voltage_battery;
 
     stream >> res.checksum;
 
-    // if (res.checksum != checksum_calc) {
-    //     qDebug() << "Checksum NormalMessage is invalid";
-    //     std::stringstream stream;
-    //     stream << "[ISERVERDATA] Checksum is invalid. Calculated: [" <<
-    //         std::ios::hex << checksum_calc << "] " <<
-    //         "Received: [" <<
-    //         std::ios::hex << res.checksum << "]";
-    //     throw std::invalid_argument(stream.str());
-    // }
+    if (res.checksum != checksum_calc) {
+        qDebug() << "Checksum NormalMessage is invalid";
+        std::stringstream stream;
+        stream << "[ISERVERDATA] Checksum is invalid. Calculated: [" <<
+            std::ios::hex << checksum_calc << "] " <<
+            "Received: [" <<
+            std::ios::hex << res.checksum << "]";
+        throw std::invalid_argument(stream.str());
+    }
 
     pullFromStructure(res);
 }
@@ -296,21 +324,20 @@ void IServerData::parseNormalMessage(QByteArray msg) {
 void IServerData::pullFromStructure(ResponseNormalMessage res) {
     UVMutex.lock();
 
-    UVState.imu.roll = res.roll;
-    UVState.imu.pitch = res.pitch;
-    UVState.imu.yaw = res.yaw;
-    UVState.imu.depth = res.depth;
-    // qDebug() << "res.roll" <<res.roll;
-    // qDebug() << "res.pitch" <<res.pitch;
-    // qDebug() << "res.pitch" <<res.yaw;
-    // qDebug() << "res.pitch" <<res.depth;
-    // qDebug() << "res.pitch" <<res.rollSpeed;
-    // qDebug() << "res.pitch" <<res.pitchSpeed;
-    // qDebug() << "res.pitch" <<res.yawSpeed;
+    UVState.sensors.depth = res.depth;
+    UVState.sensors.roll = res.roll;
+    UVState.sensors.pitch = res.pitch;
+    UVState.sensors.yaw = res.yaw;
 
-    UVState.imu.rollSpeed = res.rollSpeed;
-    UVState.imu.pitchSpeed = res.pitchSpeed;
-    UVState.imu.yawSpeed = res.yawSpeed;
+    UVState.sensors.distance_l = res.distance_l;
+    UVState.sensors.distance_r = res.distance_r;
+    UVState.sensors.speed_down = res.speed_down;
+    UVState.sensors.speed_right = res.speed_right;
+
+    UVState.telemetry.current_logic_electronics = res.speed_right;
+    for (size_t i = 0; i < 8; i++) { UVState.telemetry.current_vma = res.current_vma[i]; }
+    for (size_t i = 0; i < 4; i++) { UVState.telemetry.voltage_battery_cell = res.voltage_battery_cell[i]; }
+    UVState.telemetry.voltage_battery = res.voltage_battery;
 
     UVMutex.unlock();
 }
@@ -323,31 +350,35 @@ void IServerData::parseConfigMessage(QByteArray msg) {
     stream.setByteOrder(QDataStream::LittleEndian);
     stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
 
+    stream >> res.depth;
     stream >> res.roll;
     stream >> res.pitch;
     stream >> res.yaw;
-    stream >> res.depth;
 
-    stream >> res.rollSpeed;
-    stream >> res.pitchSpeed;
-    stream >> res.yawSpeed;
+    stream >> res.input;
+    stream >> res.pos_filtered;
+    stream >> res.speed_filtered;
 
-    stream >> res.inputSignal;
-    stream >> res.speedSignal;
-    stream >> res.posSignal;
+    stream >> res.joy_gained;
+    stream >> res.target_integrator;
 
-    stream >> res.joyUnitCasted;
-    stream >> res.posError;
-    stream >> res.joy_iValue;
-    stream >> res.speedError;
-    stream >> res.dynSummator;
-    stream >> res.pidValue;
-    stream >> res.posErrorAmp;
-    stream >> res.speedFiltered;
-    stream >> res.posFiltered;
-    stream >> res.pid_iValue;
-    stream >> res.pid_pValue;
-    stream >> res.outputSignal;
+    stream >> res.pid_pre_error;
+    stream >> res.pid_error;
+    stream >> res.pid_integral;
+    stream >> res.pid_Pout;
+    stream >> res.pid_Iout;
+    stream >> res.pid_Dout;
+    stream >> res.pid_output;
+
+    stream >> res.tuning_summator;
+    stream >> res.speed_error;
+    stream >> res.out_pre_saturation;
+    stream >> res.out;
+
+    stream >> res.current_logic_electronics;
+    for (size_t i = 0; i < 8; i++) { stream >> res.current_vma[i]; }
+    for (size_t i = 0; i < 4; i++) { stream >> res.voltage_battery_cell[i]; }
+    stream >> res.voltage_battery;
 
     stream >> res.checksum;
 
@@ -367,43 +398,53 @@ void IServerData::parseConfigMessage(QByteArray msg) {
 void IServerData::pullFromStructure(ResponseConfigMessage res) {
     UVMutex.lock();
 
-    UVState.imu.roll = res.roll;
-    UVState.imu.pitch = res.pitch;
-    UVState.imu.yaw = res.yaw;
-    UVState.imu.depth = res.depth;
+    UVState.sensors.depth = res.depth;
+    UVState.sensors.roll = res.roll;
+    UVState.sensors.pitch = res.pitch;
+    UVState.sensors.yaw = res.yaw;
 
-    UVState.imu.rollSpeed = res.rollSpeed;
-    UVState.imu.pitchSpeed = res.pitchSpeed;
-    UVState.imu.yawSpeed = res.yawSpeed;
+    UVState.controlContour[UVState.currentCircuit].state.input = res.input;
+    UVState.controlContour[UVState.currentCircuit].state.pos_filtered = res.pos_filtered;
+    UVState.controlContour[UVState.currentCircuit].state.speed_filtered = res.speed_filtered;
 
-    UVState.controlContour[UVState.currentControlContour].state.inputSignal = res.inputSignal;
-    UVState.controlContour[UVState.currentControlContour].state.speedSignal = res.speedSignal;
-    UVState.controlContour[UVState.currentControlContour].state.posSignal = res.posSignal;
+    UVState.controlContour[UVState.currentCircuit].state.joy_gained = res.joy_gained;
+    UVState.controlContour[UVState.currentCircuit].state.target_integrator = res.target_integrator;
 
-    UVState.controlContour[UVState.currentControlContour].state.joyUnitCasted = res.joyUnitCasted;
-    UVState.controlContour[UVState.currentControlContour].state.posError = res.posError;
-    UVState.controlContour[UVState.currentControlContour].state.joy_iValue = res.joy_iValue;
-    UVState.controlContour[UVState.currentControlContour].state.speedError = res.speedError;
-    UVState.controlContour[UVState.currentControlContour].state.dynSummator = res.dynSummator;
-    UVState.controlContour[UVState.currentControlContour].state.pidValue = res.pidValue;
-    UVState.controlContour[UVState.currentControlContour].state.posErrorAmp = res.posErrorAmp;
-    UVState.controlContour[UVState.currentControlContour].state.speedFiltered = res.speedFiltered;
-    UVState.controlContour[UVState.currentControlContour].state.posFiltered = res.posFiltered;
-    UVState.controlContour[UVState.currentControlContour].state.pid_iValue = res.pid_iValue;
-    UVState.controlContour[UVState.currentControlContour].state.pid_pValue = res.pid_pValue;
-    UVState.controlContour[UVState.currentControlContour].state.outputSignal = res.outputSignal;
+    UVState.controlContour[UVState.currentCircuit].state.pid_pre_error = res.pid_pre_error;
+    UVState.controlContour[UVState.currentCircuit].state.pid_error = res.pid_error;
+    UVState.controlContour[UVState.currentCircuit].state.pid_integral = res.pid_integral;
+    UVState.controlContour[UVState.currentCircuit].state.pid_Pout = res.pid_Pout;
+    UVState.controlContour[UVState.currentCircuit].state.pid_Iout = res.pid_Iout;
+    UVState.controlContour[UVState.currentCircuit].state.pid_Dout = res.pid_Dout;
+    UVState.controlContour[UVState.currentCircuit].state.pid_output = res.pid_output;
+
+    UVState.controlContour[UVState.currentCircuit].state.tuning_summator = res.tuning_summator;
+    UVState.controlContour[UVState.currentCircuit].state.speed_error = res.speed_error;
+    UVState.controlContour[UVState.currentCircuit].state.out_pre_saturation = res.out_pre_saturation;
+    UVState.controlContour[UVState.currentCircuit].state.out = res.out;
+
+    UVState.telemetry.current_logic_electronics = res.speed_right;
+    for (size_t i = 0; i < 8; i++) { UVState.telemetry.current_vma = res.current_vma[i]; }
+    for (size_t i = 0; i < 4; i++) { UVState.telemetry.voltage_battery_cell = res.voltage_battery_cell[i]; }
+    UVState.telemetry.voltage_battery = res.voltage_battery;
 
     UVMutex.unlock();
 }
 
 void IServerData::parseDirectMessage(QByteArray msg) {
     ResponseDirectMessage res;
-
     uint16_t checksum_calc = getCheckSumm16b(msg.data(), msg.size() - 2);
 
     QDataStream stream(&msg, QIODeviceBase::ReadOnly);
+    stream.setByteOrder(QDataStream::LittleEndian);
+    stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
 
     stream >> res.id;
+
+    stream >> res.current_logic_electronics;
+    for (size_t i = 0; i < 8; i++) { stream >> res.current_vma[i]; }
+    for (size_t i = 0; i < 4; i++) { stream >> res.voltage_battery_cell[i]; }
+    stream >> res.voltage_battery;
 
     stream >> res.checksum;
 
@@ -420,11 +461,18 @@ void IServerData::parseDirectMessage(QByteArray msg) {
 }
 
 void IServerData::pullFromStructure(ResponseDirectMessage res) {
-    // nothing
+    UVMutex.lock();
+
+    UVState.telemetry.current_logic_electronics = res.speed_right;
+    for (size_t i = 0; i < 8; i++) { UVState.telemetry.current_vma = res.current_vma[i]; }
+    for (size_t i = 0; i < 4; i++) { UVState.telemetry.voltage_battery_cell = res.voltage_battery_cell[i]; }
+    UVState.telemetry.voltage_battery = res.voltage_battery;
+
+    UVMutex.unlock();
 }
 
 /* CRC16-CCITT algorithm */
-uint16_t getCheckSumm16b(char* pcBlock, int len) {
+uint16_t IServerData::getCheckSumm16b(char* pcBlock, int len) {
     uint16_t crc = 0xFFFF;
     //int crc_fix = reinterpret_cast<int*>(&crc);
     uint8_t i;
@@ -438,11 +486,15 @@ uint16_t getCheckSumm16b(char* pcBlock, int len) {
     return crc;
 }
 
-void set_bit(uint8_t& byte, uint8_t bit, bool state) {
+void IServerData::setBit(uint8_t& byte, uint8_t bit, bool state) {
     uint8_t value = 1;
     if (state) {
         byte = byte | (value << bit);
     } else {
         byte = byte & ~(value << bit);
     }
+}
+
+bool IServerData::setBit(uint8_t& input, uint8_t bit) {
+    return static_cast<bool>((input << (8 - bit)) >> 8);
 }

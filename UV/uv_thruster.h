@@ -8,14 +8,12 @@ class UV_Thruster {
 public:
     UV_Thruster();
 
-    QString name;
-
-    bool power = false;
+    bool power;
 
     int id;
     int adress; //  location on the ROV
 
-    int8_t velocity;
+    int8_t target_forse;
 
     bool reverse;
 
