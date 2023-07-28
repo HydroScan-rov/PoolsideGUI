@@ -3,17 +3,17 @@
 
 #include "i_basicData.h"
 #include "uv_state.h"
+#include "uv_device.h"
 
 class IUserInterfaceData: public IBasicData {
 public:
     IUserInterfaceData();
 
     ControlData getControlData();
-    ImuData getImuData();
+    Sensors getSensorsData();
     double getDeviceVelocity(e_Device device);
 
     void setPackegeMode(e_packageMode packageMode);
-    void setConnectionMode(e_Connection connectionMode);
 
     void setStabRoll(bool value);
     void setStabPitch(bool value);

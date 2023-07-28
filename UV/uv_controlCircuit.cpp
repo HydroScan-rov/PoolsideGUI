@@ -1,38 +1,37 @@
 #include "uv_controlCircuit.h"
 
 UV_ControlCircuit::UV_ControlCircuit() {
-    constant.pJoyUnitCast = 0;
-    constant.pSpeedDyn = 0;
-    constant.pErrGain = 0;
+    constants.dt = 0;
+    constants.k_joy = 0;
+    constants.k_tuning = 0;
+    constants.pid_kp = 0;
+    constants.pid_ki = 0;
+    constants.pid_kd = 0;
+    constants.pid_max_i = 0;
+    constants.pid_min_i = 0;
+    constants.pid_max = 0;
+    constants.pid_min = 0;
+    constants.posFilter_t = 0;
+    constants.posFilter_k = 0;
+    constants.speedFilter_y = 0;
+    constants.speedFilter_k = 0;
+    constants.out_max = 0;
+    constants.out_min = 0;
 
-    constant.posFilterT = 0;
-    constant.posFilterK = 0;
-    constant.speedFilterT = 0;
-    constant.speedFilterK = 0;
-
-    constant.pid_pGain = 0;
-    constant.pid_iGain = 0;
-    constant.pid_iMax = 0;
-    constant.pid_iMin = 0;
-
-    constant.pThrustersMin = 0;
-    constant.pThrustersMax = 0;
-    constant.pThrustersCast = 0;
-
-    state.inputSignal = 0;
-    state.speedSignal = 0;
-    state.posSignal = 0;
-
-    state.joyUnitCasted = 0;
-    state.posError = 0;
-    state.joy_iValue = 0;
-    state.speedError = 0;
-    state.dynSummator = 0;
-    state.pidValue = 0;
-    state.posErrorAmp = 0;
-    state.speedFiltered = 0;
-    state.posFiltered = 0;
-    state.pid_iValue = 0;
-    state.pid_pValue = 0;
-    state.outputSignal = 0;
+    states.input = 0;
+    states.pos_filtered = 0;
+    states.speed_filtered = 0;
+    states.joy_gained = 0;
+    states.target_integrator = 0;
+    states.pid_pre_error = 0;
+    states.pid_error = 0;
+    states.pid_integral = 0;
+    states.pid_Pout = 0;
+    states.pid_Iout = 0;
+    states.pid_Dout = 0;
+    states.pid_output = 0;
+    states.tuning_summator = 0;
+    states.speed_error = 0;
+    states.out_pre_saturation = 0;
+    states.out = 0;
 }

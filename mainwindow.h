@@ -20,9 +20,8 @@
 
 #include "ui_mainwindow.h"
 
-#include "UV/i_userInterfaceiata.h"
+#include "UV/i_userInterfaceData.h"
 #include "Communication/UdpClient.h"
-#include "Control/Joystick.h"
 #include "Control/Gamepad.h"
 #include "ThrusterSettings/ThrusterWindow.h"
 #include "StabilizationSettings/StabilizationWindow.h"
@@ -38,7 +37,6 @@ public:
     explicit MainWindow(QWidget* parent = nullptr);
 
 private:
-    Joystick* joystick = nullptr;
     Gamepad* gamepad = nullptr;
 
     StabilizationWindow stabilizationWindow;
@@ -49,9 +47,6 @@ private:
     QTimer* update_timer;
 
     IUserInterfaceData uv_interface;
-
-    bool yaw_plus180;
-    double prev_yaw;
 
 private slots:
     void updateUi();

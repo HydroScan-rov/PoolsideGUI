@@ -3,6 +3,7 @@
 
 #include "i_basicData.h"
 #include "uv_state.h"
+#include "uv_device.h"
 
 class IControlData : public IBasicData {
 public:

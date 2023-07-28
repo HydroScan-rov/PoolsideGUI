@@ -14,7 +14,6 @@ MainWindow::MainWindow(QWidget* parent): QMainWindow(parent) {
     connect(action_SettingsThruster, SIGNAL(triggered()), &thrusterWindow, SLOT(show()));
     connect(action_SettingsControlSystem, SIGNAL(triggered()), &stabilizationWindow, SLOT(show()));
 
-    uv_interface.setConnectionMode(e_Connection::CONNECTION_UDP);
     udp_client = new UdpClient();
     connect(udp_client, SIGNAL(dataUpdated()), this, SLOT(updateUi()));
 
@@ -50,7 +49,7 @@ void MainWindow::fullScreenKey() {
 
 void MainWindow::updateUi() {
     // Get data from UVState object
-    ImuData sensors = uv_interface.getImuData();
+    Sensors sensors = uv_interface.getSensorsData();
 
     // Update user interface
     progressBar_Depth->setValue(static_cast<int>(sensors.depth));
@@ -72,9 +71,6 @@ void MainWindow::updateUi() {
     label_ImpactRoll->setText(QString::number(control.roll, 'f', 2));
     label_ImpactPitch->setText(QString::number(control.pitch, 'f', 2));
 
-    label_DevicesGrabber->setText(QString::number(uv_interface.getDeviceVelocity(DEVICE_GRAB)));
-    label_DevicesGrabberRotation->setText(QString::number(uv_interface.getDeviceVelocity(DEVICE_GRAB_ROTATE)));
-    label_DevicesTilt->setText(QString::number(uv_interface.getDeviceVelocity(DEVICE_TILT)));
 }
 
 void MainWindow::resetImu() {

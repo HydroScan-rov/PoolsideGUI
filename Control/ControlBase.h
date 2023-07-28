@@ -2,7 +2,7 @@
 #define CONTROLBASE_H
 
 #include <QTimer>
-#include "UV/icontroldata.h"
+#include "UV/i_controlData.h"
 
 class ControlBase: public QObject {
     Q_OBJECT
@@ -20,8 +20,6 @@ protected:
         SET_ROLL,
         SET_PITCH,
         SET_YAW,
-        GRAB,
-        GRAB_ROTATE,
         TILT,
     };
 
@@ -35,9 +33,7 @@ protected:
     void setPitch(float value);
     void setYaw(float value);
 
-    void setGrab(int8_t value);
-    void setGrabRotate(int8_t value);
-    void setTilt(int8_t value);
+    void setTilt(double value);
 
 private:
     IControlData interface;

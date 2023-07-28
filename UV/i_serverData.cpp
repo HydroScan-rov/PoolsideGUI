@@ -8,7 +8,7 @@ IServerData::IServerData()
     : IBasicData() {
 }
 
-e_Countour IServerData::getCurrentCircuit() {
+e_circuit IServerData::getCurrentCircuit() {
     e_circuit currentCircuit;
 
     UVMutex.lock();
@@ -46,25 +46,25 @@ QByteArray IServerData::generateMessage() {
 }
 
 void IServerData::fillFlags(uint8_t& flags) {
-    setBit(req.flags, 0, UVState.thrusters_on);
-    setBit(req.flags, 1, UVState.reset_imu);
-    setBit(req.flags, 2, UVState.reset_depth);
-    setBit(req.flags, 3, UVState.rgb_light_on);
-    setBit(req.flags, 4, UVState.lower_light_on);
+    setBit(flags, 0, UVState.thrusters_on);
+    setBit(flags, 1, UVState.reset_imu);
+    setBit(flags, 2, UVState.reset_depth);
+    setBit(flags, 3, UVState.rgb_light_on);
+    setBit(flags, 4, UVState.lower_light_on);
 }
 
-void IServerData::fillStabFlags(uint8_t& stabFlags) {
-    setBit(req.stab_flags, 0, UVState.stab_march);
-    setBit(req.stab_flags, 1, UVState.stab_lag);
-    setBit(req.stab_flags, 2, UVState.stab_depth);
-    setBit(req.stab_flags, 3, UVState.stab_roll);
-    setBit(req.stab_flags, 4, UVState.stab_pitch);
-    setBit(req.stab_flags, 5, UVState.stab_yaw);
+void IServerData::fillStabFlags(uint8_t& stab_flags) {
+    setBit(stab_flags, 0, UVState.stab_march);
+    setBit(stab_flags, 1, UVState.stab_lag);
+    setBit(stab_flags, 2, UVState.stab_depth);
+    setBit(stab_flags, 3, UVState.stab_roll);
+    setBit(stab_flags, 4, UVState.stab_pitch);
+    setBit(stab_flags, 5, UVState.stab_yaw);
 }
 
-void IServerData::fillControlMode(uint8_t& controlMode) {
-    for (e_controlMode i = MODE_HANDLE; i < MODE_MANEUVERABLE; i++) {
-        UVState.currentControlMode == i ? setBit(req.control_mode, i, true);
+void IServerData::fillControlMode(uint8_t& control_mode) {
+    for (int i = MODE_HANDLE; i < MODE_MANEUVERABLE; i++) {
+        if (UVState.currentControlMode == i) { setBit(control_mode, i, true); };
     }
 }
 
@@ -140,7 +140,7 @@ QByteArray IServerData::generateConfigMessage() {
     stream << req.flags;
     stream << req.stab_flags;
 
-    stream << req.current_contour;
+    stream << req.current_circuit;
 
     stream << req.march;
     stream << req.lag;
@@ -180,8 +180,8 @@ void IServerData::fillStructure(RequestConfigMessage& req) {
     fillFlags(req.flags);
     fillFlags(req.stab_flags);
 
-    for (e_circuit i = MARCH; i < YAW; i++) {
-        UVState.currentCircuit == i ? setBit(req.current_circuit, i, true);
+    for (int i = MARCH; i < YAW; i++) {
+        if (UVState.currentCircuit == i) { setBit(req.current_circuit, i, true); };
     }
 
     req.march = UVState.control.march;
@@ -191,25 +191,25 @@ void IServerData::fillStructure(RequestConfigMessage& req) {
     req.pitch = UVState.control.pitch;
     req.yaw = UVState.control.yaw;
 
-    req.dt = UVState.controlCircuit[UVState.currentCircuit].constant.dt;
-    req.k_joy = UVState.controlCircuit[UVState.currentCircuit].constant.k_joy;
-    req.k_tuning = UVState.controlCircuit[UVState.currentCircuit].constant.k_tuning;
+    req.dt = UVState.controlCircuit[UVState.currentCircuit].constants.dt;
+    req.k_joy = UVState.controlCircuit[UVState.currentCircuit].constants.k_joy;
+    req.k_tuning = UVState.controlCircuit[UVState.currentCircuit].constants.k_tuning;
 
-    req.pid_kp = UVState.controlCircuit[UVState.currentCircuit].constant.pid_kp;
-    req.pid_ki = UVState.controlCircuit[UVState.currentCircuit].constant.pid_ki;
-    req.pid_kd = UVState.controlCircuit[UVState.currentCircuit].constant.pid_kd;
-    req.pid_max_i = UVState.controlCircuit[UVState.currentCircuit].constant.pid_max_i;
-    req.pid_min_i = UVState.controlCircuit[UVState.currentCircuit].constant.pid_min_i;
-    req.pid_max = UVState.controlCircuit[UVState.currentCircuit].constant.pid_max;
-    req.pid_min = UVState.controlCircuit[UVState.currentCircuit].constant.pid_min;
+    req.pid_kp = UVState.controlCircuit[UVState.currentCircuit].constants.pid_kp;
+    req.pid_ki = UVState.controlCircuit[UVState.currentCircuit].constants.pid_ki;
+    req.pid_kd = UVState.controlCircuit[UVState.currentCircuit].constants.pid_kd;
+    req.pid_max_i = UVState.controlCircuit[UVState.currentCircuit].constants.pid_max_i;
+    req.pid_min_i = UVState.controlCircuit[UVState.currentCircuit].constants.pid_min_i;
+    req.pid_max = UVState.controlCircuit[UVState.currentCircuit].constants.pid_max;
+    req.pid_min = UVState.controlCircuit[UVState.currentCircuit].constants.pid_min;
 
-    req.posFilter_t = UVState.controlCircuit[UVState.currentCircuit].constant.posFilter_t;
-    req.posFilter_k = UVState.controlCircuit[UVState.currentCircuit].constant.posFilter_k;
-    req.speedFilter_y = UVState.controlCircuit[UVState.currentCircuit].constant.speedFilter_y;
-    req.speedFilter_k = UVState.controlCircuit[UVState.currentCircuit].constant.speedFilter_k;
+    req.posFilter_t = UVState.controlCircuit[UVState.currentCircuit].constants.posFilter_t;
+    req.posFilter_k = UVState.controlCircuit[UVState.currentCircuit].constants.posFilter_k;
+    req.speedFilter_y = UVState.controlCircuit[UVState.currentCircuit].constants.speedFilter_y;
+    req.speedFilter_k = UVState.controlCircuit[UVState.currentCircuit].constants.speedFilter_k;
 
-    req.out_max = UVState.controlCircuit[UVState.currentCircuit].constant.out_max;
-    req.out_min = UVState.controlCircuit[UVState.currentCircuit].constant.out_min;
+    req.out_max = UVState.controlCircuit[UVState.currentCircuit].constants.out_max;
+    req.out_min = UVState.controlCircuit[UVState.currentCircuit].constants.out_min;
 
     UVMutex.unlock();
 }
@@ -258,10 +258,10 @@ void IServerData::fillStructure(RequestDirectMessage& req) {
     }
 
     req.reverse = UVState.thruster[UVState.currentThruster].reverse;
-    req.kForward = UVState.thruster[UVState.currentThruster].kForward;
-    req.kBackward = UVState.thruster[UVState.currentThruster].kBackward;
-    req.sForward = UVState.thruster[UVState.currentThruster].sForward;
-    req.sBackward = UVState.thruster[UVState.currentThruster].sBackward;
+    req.k_forward = UVState.thruster[UVState.currentThruster].kForward;
+    req.k_backward = UVState.thruster[UVState.currentThruster].kBackward;
+    req.s_forward = UVState.thruster[UVState.currentThruster].sForward;
+    req.s_backward = UVState.thruster[UVState.currentThruster].sBackward;
 
     UVMutex.unlock();
 }
@@ -335,8 +335,8 @@ void IServerData::pullFromStructure(ResponseNormalMessage res) {
     UVState.sensors.speed_right = res.speed_right;
 
     UVState.telemetry.current_logic_electronics = res.speed_right;
-    for (size_t i = 0; i < 8; i++) { UVState.telemetry.current_vma = res.current_vma[i]; }
-    for (size_t i = 0; i < 4; i++) { UVState.telemetry.voltage_battery_cell = res.voltage_battery_cell[i]; }
+    for (size_t i = 0; i < 8; i++) { UVState.telemetry.current_vma[i] = res.current_vma[i]; }
+    for (size_t i = 0; i < 4; i++) { UVState.telemetry.voltage_battery_cell[i] = res.voltage_battery_cell[i]; }
     UVState.telemetry.voltage_battery = res.voltage_battery;
 
     UVMutex.unlock();
@@ -403,29 +403,29 @@ void IServerData::pullFromStructure(ResponseConfigMessage res) {
     UVState.sensors.pitch = res.pitch;
     UVState.sensors.yaw = res.yaw;
 
-    UVState.controlContour[UVState.currentCircuit].state.input = res.input;
-    UVState.controlContour[UVState.currentCircuit].state.pos_filtered = res.pos_filtered;
-    UVState.controlContour[UVState.currentCircuit].state.speed_filtered = res.speed_filtered;
+    UVState.controlCircuit[UVState.currentCircuit].states.input = res.input;
+    UVState.controlCircuit[UVState.currentCircuit].states.pos_filtered = res.pos_filtered;
+    UVState.controlCircuit[UVState.currentCircuit].states.speed_filtered = res.speed_filtered;
 
-    UVState.controlContour[UVState.currentCircuit].state.joy_gained = res.joy_gained;
-    UVState.controlContour[UVState.currentCircuit].state.target_integrator = res.target_integrator;
+    UVState.controlCircuit[UVState.currentCircuit].states.joy_gained = res.joy_gained;
+    UVState.controlCircuit[UVState.currentCircuit].states.target_integrator = res.target_integrator;
 
-    UVState.controlContour[UVState.currentCircuit].state.pid_pre_error = res.pid_pre_error;
-    UVState.controlContour[UVState.currentCircuit].state.pid_error = res.pid_error;
-    UVState.controlContour[UVState.currentCircuit].state.pid_integral = res.pid_integral;
-    UVState.controlContour[UVState.currentCircuit].state.pid_Pout = res.pid_Pout;
-    UVState.controlContour[UVState.currentCircuit].state.pid_Iout = res.pid_Iout;
-    UVState.controlContour[UVState.currentCircuit].state.pid_Dout = res.pid_Dout;
-    UVState.controlContour[UVState.currentCircuit].state.pid_output = res.pid_output;
+    UVState.controlCircuit[UVState.currentCircuit].states.pid_pre_error = res.pid_pre_error;
+    UVState.controlCircuit[UVState.currentCircuit].states.pid_error = res.pid_error;
+    UVState.controlCircuit[UVState.currentCircuit].states.pid_integral = res.pid_integral;
+    UVState.controlCircuit[UVState.currentCircuit].states.pid_Pout = res.pid_Pout;
+    UVState.controlCircuit[UVState.currentCircuit].states.pid_Iout = res.pid_Iout;
+    UVState.controlCircuit[UVState.currentCircuit].states.pid_Dout = res.pid_Dout;
+    UVState.controlCircuit[UVState.currentCircuit].states.pid_output = res.pid_output;
 
-    UVState.controlContour[UVState.currentCircuit].state.tuning_summator = res.tuning_summator;
-    UVState.controlContour[UVState.currentCircuit].state.speed_error = res.speed_error;
-    UVState.controlContour[UVState.currentCircuit].state.out_pre_saturation = res.out_pre_saturation;
-    UVState.controlContour[UVState.currentCircuit].state.out = res.out;
+    UVState.controlCircuit[UVState.currentCircuit].states.tuning_summator = res.tuning_summator;
+    UVState.controlCircuit[UVState.currentCircuit].states.speed_error = res.speed_error;
+    UVState.controlCircuit[UVState.currentCircuit].states.out_pre_saturation = res.out_pre_saturation;
+    UVState.controlCircuit[UVState.currentCircuit].states.out = res.out;
 
-    UVState.telemetry.current_logic_electronics = res.speed_right;
-    for (size_t i = 0; i < 8; i++) { UVState.telemetry.current_vma = res.current_vma[i]; }
-    for (size_t i = 0; i < 4; i++) { UVState.telemetry.voltage_battery_cell = res.voltage_battery_cell[i]; }
+    UVState.telemetry.current_logic_electronics = res.current_logic_electronics;
+    for (size_t i = 0; i < 8; i++) { UVState.telemetry.current_vma[i] = res.current_vma[i]; }
+    for (size_t i = 0; i < 4; i++) { UVState.telemetry.voltage_battery_cell[i] = res.voltage_battery_cell[i]; }
     UVState.telemetry.voltage_battery = res.voltage_battery;
 
     UVMutex.unlock();
@@ -463,9 +463,9 @@ void IServerData::parseDirectMessage(QByteArray msg) {
 void IServerData::pullFromStructure(ResponseDirectMessage res) {
     UVMutex.lock();
 
-    UVState.telemetry.current_logic_electronics = res.speed_right;
-    for (size_t i = 0; i < 8; i++) { UVState.telemetry.current_vma = res.current_vma[i]; }
-    for (size_t i = 0; i < 4; i++) { UVState.telemetry.voltage_battery_cell = res.voltage_battery_cell[i]; }
+    UVState.telemetry.current_logic_electronics = res.current_logic_electronics;
+    for (size_t i = 0; i < 8; i++) { UVState.telemetry.current_vma[i] = res.current_vma[i]; }
+    for (size_t i = 0; i < 4; i++) { UVState.telemetry.voltage_battery_cell[i] = res.voltage_battery_cell[i]; }
     UVState.telemetry.voltage_battery = res.voltage_battery;
 
     UVMutex.unlock();

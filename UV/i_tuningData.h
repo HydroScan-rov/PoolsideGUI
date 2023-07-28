@@ -17,10 +17,10 @@ public:
     UV_Thruster getThrusterData(int slot);
     void setThrusterPower(int slot, bool power);
 
-    UV_CircuitStates getCircuitStates(e_Countour countour);
+    UV_CircuitStates getCircuitStates(e_circuit circuit);
     void setCircuitConstants(UV_CircuitConstants constants);
-    void setCircuitConstants(UV_CircuitConstants constants, e_Countour countour);
-    void setCurrentCircuit(e_Countour contour);
+    void setCircuitConstants(UV_CircuitConstants constants, e_circuit circuit);
+    void setCurrentCircuit(e_circuit circuit);
 };
 
 #endif // I_TUNINGDATA_H

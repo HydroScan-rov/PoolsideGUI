@@ -15,7 +15,7 @@ public:
     void parseMessage(QByteArray message);
 
     e_packageMode getCurrentPackageMode();
-    e_Countour getCurrentCircuit();
+    e_circuit getCurrentCircuit();
 
 private:
     QDataStream* port;
@@ -178,8 +178,8 @@ private:
     void fillStructure(RequestConfigMessage& req);
     void fillStructure(RequestDirectMessage& req);
     void fillFlags(uint8_t& flags);
-    void fillStabFlags(uint8_t& stabFlags);
-    void fillControlMode(uint8_t& controlMode);
+    void fillStabFlags(uint8_t& stab_flags);
+    void fillControlMode(uint8_t& control_mode);
 
     void parseNormalMessage(QByteArray msg);
     void parseConfigMessage(QByteArray msg);

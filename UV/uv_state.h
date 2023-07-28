@@ -30,6 +30,11 @@ enum e_circuit : unsigned char {
     YAW,
 };
 
+enum e_Device {
+    DEVICE_TILT,
+    DEVICE_DEV,
+};
+
 struct Sensors {
     Sensors();
 
@@ -52,7 +57,7 @@ struct Telemetry {
     float current_vma[8];
     float voltage_battery_cell[4];
     float voltage_battery; // 56
-}
+};
 
 struct Light {
     Light();
@@ -61,17 +66,17 @@ struct Light {
     uint8_t r_rgb_light;
     uint8_t g_rgb_light;
     uint8_t b_rgb_light;
-}
+};
 
 struct ControlData {
     ControlData();
 
-    int16_t march;
-    int16_t lag;
-    int16_t depth;
-    int16_t roll;
-    int16_t pitch;
-    int16_t yaw;
+    float march;
+    float lag;
+    float depth;
+    float roll;
+    float pitch;
+    float yaw;
 };
 
 class UV_State {
@@ -85,6 +90,7 @@ public:
     Sensors sensors;
     Light light;
     Telemetry telemetry;
+    UV_Device device[2];
 
     UV_Thruster thruster[8];
     void setThrusterNext();

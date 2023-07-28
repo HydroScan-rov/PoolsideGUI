@@ -3,87 +3,52 @@
 ITuningData::ITuningData() {
 }
 
-void ITuningData::setThrusterAmount(int thrusterAmount) {
-    UVMutex.lock();
-    UVState.setThrusterAmount(thrusterAmount);
-    UVMutex.unlock();
-}
-
-int ITuningData::getThrusterAmount() {
-    int thrusterAmount;
-    UVMutex.lock();
-    thrusterAmount = UVState.getThrusterAmount();
-    UVMutex.unlock();
-    return thrusterAmount;
-}
 
 void ITuningData::setThrusterData(int slot, UV_Thruster data) {
-    if (slot < UVState.getThrusterAmount()) {
-        UVMutex.lock();
-        UVState.thruster[slot] = data;
-        UVMutex.unlock();
-    } else {
-        std::string error = "Max thruster slot is: " +
-            std::to_string(UVState.getThrusterAmount()) +
-            ", you are trying to reach:" +
-            std::to_string(slot);
-        throw std::invalid_argument(error);
-    }
+    UVMutex.lock();
+    UVState.thruster[slot] = data;
+    UVMutex.unlock();
 }
 
 UV_Thruster ITuningData::getThrusterData(int slot) {
     UV_Thruster data;
-    if (slot < getThrusterAmount()) {
-        UVMutex.lock();
-        data = UVState.thruster[slot];
-        UVMutex.unlock();
-    } else {
-        std::string error = "Max thruster slot is: " +
-            std::to_string(UVState.getThrusterAmount()) +
-            ", you are trying to reach:" +
-            std::to_string(slot);
-        throw std::invalid_argument(error);
-    }
+
+    UVMutex.lock();
+    data = UVState.thruster[slot];
+    UVMutex.unlock();
+
     return data;
 }
 
 void ITuningData::setThrusterPower(int slot, bool power) {
-    if (slot < getThrusterAmount()) {
         UVMutex.lock();
         UVState.thruster[slot].power = power;
         UVMutex.unlock();
-    } else {
-        std::string error = "Max thruster slot is: " +
-            std::to_string(UVState.getThrusterAmount()) +
-            ", you are trying to reach:" +
-            std::to_string(slot);
-        throw std::invalid_argument(error);
-    }
 }
 
-UV_CircuitStates ITuningData::getCircuitStates(e_Countour countour) {
+UV_CircuitStates ITuningData::getCircuitStates(e_circuit countour) {
     UV_CircuitStates data;
     UVMutex.lock();
-    data = UVState.controlContour[countour].state;
+    data = UVState.controlCircuit[countour].states;
     UVMutex.unlock();
     return data;
 }
 
 void ITuningData::setCircuitConstants(UV_CircuitConstants constants) {
     UVMutex.lock();
-    UVState.controlContour[UVState.currentControlContour].constant = constants;
+    UVState.controlCircuit[UVState.currentCircuit].constants = constants;
     UVMutex.unlock();
 }
 
-void ITuningData::setCircuitConstants(UV_CircuitConstants constants, e_Countour countour) {
+void ITuningData::setCircuitConstants(UV_CircuitConstants constants, e_circuit countour) {
     UVMutex.lock();
-    UVState.controlContour[countour].constant = constants;
+    UVState.controlCircuit[countour].constants = constants;
     UVMutex.unlock();
 }
 
-void ITuningData::setCurrentCircuit(e_Countour contour) {
+void ITuningData::setCurrentCircuit(e_circuit contour) {
     UVMutex.lock();
-    UVState.currentControlContour = contour;
+    UVState.currentCircuit = contour;
     UVMutex.unlock();
 
 }

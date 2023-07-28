@@ -38,15 +38,15 @@ void ControlBase::sendAction(e_actionTypes type, float value) {
 }
 
 void ControlBase::sendAction(e_actionTypes type, int8_t value) {
-    switch (type) {
-    case GRAB:
-        setGrab(value);
-        break;
+    // switch (type) {
+    // case GRAB:
+    //     setGrab(value);
+    //     break;
 
-    case GRAB_ROTATE:
-        setGrabRotate(value);
-        break;
-    }
+    // case GRAB_ROTATE:
+    //     setGrabRotate(value);
+    //     break;
+    // }
 }
 
 void ControlBase::setMarch(float value) {
@@ -73,15 +73,7 @@ void ControlBase::setYaw(float value) {
     interface.setYaw(value);
 }
 
-void ControlBase::setGrab(int8_t value) {
-    interface.setDeviceVelocity(e_Device::DEVICE_GRAB, value);
-}
-
-void ControlBase::setGrabRotate(int8_t value) {
-    interface.setDeviceVelocity(e_Device::DEVICE_GRAB_ROTATE, value);
-}
-
-void ControlBase::setTilt(int8_t value) {
+void ControlBase::setTilt(double value) {
     interface.setDeviceVelocity(e_Device::DEVICE_TILT, value);
 }
 

@@ -23,7 +23,6 @@ ThrusterWindow::ThrusterWindow(QWidget *parent) :
 
     thrusters_amount = allThrusterJson["thrusters"].size();
     thrusters = new Thruster[thrusters_amount];
-    interface.setThrusterAmount(thrusters_amount);
     for (int i = 0; i < thrusters_amount; ++i) {
         ui->horizontalLayout_Thrusters->addWidget(&thrusters[i], i);
         thrusters[i].setThruster(allThrusterJson["thrusters"][i]);

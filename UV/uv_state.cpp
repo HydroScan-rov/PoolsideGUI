@@ -25,10 +25,10 @@ Light::Light() {
 
 Telemetry::Telemetry() {
     current_logic_electronics = 0;
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 8; i++) {
         current_vma[i] = 0;
     }
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < 4; i++) {
         voltage_battery_cell[i] = 0;
     }
     voltage_battery = 0;
@@ -52,17 +52,15 @@ UV_State::UV_State() {
     stab_pitch = false;
     stab_yaw = false;
 
-    control_handle = false;
-    control_auto = false;
-    control_maneuverable = false;
+    currentControlMode = MODE_HANDLE;
 }
 
 UV_State::~UV_State() {
     if (thruster != nullptr) {
         delete[] thruster;
     }
-    if (controlContour != nullptr) {
-        delete[] thruster;
+    if (controlCircuit != nullptr) {
+        delete[] controlCircuit;
     }
 }
 

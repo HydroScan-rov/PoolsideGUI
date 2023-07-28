@@ -15,11 +15,11 @@ ControlData IUserInterfaceData::getControlData() {
     return data;
 }
 
-ImuData IUserInterfaceData::getImuData() {
-    ImuData data;
+Sensors IUserInterfaceData::getSensorsData() {
+    Sensors data;
 
     UVMutex.lock();
-    data = UVState.imu;
+    data = UVState.sensors;
     UVMutex.unlock();
 
     return data;
@@ -43,42 +43,37 @@ void IUserInterfaceData::setPackegeMode(e_packageMode packageMode) {
 
 void IUserInterfaceData::setStabRoll(bool value) {
     UVMutex.lock();
-    UVState.stabRoll = value;
+    UVState.stab_roll = value;
     UVMutex.unlock();
 }
 
 void IUserInterfaceData::setStabPitch(bool value) {
     UVMutex.lock();
-    UVState.stabPitch = value;
+    UVState.stab_pitch = value;
     UVMutex.unlock();
 }
 
 void IUserInterfaceData::setStabYaw(bool value) {
     UVMutex.lock();
-    UVState.stabYaw = value;
+    UVState.stab_yaw = value;
     UVMutex.unlock();
 }
 
 void IUserInterfaceData::setStabDepth(bool value) {
     UVMutex.lock();
-    UVState.stabDepth = value;
+    UVState.stab_depth = value;
     UVMutex.unlock();
 }
 
 void IUserInterfaceData::setResetImu(bool value) {
     UVMutex.lock();
-    UVState.resetImu = value;
+    UVState.reset_imu = value;
     UVMutex.unlock();
 }
 
 void IUserInterfaceData::setThrustersON(bool value) {
     UVMutex.lock();
-    UVState.thrustersON = value;
+    UVState.thrusters_on = value;
     UVMutex.unlock();
 }
 
-void IUserInterfaceData::setConnectionMode(e_Connection connectionMode) {
-    UVMutex.lock();
-    UVState.currentConnectionMode = connectionMode;
-    UVMutex.unlock();
-}

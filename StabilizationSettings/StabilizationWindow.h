@@ -12,7 +12,7 @@
 #include <filesystem>
 
 #include "Utilitis/json.h"
-#include "UV/ituningdata.h"
+#include "UV/i_tuningData.h"
 
 // #include "KX_Pult/kx_protocol.h"
 // #include "KX_Pult/qkx_coeffs.h"
@@ -52,7 +52,7 @@ private:
     json allStabilizationJson;
 
     // x_protocol* X_Protocol;
-    e_Countour currentContour;
+    e_circuit currentContour;
     UV_CircuitConstants ConstantsControlContour[6];
     UV_CircuitStates StateControlContour[6];
 

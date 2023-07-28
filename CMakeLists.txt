@@ -31,9 +31,7 @@ set(PROJECT_SOURCES
         Communication/UdpClient.cpp
 
         Control/ControlBase.cpp
-        Control/Joystick.cpp
         Control/Gamepad.cpp
-        # Control/Keyboard.cpp
 
         KX_Pult/configdata.cpp
         KX_Pult/kx_protocol.cpp
@@ -55,6 +53,7 @@ set(PROJECT_SOURCES
         UV/uv_controlCircuit.cpp
         UV/uv_state.cpp
         UV/uv_thruster.cpp
+        UV/uv_device.cpp
 )
 
 add_executable(${PROJECT_NAME}

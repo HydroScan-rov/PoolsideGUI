@@ -7,7 +7,7 @@
 #include <QTimer>
 #include <sstream>
 
-#include "UV/iserverdata.h"
+#include "UV/i_serverData.h"
 
 class UdpClient: public QThread {
     Q_OBJECT
@@ -25,7 +25,7 @@ signals:
 private:
     QUdpSocket* senderSocket;  // from pult to ROV
     QUdpSocket* receiverSocket;  // from ROV to pult
-    
+
     IServerData* uv_interface;
     QTimer* timeoutTimer;
 

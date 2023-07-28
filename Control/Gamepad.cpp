@@ -11,8 +11,8 @@ const Gamepad::control_axis Gamepad::axis_table[] = {
 };
 
 const Gamepad::control_buttons Gamepad::buttons_table[] = {
-        {0, 3, GRAB,        127},
-        {2, 1, GRAB_ROTATE, 127},
+        // {0, 3, GRAB,        127},
+        // {2, 1, GRAB_ROTATE, 127},
 };
 
 Gamepad::Gamepad(int updateTimeMs): ControlBase("Gamepad") {

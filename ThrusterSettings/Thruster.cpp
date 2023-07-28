@@ -54,7 +54,6 @@ void Thruster::save(bool click) {
 }
 
 void Thruster::setUV_Thruster() {
-    ThisThruster.name = QString::fromStdString(ThrusterJson["name"]);
     ThisThruster.id = ThrusterJson["id"];
     ThisThruster.reverse = ThrusterJson["reverse"];
     ThisThruster.kForward = ThrusterJson["kForward"];
@@ -65,7 +64,6 @@ void Thruster::setUV_Thruster() {
 
 void Thruster::setUi() {
     ui->SpinBox_ThrusterAdress->setEnabled(!power);
-    ui->Label_ThrusterName->setText(QString::fromStdString(ThrusterJson["name"]));
     ui->SpinBox_ThrusterAdress->setValue(ThrusterJson["adress"]);
     ui->DoubleSpinBox_SetForwardK->setValue(ThrusterJson["kForward"]);
     ui->DoubleSpinBox_SetBackwardK->setValue(ThrusterJson["kBackward"]);
@@ -91,7 +89,7 @@ void Thruster::adressChanged(int adress) {
 }
 
 void Thruster::speedChanged(int speed) {
-    ThisThruster.velocity = speed;
+    ThisThruster.target_forse = speed;
     emit parametorsChanged(ThrusterJson, ThisThruster);
 }
 
