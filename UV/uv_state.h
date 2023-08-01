@@ -84,6 +84,9 @@ public:
     UV_State();
     ~UV_State();
 
+    uint8_t connection_status;
+    uint8_t reseived_connection_status;
+
     ControlData control;
     e_controlMode currentControlMode;
 

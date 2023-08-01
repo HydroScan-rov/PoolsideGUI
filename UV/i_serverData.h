@@ -12,6 +12,7 @@ public:
     IServerData();
 
     QByteArray generateMessage();
+    uint8_t getCurrentPackageLenght();
     void parseMessage(QByteArray message);
 
     e_packageMode getCurrentPackageMode();
@@ -20,32 +21,44 @@ public:
 private:
     QDataStream* port;
 
-    // from pult to ROV
+    const uint8_t Lenght_RequestNormalMessage = 37;
+    const uint8_t Lenght_RequestConfigMessage = 95;
+    const uint8_t Lenght_RequestDirectMessage = 24;
+
+    // Normal pult -> ROV
     struct RequestNormalMessage {
+        const static uint8_t lenght = 37;  // 1(type) + 34(message) + 2(checksum) = 37 dyte
+
         const static uint8_t type = 0xA5;
+        uint8_t connection_status;
 
         uint8_t flags; // [0]thrusters_on, [1]reset_imu, [2]reset_depth, [3]rgb_light_on, [4]lower_light_on,
-
-        float_t march; // NED coordinate system
-        float_t lag;
-        float_t depth;
-        float_t roll;
-        float_t pitch;
-        float_t yaw;
-
         uint8_t stab_flags; // [0]march, [1]lag, [2]depth, [3]roll, [4]pitch, [5]yaw
         uint8_t control_mode; // [0]handle , [1]auto (set depth and yaw, pitch and roll = 0), [2]maneuverable (set depth, yaw, pitch and roll)
+
+        float march; // NED coordinate system
+        float lag;
+        float depth;
+        float roll;
+        float pitch;
+        float yaw;
+
+        uint16_t tilt; // 1000-2000
 
         uint8_t power_lower_light; // 0-255
         uint8_t r_rgb_light; // 0-255
         uint8_t g_rgb_light;
         uint8_t b_rgb_light;
 
-        uint16_t checksum;  // 1(type) + 30(message) + 2(checksum) = 33 dyte
+        uint16_t checksum;
     };
 
-    // from ROV to pult
+    // Normal ROV -> pult
     struct ResponseNormalMessage {
+        const static uint8_t lenght = 91; // 89(message) + 2(checksum) = 91 dyte
+
+        uint8_t reseived_connection_status;
+
         float_t depth;
         float_t roll;
         float_t pitch;
@@ -62,16 +75,18 @@ private:
         float_t voltage_battery_cell[4];
         float_t voltage_battery; // 56
 
-        uint16_t checksum;  // 88(message) + 2(checksum) = 90 dyte
+        uint16_t checksum;
     };
 
-    // from pult to ROV
+    // Config pult -> ROV
     struct RequestConfigMessage {
+        const static uint8_t lenght = 95; // 1(type) + 92(message) + 2(checksum) = 95 dyte
+
         const static uint8_t type = 0x55;
+        uint8_t connection_status;
 
         uint8_t flags; // [0]thrusters_on, [1]reset_imu, [2]reset_depth, [3]rgb_light_on, [4]lower_light_on,
         uint8_t stab_flags; // stab [0]march, [1]lag, [2]depth, [3]roll, [4]pitch, [5]yaw, [6]thrusters_on, [6]reset_imu
-
         uint8_t current_circuit; // current contour: [0]march, [1]lag, [2]depth, [3]roll, [4]pitch, [5]yaw
 
         float_t march;
@@ -101,11 +116,15 @@ private:
         float_t out_max;
         float_t out_min;
 
-        uint16_t checksum; // 1(type) + 91(message) + 2(checksum) = 94 dyte
+        uint16_t checksum;
     };
 
-    // from ROV to pult
+    // Config ROV -> pult
     struct ResponseConfigMessage {
+        const static uint8_t lenght = 139; // 137(message) + 2(checksum) = 139 dyte
+
+        uint8_t reseived_connection_status;
+
         float_t depth;
         float_t roll;
         float_t pitch;
@@ -136,12 +155,15 @@ private:
         float_t voltage_battery_cell[4];
         float_t voltage_battery; // 56
 
-        uint16_t checksum; // 136(message) + 2(checksum) = 138 dyte
+        uint16_t checksum;
     };
 
-    // from pult to ROV
+    // Direct pult -> ROV
     struct RequestDirectMessage {
+        const static uint8_t lenght = 24; // 1(type) + 21(message) + 2(checksum) = 24 dyte
+
         const static uint8_t type = 0xAA;
+        uint8_t connection_status;
 
         uint8_t flags; // [0]thrusters_on, [1]reset_imu, [2]reset_depth, [3]rgb_light_on, [4]lower_light_on,
 
@@ -156,19 +178,21 @@ private:
         int16_t s_forward; // max PWM
         int16_t s_backward; // min PWM
 
-        uint16_t checksum; // 1(type) + 20(message) + 2(checksum) = 24 dyte
+        uint16_t checksum; // 1(type) + 20(message) + 2(checksum) = 23 dyte
     };
 
-    // from ROV to pult
+    // Direct ROV -> pult
     struct ResponseDirectMessage {
-        uint8_t id; // 0..7
+        const static uint8_t lenght = 59; // 57(message) + 2(checksum) = 59 dyte
+
+        uint8_t reseived_connection_status;
 
         float_t current_logic_electronics; // from jetson + raspberry dc-dc
         float_t current_vma[8];
         float_t voltage_battery_cell[4];
         float_t voltage_battery; // 56
 
-        uint16_t checksum; // 57(message) + 2(checksum) = 59 dyte
+        uint16_t checksum;
     };
 
     QByteArray generateNormalMessage();

@@ -31,9 +31,15 @@ int UdpClient::exec() {
         QNetworkDatagram datagram;
         datagram.setData(msg);
 
-        senderSocket->writeDatagram(msg, sizeof(msg), QHostAddress("127.0.0.1"), 5000); //  ROV address
+        senderSocket->writeDatagram(msg, uv_interface->getCurrentPackageLenght(), QHostAddress("127.0.0.1"), 5000); //  ROV address
+        qDebug() << "writeDatagram";
+        for (size_t i = 0; i < 34; i++)
+        {
+            qDebug() << static_cast<uint8_t>(msg[i]);
+        }
 
-        msleep(20); //  50 Hz
+
+        msleep(1000); //  50 Hz
     }
 }
 

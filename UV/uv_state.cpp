@@ -38,6 +38,8 @@ UV_State::UV_State() {
     udpHostAddress = "192.168.31.100";
     udpHostPort = 5000;
 
+    connection_status = 0;
+    reseived_connection_status = 0;
 
     thrusters_on = false;
     reset_imu = false;

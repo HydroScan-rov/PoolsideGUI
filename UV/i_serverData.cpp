@@ -18,6 +18,18 @@ e_circuit IServerData::getCurrentCircuit() {
     return currentCircuit;
 }
 
+uint8_t IServerData::getCurrentPackageLenght() {
+    switch (getCurrentPackageMode()) {
+        case PACKAGE_NORMAL:
+            return Lenght_RequestNormalMessage;
+        case PACKAGE_CONFIG:
+            return Lenght_RequestConfigMessage;
+        case PACKAGE_DIRECT:
+            return Lenght_RequestDirectMessage;
+    }
+}
+
+
 e_packageMode IServerData::getCurrentPackageMode() {
     e_packageMode currentPackageMode;
 
@@ -79,8 +91,11 @@ QByteArray IServerData::generateNormalMessage() {
     fillStructure(req);
 
     stream << req.type;
+    stream << req.connection_status;
 
     stream << req.flags;
+    stream << req.stab_flags;
+    stream << req.control_mode;
 
     stream << req.march;
     stream << req.lag;
@@ -89,8 +104,7 @@ QByteArray IServerData::generateNormalMessage() {
     stream << req.pitch;
     stream << req.yaw;
 
-    stream << req.stab_flags;
-    stream << req.control_mode;
+    stream << req.tilt;
 
     stream << req.power_lower_light;
     stream << req.r_rgb_light;
@@ -105,7 +119,11 @@ QByteArray IServerData::generateNormalMessage() {
 void IServerData::fillStructure(RequestNormalMessage& req) {
     UVMutex.lock();
 
+
+
     fillFlags(req.flags);
+    fillStabFlags(req.stab_flags);
+    fillControlMode(req.control_mode);
 
     req.march = UVState.control.march;
     req.lag = UVState.control.lag;
@@ -114,8 +132,7 @@ void IServerData::fillStructure(RequestNormalMessage& req) {
     req.pitch = UVState.control.pitch;
     req.yaw = UVState.control.yaw;
 
-    fillStabFlags(req.stab_flags);
-    fillControlMode(req.control_mode);
+    req.tilt = UVState.device[DEVICE_TILT].velocity;
 
     req.power_lower_light = UVState.light.power_lower_light;
     req.r_rgb_light = UVState.light.r_rgb_light;
@@ -136,10 +153,10 @@ QByteArray IServerData::generateConfigMessage() {
     fillStructure(req);
 
     stream << req.type;
+    stream << req.connection_status;
 
     stream << req.flags;
     stream << req.stab_flags;
-
     stream << req.current_circuit;
 
     stream << req.march;
@@ -177,9 +194,10 @@ QByteArray IServerData::generateConfigMessage() {
 void IServerData::fillStructure(RequestConfigMessage& req) {
     UVMutex.lock();
 
-    fillFlags(req.flags);
-    fillFlags(req.stab_flags);
+    req.connection_status = UVState.connection_status;
 
+    fillFlags(req.flags);
+    fillStabFlags(req.stab_flags);
     for (int i = MARCH; i < YAW; i++) {
         if (UVState.currentCircuit == i) { setBit(req.current_circuit, i, true); };
     }
@@ -225,6 +243,7 @@ QByteArray IServerData::generateDirectMessage() {
     fillStructure(req);
 
     stream << req.type;
+    stream << req.connection_status;
 
     stream << req.flags;
 
@@ -247,6 +266,10 @@ QByteArray IServerData::generateDirectMessage() {
 void IServerData::fillStructure(RequestDirectMessage& req) {
     UVMutex.lock();
     UVState.setThrusterNext();
+
+    fillFlags(req.flags);
+
+    req.connection_status = UVState.connection_status;
 
     req.id = UVState.currentThruster;
     req.adress = UVState.thruster[UVState.currentThruster].adress;
@@ -290,6 +313,8 @@ void IServerData::parseNormalMessage(QByteArray msg) {
     stream.setByteOrder(QDataStream::LittleEndian);
     stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
 
+    stream >> res.reseived_connection_status;
+
     stream >> res.depth;
     stream >> res.roll;
     stream >> res.pitch;
@@ -324,6 +349,8 @@ void IServerData::parseNormalMessage(QByteArray msg) {
 void IServerData::pullFromStructure(ResponseNormalMessage res) {
     UVMutex.lock();
 
+    UVState.reseived_connection_status = res.reseived_connection_status;
+
     UVState.sensors.depth = res.depth;
     UVState.sensors.roll = res.roll;
     UVState.sensors.pitch = res.pitch;
@@ -349,6 +376,8 @@ void IServerData::parseConfigMessage(QByteArray msg) {
     QDataStream stream(&msg, QIODeviceBase::ReadOnly);
     stream.setByteOrder(QDataStream::LittleEndian);
     stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
+
+    stream >> res.reseived_connection_status;
 
     stream >> res.depth;
     stream >> res.roll;
@@ -398,6 +427,8 @@ void IServerData::parseConfigMessage(QByteArray msg) {
 void IServerData::pullFromStructure(ResponseConfigMessage res) {
     UVMutex.lock();
 
+    UVState.reseived_connection_status = res.reseived_connection_status;
+
     UVState.sensors.depth = res.depth;
     UVState.sensors.roll = res.roll;
     UVState.sensors.pitch = res.pitch;
@@ -439,7 +470,7 @@ void IServerData::parseDirectMessage(QByteArray msg) {
     stream.setByteOrder(QDataStream::LittleEndian);
     stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
 
-    stream >> res.id;
+    stream >> res.reseived_connection_status;
 
     stream >> res.current_logic_electronics;
     for (size_t i = 0; i < 8; i++) { stream >> res.current_vma[i]; }
@@ -462,6 +493,8 @@ void IServerData::parseDirectMessage(QByteArray msg) {
 
 void IServerData::pullFromStructure(ResponseDirectMessage res) {
     UVMutex.lock();
+
+    UVState.reseived_connection_status = res.reseived_connection_status;
 
     UVState.telemetry.current_logic_electronics = res.current_logic_electronics;
     for (size_t i = 0; i < 8; i++) { UVState.telemetry.current_vma[i] = res.current_vma[i]; }
