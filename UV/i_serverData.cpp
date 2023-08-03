@@ -29,7 +29,6 @@ uint8_t IServerData::getCurrentPackageLenght() {
     }
 }
 
-
 e_packageMode IServerData::getCurrentPackageMode() {
     e_packageMode currentPackageMode;
 
@@ -118,8 +117,6 @@ QByteArray IServerData::generateNormalMessage() {
 
 void IServerData::fillStructure(RequestNormalMessage& req) {
     UVMutex.lock();
-
-
 
     fillFlags(req.flags);
     fillStabFlags(req.stab_flags);

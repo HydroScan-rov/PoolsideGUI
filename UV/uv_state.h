@@ -89,6 +89,7 @@ public:
 
     ControlData control;
     e_controlMode currentControlMode;
+    e_packageMode currentPackageMode;
 
     Sensors sensors;
     Light light;
@@ -102,8 +103,6 @@ public:
     UV_ControlCircuit controlCircuit[6];
     e_circuit currentCircuit;
 
-    e_packageMode currentPackageMode;
-
     QString udpHostAddress;
     quint16 udpHostPort;
 
@@ -112,7 +111,7 @@ public:
     bool reset_imu;
     bool reset_depth;
     bool rgb_light_on;
-    bool lower_light_on;
+    bool    ;
 
     bool stab_march;
     bool stab_lag;
