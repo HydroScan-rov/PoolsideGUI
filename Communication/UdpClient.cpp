@@ -35,7 +35,7 @@ int UdpClient::exec() {
         qDebug() << "writeDatagram";
         for (size_t i = 0; i < uv_interface->getCurrentPackageLenght(); i++)
         {
-            qDebug() << static_cast<uint8_t>(msg[i]);
+            qDebug() << static_cast<uint8_t>(msg[i]); // иногда вылетает при смене типа посылок
         }
 
         msleep(20); //  50 Hz

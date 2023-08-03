@@ -61,20 +61,10 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 }
 
 void MainWindow::updateUi() {
-    connectionStatus = uv_interface.getConnectionStatus();
-    reseivedConnectionStatus = uv_interface.getReseivedConnectionStatus();
-
-    control = uv_interface.getControlData();
-    tilt = uv_interface.getDeviceVelocity(DEVICE_TILT);
-    light = uv_interface.getLight();
-    telemetry = uv_interface.getTelemetry();
-    sensors = uv_interface.getSensorsData();
-    // можно не присваивать значения к переменным сверху, а запихивать get в функции ниже
-    upUiConnectionStatus(connectionStatus, reseivedConnectionStatus);
-    upUiImpact(control, tilt);
-    // upUiLight(light);
-    upUiTelemetry(telemetry);
-    upUiSensors(sensors);
+    upUiConnectionStatus(uv_interface.getConnectionStatus(), uv_interface.getReseivedConnectionStatus());
+    upUiImpact(uv_interface.getControlData(), uv_interface.getDeviceVelocity(DEVICE_TILT));
+    upUiTelemetry(uv_interface.getTelemetry());
+    upUiSensors(uv_interface.getSensorsData());
 }
 
 void MainWindow::upUiConnectionStatus(int connectionStatus, int reseivedConnectionStatus) {
@@ -86,9 +76,21 @@ void MainWindow::upUiConnectionStatus(int connectionStatus, int reseivedConnecti
     } else {
         horizontalSlider_connection->setValue(sliderMax - reseivedConnectionStatus % sliderMax);
     }
-    // if (reseivedConnectionStatus == 64 || reseivedConnectionStatus == 64 + 128) {
-    //     horizontalSlider_connection->setValue(sliderMax);
-    // }
+
+    if (abs(reseivedConnectionStatus - connectionStatus) == 0) {
+        colorConnectionStatus.setRgb(0, 255, 0);
+    } else if (abs(reseivedConnectionStatus - connectionStatus) == 1) {
+        colorConnectionStatus.setRgb(255, 255, 0);
+    } else if (abs(reseivedConnectionStatus - connectionStatus) == 2) {
+        colorConnectionStatus.setRgb(255, 165, 0);
+    } else if (abs(reseivedConnectionStatus - connectionStatus) >= 3) {
+        colorConnectionStatus.setRgb(255, 0, 0);
+    }
+
+    paletteConnectionStatus = horizontalSlider_connection->palette();
+    paletteConnectionStatus.setColor(QPalette::ColorRole::Button, colorConnectionStatus);
+    paletteConnectionStatus.setColor(QPalette::ColorRole::Highlight, colorConnectionStatus);
+    horizontalSlider_connection->setPalette(paletteConnectionStatus);
 }
 
 void MainWindow::upUiImpact(ControlData control, double tilt) {
@@ -144,8 +146,6 @@ void MainWindow::upUiSensors(Sensors sensors) {
     label_BarDepth->setText(QString::number(sensors.depth, 'f', 2));
     progressBar_Depth->setValue(static_cast<int>(sensors.depth * 10));
 }
-
-
 
 void MainWindow::setThrustersOn(bool value) {
     uv_interface.setThrustersOn(value);
@@ -223,10 +223,6 @@ void MainWindow::setRGBtoBlue() {
 
 void MainWindow::setLowerLightPower(int value) {
     uv_interface.setLowerLightPower(value);
-    spinBox_LightR->setValue(light.r_rgb_light);
-    spinBox_LightG->setValue(light.g_rgb_light);
-    spinBox_LightB->setValue(light.b_rgb_light);
-
 }
 
 void MainWindow::setRGBLightR(int value) {
@@ -256,37 +252,3 @@ void MainWindow::resetDepth() {
 void MainWindow::clearResetDepth() {
     uv_interface.setResetDepth(false);
 }
-
-// void MainWindow::normalPackageClick() {
-//     radioButton_PackageDirect->setChecked(false);
-//     radioButton_PackageConfig->setChecked(false);
-//     uv_interface.setPackegeMode(PACKAGE_NORMAL);
-// }
-
-// void MainWindow::configPackageClick() {
-//     radioButton_PackageNormal->setChecked(false);
-//     radioButton_PackageDirect->setChecked(false);
-//     uv_interface.setPackegeMode(PACKAGE_CONFIG);
-// }
-
-// void MainWindow::directPackageClick() {
-//     radioButton_PackageNormal->setChecked(false);
-//     radioButton_PackageConfig->setChecked(false);
-//     uv_interface.setPackegeMode(PACKAGE_DIRECT);
-// }
-
-// void MainWindow::stabilizeRollToggled(bool state) {
-//     uv_interface.setStabRoll(state);
-// }
-
-// void MainWindow::stabilizePitchToggled(bool state) {
-//     uv_interface.setStabPitch(state);
-// }
-
-// void MainWindow::stabilizeYawToggled(bool state) {
-//     uv_interface.setStabYaw(state);
-// }
-
-// void MainWindow::stabilizeDepthToggled(bool state) {
-//     uv_interface.setStabDepth(state);
-// }

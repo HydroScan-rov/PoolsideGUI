@@ -46,13 +46,8 @@ private:
     QTimer* update_timer;
     IUserInterfaceData uv_interface;
 
-    int connectionStatus;
-    int reseivedConnectionStatus;
-    ControlData control;
-    double tilt;
-    Light light;
-    Telemetry telemetry;
-    Sensors sensors;
+    QColor colorConnectionStatus;
+    QPalette paletteConnectionStatus;
 
 private slots:
     void updateUi();

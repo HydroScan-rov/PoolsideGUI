@@ -74,7 +74,7 @@ void IServerData::fillStabFlags(uint8_t& stab_flags) {
 }
 
 void IServerData::fillControlMode(uint8_t& control_mode) {
-    for (int i = MODE_HANDLE; i < MODE_MANEUVERABLE; i++) {
+    for (int i = MODE_HANDLE; i < MODE_MANEUVERABLE + 1; i++) {
         if (UVState.currentControlMode == i) { setBit(control_mode, i, true); };
     }
 }
@@ -118,6 +118,8 @@ QByteArray IServerData::generateNormalMessage() {
 void IServerData::fillStructure(RequestNormalMessage& req) {
     UVMutex.lock();
 
+    req.connection_status = UVState.connection_status;
+
     fillFlags(req.flags);
     fillStabFlags(req.stab_flags);
     fillControlMode(req.control_mode);
@@ -135,6 +137,12 @@ void IServerData::fillStructure(RequestNormalMessage& req) {
     req.r_rgb_light = UVState.light.r_rgb_light;
     req.g_rgb_light = UVState.light.g_rgb_light;
     req.b_rgb_light = UVState.light.b_rgb_light;
+
+    if (UVState.connection_status == 255) {
+        UVState.connection_status = 0;
+    } else {
+        UVState.connection_status += 1;
+    }
 
     UVMutex.unlock();
 }
@@ -195,7 +203,7 @@ void IServerData::fillStructure(RequestConfigMessage& req) {
 
     fillFlags(req.flags);
     fillStabFlags(req.stab_flags);
-    for (int i = MARCH; i < YAW; i++) {
+    for (int i = MARCH; i < YAW + 1; i++) {
         if (UVState.currentCircuit == i) { setBit(req.current_circuit, i, true); };
     }
 
@@ -225,6 +233,12 @@ void IServerData::fillStructure(RequestConfigMessage& req) {
 
     req.out_max = UVState.controlCircuit[UVState.currentCircuit].constants.out_max;
     req.out_min = UVState.controlCircuit[UVState.currentCircuit].constants.out_min;
+
+    if (UVState.connection_status == 255) {
+        UVState.connection_status = 0;
+    } else {
+        UVState.connection_status += 1;
+    }
 
     UVMutex.unlock();
 }
@@ -282,6 +296,12 @@ void IServerData::fillStructure(RequestDirectMessage& req) {
     req.k_backward = UVState.thruster[UVState.currentThruster].kBackward;
     req.s_forward = UVState.thruster[UVState.currentThruster].sForward;
     req.s_backward = UVState.thruster[UVState.currentThruster].sBackward;
+
+    if (UVState.connection_status == 255) {
+        UVState.connection_status = 0;
+    } else {
+        UVState.connection_status += 1;
+    }
 
     UVMutex.unlock();
 }

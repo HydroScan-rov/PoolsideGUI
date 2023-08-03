@@ -30,7 +30,7 @@ enum e_circuit : unsigned char {
     YAW,
 };
 
-enum e_Device {
+enum e_device : unsigned char {
     DEVICE_TILT,
     DEVICE_DEV,
 };
@@ -67,6 +67,18 @@ struct Light {
     uint8_t g_rgb_light;
     uint8_t b_rgb_light;
 };
+
+const struct {
+    uint8_t R;
+    uint8_t G;
+    uint8_t B;
+} rgbPresetBlue = {0, 255, 255};
+
+const struct {
+    uint8_t R;
+    uint8_t G;
+    uint8_t B;
+} rgbPresetWhite = {255, 255, 255};
 
 struct ControlData {
     ControlData();
@@ -111,7 +123,7 @@ public:
     bool reset_imu;
     bool reset_depth;
     bool rgb_light_on;
-    bool    ;
+    bool lower_light_on;
 
     bool stab_march;
     bool stab_lag;
