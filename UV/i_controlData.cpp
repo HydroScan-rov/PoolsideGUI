@@ -47,7 +47,7 @@ void IControlData::setYaw(double yaw) {
     UVMutex.unlock();
 }
 
-void IControlData::setDeviceVelocity(e_Device device, double velocity) {
+void IControlData::setDeviceVelocity(e_device device, double velocity) {
     UVMutex.lock();
     UVState.device[device].velocity = velocity;
     UVMutex.unlock();

@@ -26,41 +26,66 @@
 #include "ThrusterSettings/ThrusterWindow.h"
 #include "StabilizationSettings/StabilizationWindow.h"
 
-class MainWindow: public QMainWindow, private Ui::MainWindow {
+class MainWindow : public QMainWindow, private Ui::MainWindow {
     Q_OBJECT
-
-signals:
-    //import from old interface
-    void updateCompass(double yaw);
 
 public:
     explicit MainWindow(QWidget* parent = nullptr);
 
 private:
-    Gamepad* gamepad = nullptr;
+    void upUiConnectionStatus(int connectionStatus, int reseivedConnectionStatus);
+    void upUiImpact(ControlData control, double tilt);
+    void upUiLight(Light light);
+    void upUiTelemetry(Telemetry telemetry);
+    void upUiSensors(Sensors sensors);
 
+    Gamepad* gamepad = nullptr;
     StabilizationWindow stabilizationWindow;
     ThrusterWindow thrusterWindow;
-
     UdpClient* udp_client;
-
     QTimer* update_timer;
-
     IUserInterfaceData uv_interface;
+
+    int connectionStatus;
+    int reseivedConnectionStatus;
+    ControlData control;
+    double tilt;
+    Light light;
+    Telemetry telemetry;
+    Sensors sensors;
 
 private slots:
     void updateUi();
 
+    void setThrustersOn(bool value);
+
+    void setControModeHandle(bool value);
+    void setControModeAuto(bool value);
+    void setControModeManeuverable(bool value);
+    void setPackageNormal(bool value);
+    void setPackageConfig(bool value);
+    void setPackageDirect(bool value);
+
+    void setStabilizeMarch(bool value);
+    void setStabilizeLag(bool value);
+    void setStabilizeDepth(bool value);
+    void setStabilizeRoll(bool value);
+    void setStabilizePitch(bool value);
+    void setStabilizeYaw(bool value);
+
+    void setLowerLightOn(bool value);
+    void setRGBLightOn(bool value);
+    void setRGBtoWhite();
+    void setRGBtoBlue();
+    void setLowerLightPower(int value);
+    void setRGBLightR(int value);
+    void setRGBLightG(int value);
+    void setRGBLightB(int value);
+
     void resetImu();
     void clearResetImu();
-
-    // full screen key combination
-    void fullScreenKey();
-
-    //Other buttons
-    // void reconnectcROVclick();
-
-
+    void resetDepth();
+    void clearResetDepth();
 };
 
 #endif // MAINWINDOW_H

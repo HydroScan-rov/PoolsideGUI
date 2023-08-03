@@ -33,13 +33,12 @@ int UdpClient::exec() {
 
         senderSocket->writeDatagram(msg, uv_interface->getCurrentPackageLenght(), QHostAddress("127.0.0.1"), 5000); //  ROV address
         qDebug() << "writeDatagram";
-        for (size_t i = 0; i < 34; i++)
+        for (size_t i = 0; i < uv_interface->getCurrentPackageLenght(); i++)
         {
             qDebug() << static_cast<uint8_t>(msg[i]);
         }
 
-
-        msleep(1000); //  50 Hz
+        msleep(20); //  50 Hz
     }
 }
 

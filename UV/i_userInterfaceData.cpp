@@ -29,7 +29,7 @@ ControlData IUserInterfaceData::getControlData() {
     return data;
 }
 
-double IUserInterfaceData::getDeviceVelocity(e_Device device) {
+double IUserInterfaceData::getDeviceVelocity(e_device device) {
     double data;
     UVMutex.lock();
     data = UVState.device[device].velocity;
@@ -61,7 +61,7 @@ Sensors IUserInterfaceData::getSensorsData() {
     return data;
 }
 
-void IUserInterfaceData::setThrustersON(bool value) {
+void IUserInterfaceData::setThrustersOn(bool value) {
     UVMutex.lock();
     UVState.thrusters_on = value;
     UVMutex.unlock();
@@ -125,17 +125,17 @@ void IUserInterfaceData::setRgbLightOn(bool value) {
 
 void IUserInterfaceData::setRgbToBlue() {
     UVMutex.lock();
-    UVState.light.r_rgb_light = 0;
-    UVState.light.g_rgb_light = 255;
-    UVState.light.b_rgb_light = 255;
+    UVState.light.r_rgb_light = rgbPresetBlue.R;
+    UVState.light.g_rgb_light = rgbPresetBlue.G;
+    UVState.light.b_rgb_light = rgbPresetBlue.B;
     UVMutex.unlock();
 }
 
 void IUserInterfaceData::setRgbToWhite() {
     UVMutex.lock();
-    UVState.light.r_rgb_light = 255;
-    UVState.light.g_rgb_light = 255;
-    UVState.light.b_rgb_light = 255;
+    UVState.light.r_rgb_light = rgbPresetWhite.R;
+    UVState.light.g_rgb_light = rgbPresetWhite.G;
+    UVState.light.b_rgb_light = rgbPresetWhite.B;
     UVMutex.unlock();
 }
 

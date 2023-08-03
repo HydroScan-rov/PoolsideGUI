@@ -74,6 +74,6 @@ void ControlBase::setYaw(float value) {
 }
 
 void ControlBase::setTilt(double value) {
-    interface.setDeviceVelocity(e_Device::DEVICE_TILT, value);
+    interface.setDeviceVelocity(e_device::DEVICE_TILT, value);
 }
 

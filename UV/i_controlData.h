@@ -17,7 +17,7 @@ public:
     void setRoll(double roll);
     void setPitch(double pitch);
     void setYaw(double yaw);
-    void setDeviceVelocity(e_Device device, double velocity);
+    void setDeviceVelocity(e_device device, double velocity);
 };
 
 #endif // I_CONTROLDATA_H

@@ -484,12 +484,15 @@
          </widget>
         </item>
         <item>
-         <widget class="QSlider" name="horizontalSlider">
+         <widget class="QSlider" name="horizontalSlider_connection">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="mouseTracking">
            <bool>true</bool>
           </property>
           <property name="maximum">
-           <number>64</number>
+           <number>63</number>
           </property>
           <property name="tracking">
            <bool>false</bool>
@@ -513,7 +516,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="QCheckBox" name="checkBox_ThrustersON">
+         <widget class="QCheckBox" name="checkBox_ThrustersOn">
           <property name="text">
            <string>Thrusters ON</string>
           </property>
@@ -820,13 +823,6 @@
          <set>Qt::AlignCenter</set>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
-         <item row="0" column="0">
-          <widget class="QCheckBox" name="checkBox_LowerLightOn">
-           <property name="text">
-            <string>Lower</string>
-           </property>
-          </widget>
-         </item>
          <item row="5" column="2">
           <widget class="QSpinBox" name="spinBox_LightB">
            <property name="maximum">
@@ -849,21 +845,21 @@
           </widget>
          </item>
          <item row="5" column="0">
-          <widget class="QCheckBox" name="checkBox">
+          <widget class="QCheckBox" name="checkBox_RGBLightOn">
            <property name="text">
-            <string>RGB</string>
+            <string>RGB ON</string>
            </property>
           </widget>
          </item>
          <item row="4" column="0">
-          <widget class="QPushButton" name="pushButton_LightGreen">
+          <widget class="QPushButton" name="pushButton_LightBlue">
            <property name="text">
             <string>Blue</string>
            </property>
           </widget>
          </item>
          <item row="0" column="2">
-          <widget class="QSpinBox" name="spinBox">
+          <widget class="QSpinBox" name="spinBox_LightLowerPower">
            <property name="maximum">
             <number>255</number>
            </property>
@@ -901,6 +897,13 @@
           <widget class="QLabel" name="label_7">
            <property name="text">
             <string>B</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0" colspan="2">
+          <widget class="QCheckBox" name="checkBox_LowerLightOn">
+           <property name="text">
+            <string>Lower ON</string>
            </property>
           </widget>
          </item>
@@ -1033,10 +1036,10 @@
             </size>
            </property>
            <property name="maximum">
-            <number>30</number>
+            <number>300</number>
            </property>
            <property name="value">
-            <number>15</number>
+            <number>100</number>
            </property>
            <property name="textVisible">
             <bool>false</bool>
@@ -1145,10 +1148,10 @@
             </size>
            </property>
            <property name="maximum">
-            <number>30</number>
+            <number>300</number>
            </property>
            <property name="value">
-            <number>15</number>
+            <number>100</number>
            </property>
            <property name="textVisible">
             <bool>false</bool>
@@ -1204,10 +1207,10 @@
             </size>
            </property>
            <property name="maximum">
-            <number>30</number>
+            <number>300</number>
            </property>
            <property name="value">
-            <number>15</number>
+            <number>100</number>
            </property>
            <property name="textVisible">
             <bool>false</bool>
@@ -1263,10 +1266,10 @@
             </size>
            </property>
            <property name="maximum">
-            <number>30</number>
+            <number>300</number>
            </property>
            <property name="value">
-            <number>15</number>
+            <number>100</number>
            </property>
            <property name="textVisible">
             <bool>false</bool>
@@ -1291,10 +1294,10 @@
             </size>
            </property>
            <property name="maximum">
-            <number>30</number>
+            <number>300</number>
            </property>
            <property name="value">
-            <number>15</number>
+            <number>100</number>
            </property>
            <property name="textVisible">
             <bool>false</bool>
@@ -1305,7 +1308,7 @@
           </widget>
          </item>
          <item row="5" column="0">
-          <widget class="QDoubleSpinBox" name="doubleSpinBox_batteryCell2_2">
+          <widget class="QDoubleSpinBox" name="doubleSpinBox_batteryCell1">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
              <horstretch>0</horstretch>
@@ -1347,10 +1350,10 @@
             </size>
            </property>
            <property name="maximum">
-            <number>30</number>
+            <number>300</number>
            </property>
            <property name="value">
-            <number>15</number>
+            <number>100</number>
            </property>
            <property name="textVisible">
             <bool>false</bool>
@@ -1406,10 +1409,10 @@
             </size>
            </property>
            <property name="maximum">
-            <number>30</number>
+            <number>300</number>
            </property>
            <property name="value">
-            <number>15</number>
+            <number>100</number>
            </property>
            <property name="textVisible">
             <bool>false</bool>
@@ -1437,10 +1440,10 @@
             </size>
            </property>
            <property name="maximum">
-            <number>30</number>
+            <number>300</number>
            </property>
            <property name="value">
-            <number>15</number>
+            <number>100</number>
            </property>
            <property name="textVisible">
             <bool>false</bool>
@@ -1604,10 +1607,10 @@
                </sizepolicy>
               </property>
               <property name="maximum">
-               <number>15</number>
+               <number>150</number>
               </property>
               <property name="value">
-               <number>1</number>
+               <number>10</number>
               </property>
               <property name="textVisible">
                <bool>false</bool>

@@ -14,13 +14,13 @@ public:
     int getReseivedConnectionStatus();
 
     ControlData getControlData();
-    double getDeviceVelocity(e_Device device);
+    double getDeviceVelocity(e_device device);
     Light getLight();
     Telemetry getTelemetry();
     Sensors getSensorsData();
 
     // set
-    void setThrustersON(bool value);
+    void setThrustersOn(bool value);
     void setControlMode(e_controlMode controlMode);
     void setPackegeMode(e_packageMode packageMode);
     void setStabFlage(e_circuit circuit, bool value);
