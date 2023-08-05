@@ -27,6 +27,7 @@ uint8_t IServerData::getCurrentPackageRequestLenght() {
         case PACKAGE_DIRECT:
             return RequestDirectMessage::lenght;
     }
+    return 0;
 }
 
 uint8_t IServerData::getCurrentPackageResponseLenght() {
@@ -38,6 +39,7 @@ uint8_t IServerData::getCurrentPackageResponseLenght() {
         case PACKAGE_DIRECT:
             return ResponseDirectMessage::lenght;
     }
+    return 0;
 }
 
 e_packageMode IServerData::getCurrentPackageMode() {

@@ -16,7 +16,6 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets SerialPo
 include_directories("${PROJECT_SOURCE_DIR}/Communication")
 include_directories("${PROJECT_SOURCE_DIR}/Control")
 include_directories("${PROJECT_SOURCE_DIR}/KX_Pult")
-include_directories("${PROJECT_SOURCE_DIR}/PicFrame")
 include_directories("${PROJECT_SOURCE_DIR}/StabilizationSettings")
 include_directories("${PROJECT_SOURCE_DIR}/ThrusterSettings")
 include_directories("${PROJECT_SOURCE_DIR}/UV")
@@ -37,8 +36,6 @@ set(PROJECT_SOURCES
         KX_Pult/kx_protocol.cpp
         KX_Pult/qkx_coeffs.cpp
         KX_Pult/qpiconfig.cpp
-
-        PicFrame/picframe.cpp
 
         StabilizationSettings/StabilizationWindow.cpp
 
@@ -68,8 +65,4 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
         Qt${QT_VERSION_MAJOR}::Widgets
         Qt${QT_VERSION_MAJOR}::SerialPort
         Qt${QT_VERSION_MAJOR}::Network
-)
-
-set(CMAKE_AUTOUIC_SEARCH_PATHS
-        PicFrame
 )

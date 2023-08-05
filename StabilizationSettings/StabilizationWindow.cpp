@@ -23,7 +23,7 @@ StabilizationWindow::StabilizationWindow(QWidget* parent):
 
     connect(ui->doubleSpinBox_CS_pJoyUnitCast, SIGNAL(editingFinished()), this, SLOT(ContourEdited()));
     connect(ui->doubleSpinBox_CS_pSpeedDyn, SIGNAL(editingFinished()), this, SLOT(ContourEdited()));
-    connect(ui->doubleSpinBox_CS_pErrGain, SIGNAL(editingFinished()), this, SLOT(ContourEdited()));
+    // connect(ui->doubleSpinBox_CS_pErrGain, SIGNAL(editingFinished()), this, SLOT(ContourEdited()));
 
     connect(ui->doubleSpinBox_CS_posFilterT, SIGNAL(editingFinished()), this, SLOT(ContourEdited()));
     connect(ui->doubleSpinBox_CS_posFilterK, SIGNAL(editingFinished()), this, SLOT(ContourEdited()));

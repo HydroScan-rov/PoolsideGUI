@@ -19,6 +19,7 @@ struct UV_CircuitConstants {
     float speedFilter_y;
     float speedFilter_k;
 
+    float out_k;
     float out_max;
     float out_min;
 };
