@@ -12,7 +12,8 @@ public:
     IServerData();
 
     QByteArray generateMessage();
-    uint8_t getCurrentPackageLenght();
+    uint8_t getCurrentPackageRequestLenght(); // pult -> ROV
+    uint8_t getCurrentPackageResponseLenght(); // ROV -> pult
     void parseMessage(QByteArray message);
 
     e_packageMode getCurrentPackageMode();
@@ -20,10 +21,6 @@ public:
 
 private:
     QDataStream* port;
-
-    const uint8_t Lenght_RequestNormalMessage = 37;
-    const uint8_t Lenght_RequestConfigMessage = 95;
-    const uint8_t Lenght_RequestDirectMessage = 24;
 
     // Normal pult -> ROV
     struct RequestNormalMessage {
