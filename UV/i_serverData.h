@@ -118,7 +118,7 @@ private:
 
     // Config ROV -> pult
     struct ResponseConfigMessage {
-        const static uint8_t lenght = 141; // 139(message) + 2(checksum) = 139 dyte
+        const static uint8_t lenght = 151; // 149(message) + 2(checksum) = 139 dyte
 
         uint8_t reseived_connection_status;
 

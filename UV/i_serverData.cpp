@@ -184,10 +184,8 @@ QByteArray IServerData::generateConfigMessage() {
     stream << req.pitch;
     stream << req.yaw;
 
-    stream << req.dt;
     stream << req.k_joy;
     stream << req.k_tuning;
-
     stream << req.pid_kp;
     stream << req.pid_ki;
     stream << req.pid_kd;
@@ -195,12 +193,11 @@ QByteArray IServerData::generateConfigMessage() {
     stream << req.pid_min_i;
     stream << req.pid_max;
     stream << req.pid_min;
-
     stream << req.posFilter_t;
     stream << req.posFilter_k;
-    stream << req.speedFilter_y;
+    stream << req.speedFilter_t;
     stream << req.speedFilter_k;
-
+    stream << req.out_k;
     stream << req.out_max;
     stream << req.out_min;
 
@@ -227,10 +224,8 @@ void IServerData::fillStructure(RequestConfigMessage& req) {
     req.pitch = UVState.control.pitch;
     req.yaw = UVState.control.yaw;
 
-    req.dt = UVState.controlCircuit[UVState.currentCircuit].constants.dt;
     req.k_joy = UVState.controlCircuit[UVState.currentCircuit].constants.k_joy;
     req.k_tuning = UVState.controlCircuit[UVState.currentCircuit].constants.k_tuning;
-
     req.pid_kp = UVState.controlCircuit[UVState.currentCircuit].constants.pid_kp;
     req.pid_ki = UVState.controlCircuit[UVState.currentCircuit].constants.pid_ki;
     req.pid_kd = UVState.controlCircuit[UVState.currentCircuit].constants.pid_kd;
@@ -238,12 +233,11 @@ void IServerData::fillStructure(RequestConfigMessage& req) {
     req.pid_min_i = UVState.controlCircuit[UVState.currentCircuit].constants.pid_min_i;
     req.pid_max = UVState.controlCircuit[UVState.currentCircuit].constants.pid_max;
     req.pid_min = UVState.controlCircuit[UVState.currentCircuit].constants.pid_min;
-
     req.posFilter_t = UVState.controlCircuit[UVState.currentCircuit].constants.posFilter_t;
     req.posFilter_k = UVState.controlCircuit[UVState.currentCircuit].constants.posFilter_k;
-    req.speedFilter_y = UVState.controlCircuit[UVState.currentCircuit].constants.speedFilter_y;
+    req.speedFilter_t = UVState.controlCircuit[UVState.currentCircuit].constants.speedFilter_t;
     req.speedFilter_k = UVState.controlCircuit[UVState.currentCircuit].constants.speedFilter_k;
-
+    req.out_k = UVState.controlCircuit[UVState.currentCircuit].constants.out_k;
     req.out_max = UVState.controlCircuit[UVState.currentCircuit].constants.out_max;
     req.out_min = UVState.controlCircuit[UVState.currentCircuit].constants.out_min;
 
@@ -415,20 +409,20 @@ void IServerData::parseConfigMessage(QByteArray msg) {
     stream >> res.yaw;
 
     stream >> res.input;
+    stream >> res.pos;
     stream >> res.pos_filtered;
+    stream >> res.speed;
     stream >> res.speed_filtered;
-
     stream >> res.joy_gained;
     stream >> res.target_integrator;
-
     stream >> res.pid_pre_error;
     stream >> res.pid_error;
-    stream >> res.pid_integral;
     stream >> res.pid_Pout;
+    stream >> res.pid_I_gained;
     stream >> res.pid_Iout;
     stream >> res.pid_Dout;
+    stream >> res.pid_SumOut;
     stream >> res.pid_output;
-
     stream >> res.tuning_summator;
     stream >> res.speed_error;
     stream >> res.out_pre_saturation;
@@ -465,20 +459,20 @@ void IServerData::pullFromStructure(ResponseConfigMessage res) {
     UVState.sensors.yaw = res.yaw;
 
     UVState.controlCircuit[UVState.currentCircuit].states.input = res.input;
+    UVState.controlCircuit[UVState.currentCircuit].states.pos = res.pos;
     UVState.controlCircuit[UVState.currentCircuit].states.pos_filtered = res.pos_filtered;
+    UVState.controlCircuit[UVState.currentCircuit].states.speed = res.speed;
     UVState.controlCircuit[UVState.currentCircuit].states.speed_filtered = res.speed_filtered;
-
     UVState.controlCircuit[UVState.currentCircuit].states.joy_gained = res.joy_gained;
     UVState.controlCircuit[UVState.currentCircuit].states.target_integrator = res.target_integrator;
-
     UVState.controlCircuit[UVState.currentCircuit].states.pid_pre_error = res.pid_pre_error;
     UVState.controlCircuit[UVState.currentCircuit].states.pid_error = res.pid_error;
-    UVState.controlCircuit[UVState.currentCircuit].states.pid_integral = res.pid_integral;
     UVState.controlCircuit[UVState.currentCircuit].states.pid_Pout = res.pid_Pout;
+    UVState.controlCircuit[UVState.currentCircuit].states.pid_I_gained = res.pid_I_gained;
     UVState.controlCircuit[UVState.currentCircuit].states.pid_Iout = res.pid_Iout;
     UVState.controlCircuit[UVState.currentCircuit].states.pid_Dout = res.pid_Dout;
+    UVState.controlCircuit[UVState.currentCircuit].states.pid_SumOut = res.pid_SumOut;
     UVState.controlCircuit[UVState.currentCircuit].states.pid_output = res.pid_output;
-
     UVState.controlCircuit[UVState.currentCircuit].states.tuning_summator = res.tuning_summator;
     UVState.controlCircuit[UVState.currentCircuit].states.speed_error = res.speed_error;
     UVState.controlCircuit[UVState.currentCircuit].states.out_pre_saturation = res.out_pre_saturation;
