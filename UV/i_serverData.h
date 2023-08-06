@@ -136,7 +136,6 @@ private:
         float_t joy_gained;
         float_t target_integrator;
 
-        float_t pid_pre_error;
         float_t pid_error;
         float_t pid_Pout;
         float_t pid_I_gained;

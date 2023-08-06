@@ -415,7 +415,6 @@ void IServerData::parseConfigMessage(QByteArray msg) {
     stream >> res.speed_filtered;
     stream >> res.joy_gained;
     stream >> res.target_integrator;
-    stream >> res.pid_pre_error;
     stream >> res.pid_error;
     stream >> res.pid_Pout;
     stream >> res.pid_I_gained;
@@ -465,7 +464,6 @@ void IServerData::pullFromStructure(ResponseConfigMessage res) {
     UVState.controlCircuit[UVState.currentCircuit].states.speed_filtered = res.speed_filtered;
     UVState.controlCircuit[UVState.currentCircuit].states.joy_gained = res.joy_gained;
     UVState.controlCircuit[UVState.currentCircuit].states.target_integrator = res.target_integrator;
-    UVState.controlCircuit[UVState.currentCircuit].states.pid_pre_error = res.pid_pre_error;
     UVState.controlCircuit[UVState.currentCircuit].states.pid_error = res.pid_error;
     UVState.controlCircuit[UVState.currentCircuit].states.pid_Pout = res.pid_Pout;
     UVState.controlCircuit[UVState.currentCircuit].states.pid_I_gained = res.pid_I_gained;

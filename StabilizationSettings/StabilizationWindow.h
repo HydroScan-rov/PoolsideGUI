@@ -34,14 +34,14 @@ public:
 private slots:
     // void updateVariables_KX();
 
-    void ContourChangedYaw();
-    void ContourChangedRoll();
-    void ContourChangedPitch();
-    void ContourChangedDepth();
-    void ContourChangedMarch();
-    void ContourChangedLag();
+    void SetCircuitMarch();
+    void SetCircuitLag();
+    void SetCircuitDepth();
+    void SetCircuitRoll();
+    void SetCircuitPitch();
+    void SetCircuitYaw();
 
-    void ContourEdited();
+    void CircuitEdited();
     void saveConfigClicked();
 
 private:
@@ -52,9 +52,9 @@ private:
     json allStabilizationJson;
 
     // x_protocol* X_Protocol;
-    e_circuit currentContour;
-    UV_CircuitConstants ConstantsControlContour[6];
-    UV_CircuitStates StateControlContour[6];
+    e_circuit currentCircuit;
+    UV_CircuitConstants circuitConstants[6];
+    UV_CircuitStates circuitStates[6];
 
     void FillUiConstants();
     void FillUiStates();

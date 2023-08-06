@@ -690,7 +690,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>330</y>
+      <y>370</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -714,7 +714,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>270</y>
+      <y>310</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -735,7 +735,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>350</y>
+      <y>330</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -783,7 +783,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>370</y>
+      <y>350</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -944,7 +944,7 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLineEdit" name="State_pid_putput">
+   <widget class="QLineEdit" name="State_pid_output">
     <property name="geometry">
      <rect>
       <x>840</x>
@@ -1092,7 +1092,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>290</y>
+      <y>270</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1113,7 +1113,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>310</y>
+      <y>290</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -1487,7 +1487,7 @@
    <zorder>State_pid_error</zorder>
    <zorder>State_pos_filtered</zorder>
    <zorder>State_pos</zorder>
-   <zorder>State_pid_putput</zorder>
+   <zorder>State_pid_output</zorder>
    <zorder>State_tuning_summator</zorder>
    <zorder>State_speed</zorder>
    <zorder>State_speed_filtered</zorder>
