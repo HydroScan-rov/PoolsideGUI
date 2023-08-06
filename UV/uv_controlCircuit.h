@@ -2,7 +2,6 @@
 #define UV_CONTROLCIRCUIT_H
 
 struct UV_CircuitConstants {
-    float dt;
     float k_joy;
     float k_tuning;
 
@@ -16,7 +15,7 @@ struct UV_CircuitConstants {
 
     float posFilter_t;
     float posFilter_k;
-    float speedFilter_y;
+    float speedFilter_t;
     float speedFilter_k;
 
     float out_k;
@@ -26,7 +25,9 @@ struct UV_CircuitConstants {
 
 struct UV_CircuitStates {
 float input;
+float pos;
 float pos_filtered;
+float speed;
 float speed_filtered;
 
 float joy_gained;
@@ -34,10 +35,11 @@ float target_integrator;
 
 float pid_pre_error;
 float pid_error;
-float pid_integral;
 float pid_Pout;
+float pid_I_gained;
 float pid_Iout;
 float pid_Dout;
+float pid_SumOut;
 float pid_output;
 
 float tuning_summator;

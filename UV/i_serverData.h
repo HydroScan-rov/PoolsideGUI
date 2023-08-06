@@ -93,7 +93,6 @@ private:
         float_t pitch;
         float_t yaw;
 
-        float_t dt;
         float_t k_joy;
         float_t k_tuning;
 
@@ -107,9 +106,10 @@ private:
 
         float_t posFilter_t;
         float_t posFilter_k;
-        float_t speedFilter_y;
+        float_t speedFilter_t;
         float_t speedFilter_k;
 
+        float_t out_k;
         float_t out_max;
         float_t out_min;
 
@@ -118,7 +118,7 @@ private:
 
     // Config ROV -> pult
     struct ResponseConfigMessage {
-        const static uint8_t lenght = 139; // 137(message) + 2(checksum) = 139 dyte
+        const static uint8_t lenght = 141; // 139(message) + 2(checksum) = 139 dyte
 
         uint8_t reseived_connection_status;
 
@@ -128,7 +128,9 @@ private:
         float_t yaw;
 
         float_t input;
+        float_t pos;
         float_t pos_filtered;
+        float_t speed;
         float_t speed_filtered;
 
         float_t joy_gained;
@@ -136,10 +138,11 @@ private:
 
         float_t pid_pre_error;
         float_t pid_error;
-        float_t pid_integral;
         float_t pid_Pout;
+        float_t pid_I_gained;
         float_t pid_Iout;
         float_t pid_Dout;
+        float_t pid_SumOut;
         float_t pid_output;
 
         float_t tuning_summator;
