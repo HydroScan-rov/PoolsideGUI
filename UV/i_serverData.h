@@ -95,7 +95,6 @@ private:
 
         float_t k_joy;
         float_t k_tuning;
-
         float_t pid_kp;
         float_t pid_ki;
         float_t pid_kd;
@@ -103,12 +102,10 @@ private:
         float_t pid_min_i;
         float_t pid_max;
         float_t pid_min;
-
         float_t posFilter_t;
         float_t posFilter_k;
         float_t speedFilter_t;
         float_t speedFilter_k;
-
         float_t out_k;
         float_t out_max;
         float_t out_min;
@@ -118,7 +115,7 @@ private:
 
     // Config ROV -> pult
     struct ResponseConfigMessage {
-        const static uint8_t lenght = 151; // 149(message) + 2(checksum) = 139 dyte
+        const static uint8_t lenght = 147; // 145(message) + 2(checksum) = 139 dyte
 
         uint8_t reseived_connection_status;
 
@@ -132,10 +129,8 @@ private:
         float_t pos_filtered;
         float_t speed;
         float_t speed_filtered;
-
         float_t joy_gained;
         float_t target_integrator;
-
         float_t pid_error;
         float_t pid_Pout;
         float_t pid_I_gained;
@@ -143,7 +138,6 @@ private:
         float_t pid_Dout;
         float_t pid_SumOut;
         float_t pid_output;
-
         float_t tuning_summator;
         float_t speed_error;
         float_t out_pre_saturation;
