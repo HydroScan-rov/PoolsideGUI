@@ -147,19 +147,19 @@ void IUserInterfaceData::setLowerLightPower(int value) {
 
 void IUserInterfaceData::setRgbLightPower_R(int value) {
     UVMutex.lock();
-    UVState.light.power_lower_light = value;
+    UVState.light.r_rgb_light = value;
     UVMutex.unlock();
 }
 
 void IUserInterfaceData::setRgbLightPower_G(int value) {
     UVMutex.lock();
-    UVState.light.power_lower_light = value;
+    UVState.light.g_rgb_light = value;
     UVMutex.unlock();
 }
 
 void IUserInterfaceData::setRgbLightPower_B(int value) {
     UVMutex.lock();
-    UVState.light.power_lower_light = value;
+    UVState.light.b_rgb_light = value;
     UVMutex.unlock();
 }
 
