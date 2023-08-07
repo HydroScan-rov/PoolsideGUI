@@ -7,6 +7,9 @@
 #include "i_basicData.h"
 #include "uv_state.h"
 
+#define GAIN_CURRENT 0.001
+#define GAIN_VOLTAGE 1
+
 class IServerData : public IBasicData {
 public:
     IServerData();
@@ -52,9 +55,10 @@ private:
 
     // Normal ROV -> pult
     struct ResponseNormalMessage {
-        const static uint8_t lenght = 91; // 89(message) + 2(checksum) = 91 dyte
+        const static uint8_t lenght = 62; // 1(type) +49 (message) +2 (checksum) = 62 dyte
 
-        uint8_t reseived_connection_status;
+        uint8_t type;
+        uint8_t connection_status;
 
         float_t depth;
         float_t roll;
@@ -67,10 +71,9 @@ private:
         float_t speed_down; // speed signal from jetson
         float_t speed_right;
 
-        float_t current_logic_electronics; // from jetson + raspberry dc-dc
-        float_t current_vma[8];
-        float_t voltage_battery_cell[4];
-        float_t voltage_battery; // 56
+        uint16_t current_logic_electronics; // from jetson + raspberry dc-dc
+        uint16_t current_vma[8];
+        uint16_t voltage_battery_cell[4]; // [0]: 1st sell; [1]: 1+2; [2]: 1+2+3; [3]: 1+2+3+4 (full battery);
 
         uint16_t checksum;
     };
@@ -115,9 +118,10 @@ private:
 
     // Config ROV -> pult
     struct ResponseConfigMessage {
-        const static uint8_t lenght = 147; // 145(message) + 2(checksum) = 139 dyte
+        const static uint8_t lenght = 118; // 1(type) + 115(message) + 2(checksum) = 118 dyte
 
-        uint8_t reseived_connection_status;
+        uint8_t type;
+        uint8_t connection_status;
 
         float_t depth;
         float_t roll;
@@ -143,10 +147,9 @@ private:
         float_t out_pre_saturation;
         float_t out;
 
-        float_t current_logic_electronics; // from jetson + raspberry dc-dc
-        float_t current_vma[8];
-        float_t voltage_battery_cell[4];
-        float_t voltage_battery; // 56
+        uint16_t current_logic_electronics; // from jetson + raspberry dc-dc
+        uint16_t current_vma[8];
+        uint16_t voltage_battery_cell[4]; // [0]: 1st sell; [1]: 1+2; [2]: 1+2+3; [3]: 1+2+3+4 (full battery)
 
         uint16_t checksum;
     };
@@ -176,14 +179,14 @@ private:
 
     // Direct ROV -> pult
     struct ResponseDirectMessage {
-        const static uint8_t lenght = 59; // 57(message) + 2(checksum) = 59 dyte
+        const static uint8_t lenght = 30; // 1(type) + 27(message) + 2(checksum) = 30 dyte
 
-        uint8_t reseived_connection_status;
+        uint8_t type;
+        uint8_t connection_status;
 
-        float_t current_logic_electronics; // from jetson + raspberry dc-dc
-        float_t current_vma[8];
-        float_t voltage_battery_cell[4];
-        float_t voltage_battery; // 56
+        uint16_t current_logic_electronics; // from jetson + raspberry dc-dc
+        uint16_t current_vma[8];
+        uint16_t voltage_battery_cell[4]; // [0]: 1st sell; [1]: 1+2; [2]: 1+2+3; [3]: 1+2+3+4 (full battery)
 
         uint16_t checksum;
     };

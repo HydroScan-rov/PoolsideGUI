@@ -337,7 +337,8 @@ void IServerData::parseNormalMessage(QByteArray msg) {
     stream.setByteOrder(QDataStream::LittleEndian);
     stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
 
-    stream >> res.reseived_connection_status;
+    stream >> res.type;
+    stream >> res.connection_status;
 
     stream >> res.depth;
     stream >> res.roll;
@@ -353,7 +354,6 @@ void IServerData::parseNormalMessage(QByteArray msg) {
     stream >> res.current_logic_electronics;
     for (size_t i = 0; i < 8; i++) { stream >> res.current_vma[i]; }
     for (size_t i = 0; i < 4; i++) { stream >> res.voltage_battery_cell[i]; }
-    stream >> res.voltage_battery;
 
     stream >> res.checksum;
 
@@ -373,7 +373,7 @@ void IServerData::parseNormalMessage(QByteArray msg) {
 void IServerData::pullFromStructure(ResponseNormalMessage res) {
     UVMutex.lock();
 
-    UVState.reseived_connection_status = res.reseived_connection_status;
+    UVState.reseived_connection_status = res.connection_status;
 
     UVState.sensors.depth = res.depth;
     UVState.sensors.roll = res.roll;
@@ -385,10 +385,13 @@ void IServerData::pullFromStructure(ResponseNormalMessage res) {
     UVState.sensors.speed_down = res.speed_down;
     UVState.sensors.speed_right = res.speed_right;
 
-    UVState.telemetry.current_logic_electronics = res.speed_right;
-    for (size_t i = 0; i < 8; i++) { UVState.telemetry.current_vma[i] = res.current_vma[i]; }
-    for (size_t i = 0; i < 4; i++) { UVState.telemetry.voltage_battery_cell[i] = res.voltage_battery_cell[i]; }
-    UVState.telemetry.voltage_battery = res.voltage_battery;
+    UVState.telemetry.current_logic_electronics = res.current_logic_electronics;
+    for (size_t i = 0; i < 8; i++) {
+        UVState.telemetry.current_vma[i] = static_cast<float>(res.current_vma[i]) * GAIN_CURRENT;
+    }
+    for (size_t i = 0; i < 4; i++) {
+        UVState.telemetry.voltage_battery_cell[i] = static_cast<float>(res.voltage_battery_cell[i]) * GAIN_VOLTAGE;
+    }
 
     UVMutex.unlock();
 }
@@ -401,7 +404,8 @@ void IServerData::parseConfigMessage(QByteArray msg) {
     stream.setByteOrder(QDataStream::LittleEndian);
     stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
 
-    stream >> res.reseived_connection_status;
+    stream >> res.type;
+    stream >> res.connection_status;
 
     stream >> res.depth;
     stream >> res.roll;
@@ -430,7 +434,6 @@ void IServerData::parseConfigMessage(QByteArray msg) {
     stream >> res.current_logic_electronics;
     for (size_t i = 0; i < 8; i++) { stream >> res.current_vma[i]; }
     for (size_t i = 0; i < 4; i++) { stream >> res.voltage_battery_cell[i]; }
-    stream >> res.voltage_battery;
 
     stream >> res.checksum;
 
@@ -450,7 +453,7 @@ void IServerData::parseConfigMessage(QByteArray msg) {
 void IServerData::pullFromStructure(ResponseConfigMessage res) {
     UVMutex.lock();
 
-    UVState.reseived_connection_status = res.reseived_connection_status;
+    UVState.reseived_connection_status = res.connection_status;
 
     UVState.sensors.depth = res.depth;
     UVState.sensors.roll = res.roll;
@@ -477,9 +480,12 @@ void IServerData::pullFromStructure(ResponseConfigMessage res) {
     UVState.controlCircuit[UVState.currentCircuit].states.out = res.out;
 
     UVState.telemetry.current_logic_electronics = res.current_logic_electronics;
-    for (size_t i = 0; i < 8; i++) { UVState.telemetry.current_vma[i] = res.current_vma[i]; }
-    for (size_t i = 0; i < 4; i++) { UVState.telemetry.voltage_battery_cell[i] = res.voltage_battery_cell[i]; }
-    UVState.telemetry.voltage_battery = res.voltage_battery;
+    for (size_t i = 0; i < 8; i++) {
+        UVState.telemetry.current_vma[i] = static_cast<float>(res.current_vma[i]) * GAIN_CURRENT;
+    }
+    for (size_t i = 0; i < 4; i++) {
+        UVState.telemetry.voltage_battery_cell[i] = static_cast<float>(res.voltage_battery_cell[i]) * GAIN_VOLTAGE;
+    }
 
     UVMutex.unlock();
 }
@@ -492,12 +498,12 @@ void IServerData::parseDirectMessage(QByteArray msg) {
     stream.setByteOrder(QDataStream::LittleEndian);
     stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
 
-    stream >> res.reseived_connection_status;
+    stream >> res.type;
+    stream >> res.connection_status;
 
     stream >> res.current_logic_electronics;
     for (size_t i = 0; i < 8; i++) { stream >> res.current_vma[i]; }
     for (size_t i = 0; i < 4; i++) { stream >> res.voltage_battery_cell[i]; }
-    stream >> res.voltage_battery;
 
     stream >> res.checksum;
 
@@ -516,12 +522,15 @@ void IServerData::parseDirectMessage(QByteArray msg) {
 void IServerData::pullFromStructure(ResponseDirectMessage res) {
     UVMutex.lock();
 
-    UVState.reseived_connection_status = res.reseived_connection_status;
+    UVState.reseived_connection_status = res.connection_status;
 
     UVState.telemetry.current_logic_electronics = res.current_logic_electronics;
-    for (size_t i = 0; i < 8; i++) { UVState.telemetry.current_vma[i] = res.current_vma[i]; }
-    for (size_t i = 0; i < 4; i++) { UVState.telemetry.voltage_battery_cell[i] = res.voltage_battery_cell[i]; }
-    UVState.telemetry.voltage_battery = res.voltage_battery;
+    for (size_t i = 0; i < 8; i++) {
+        UVState.telemetry.current_vma[i] = static_cast<float>(res.current_vma[i]) * GAIN_CURRENT;
+    }
+    for (size_t i = 0; i < 4; i++) {
+        UVState.telemetry.voltage_battery_cell[i] = static_cast<float>(res.voltage_battery_cell[i]) * GAIN_VOLTAGE;
+    }
 
     UVMutex.unlock();
 }
