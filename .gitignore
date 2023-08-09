@@ -40,5 +40,6 @@ target_wrapper.*
 CMakeLists.txt.user*
 
 build
+launch_config
 .vscode
 .editorconfig

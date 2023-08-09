@@ -1,7 +1,7 @@
 #include "StabilizationWindow.h"
 #include "ui_StabilizationWindow.h"
 
-// double X[2000][2];
+double X[2000][2];
 
 StabilizationWindow::StabilizationWindow(QWidget* parent) :
     QWidget(parent), ui(new Ui::StabilizationWindow) {
@@ -45,13 +45,17 @@ StabilizationWindow::StabilizationWindow(QWidget* parent) :
     connect(ui->radioButton_CS_PitchSelect, SIGNAL(clicked()), this, SLOT(SetCircuitPitch()));
     connect(ui->radioButton_CS_YawSelect, SIGNAL(clicked()), this, SLOT(SetCircuitYaw()));
 
-    // X_Protocol = new x_protocol("protocols.conf", "xi", X);
+    X_Protocol = new x_protocol("protocols.conf", "xi", X);
 
     emit ui->radioButton_CS_YawSelect->setChecked(true);
     emit SetCircuitYaw();
 
     FillUiConstants();
     FillUiStates();
+
+    updateTimer = new QTimer(this);
+    connect(updateTimer, SIGNAL(timeout()), this, SLOT(FillUiStates()));
+    updateTimer->start(50);
 }
 
 void StabilizationWindow::SetCircuitMarch() {
@@ -157,7 +161,7 @@ void StabilizationWindow::FillUiStates() {
     ui->State_out_pre_saturation->setText(QString::number(circuitStates[currentCircuit].out_pre_saturation));
     ui->State_out->setText(QString::number(circuitStates[currentCircuit].out));
 
-    // updateVariables_KX();
+    updateVariables_KX();
 }
 
 void StabilizationWindow::getJsonFromFile() {
@@ -239,23 +243,23 @@ void StabilizationWindow::saveToFile() {
     o.close();
 }
 
-// void StabilizationWindow::updateVariables_KX() {
-//     X[0][0]  = static_cast<double>(circuitStates[currentCircuit].input);
-//     X[1][0]  = static_cast<double>(circuitStates[currentCircuit].pos);
-//     X[2][0]  = static_cast<double>(circuitStates[currentCircuit].pos_filtered);
-//     X[5][0]  = static_cast<double>(circuitStates[currentCircuit].speed)
-//     X[6][0]  = static_cast<double>(circuitStates[currentCircuit].speed_filtered)
-//     X[7][0]  = static_cast<double>(circuitStates[currentCircuit].joy_gained)
-//     X[8][0]  = static_cast<double>(circuitStates[currentCircuit].target_integrator)
-//     X[9][0]  = static_cast<double>(circuitStates[currentCircuit].pid_error)
-//     X[10][0] = static_cast<double>(circuitStates[currentCircuit].pid_Pout)
-//     X[11][0] = static_cast<double>(circuitStates[currentCircuit].pid_I_gained)
-//     X[12][0] = static_cast<double>(circuitStates[currentCircuit].pid_Iout)
-//     X[13][0] = static_cast<double>(circuitStates[currentCircuit].pid_Dout)
-//     X[14][0] = static_cast<double>(circuitStates[currentCircuit].pid_SumOut)
-//     X[15][0] = static_cast<double>(circuitStates[currentCircuit].pid_output)
-//     X[16][0] = static_cast<double>(circuitStates[currentCircuit].tuning_summator)
-//     X[16][0] = static_cast<double>(circuitStates[currentCircuit].speed_error)
-//     X[16][0] = static_cast<double>(circuitStates[currentCircuit].out_pre_saturation)
-//     X[16][0] = static_cast<double>(circuitStates[currentCircuit].out)
-// }
+void StabilizationWindow::updateVariables_KX() {
+    X[0][0] = static_cast<double>(circuitStates[currentCircuit].input);
+    X[1][0] = static_cast<double>(circuitStates[currentCircuit].pos);
+    X[2][0] = static_cast<double>(circuitStates[currentCircuit].pos_filtered);
+    X[3][0] = static_cast<double>(circuitStates[currentCircuit].speed);
+    X[4][0] = static_cast<double>(circuitStates[currentCircuit].speed_filtered);
+    X[5][0] = static_cast<double>(circuitStates[currentCircuit].joy_gained);
+    X[6][0] = static_cast<double>(circuitStates[currentCircuit].target_integrator);
+    X[7][0] = static_cast<double>(circuitStates[currentCircuit].pid_error);
+    X[8][0] = static_cast<double>(circuitStates[currentCircuit].pid_Pout);
+    X[9][0] = static_cast<double>(circuitStates[currentCircuit].pid_I_gained);
+    X[10][0] = static_cast<double>(circuitStates[currentCircuit].pid_Iout);
+    X[11][0] = static_cast<double>(circuitStates[currentCircuit].pid_Dout);
+    X[12][0] = static_cast<double>(circuitStates[currentCircuit].pid_SumOut);
+    X[13][0] = static_cast<double>(circuitStates[currentCircuit].pid_output);
+    X[14][0] = static_cast<double>(circuitStates[currentCircuit].tuning_summator);
+    X[15][0] = static_cast<double>(circuitStates[currentCircuit].speed_error);
+    X[16][0] = static_cast<double>(circuitStates[currentCircuit].out_pre_saturation);
+    X[17][0] = static_cast<double>(circuitStates[currentCircuit].out);
+}

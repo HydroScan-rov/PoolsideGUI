@@ -14,8 +14,8 @@
 #include "Utilitis/json.h"
 #include "UV/i_tuningData.h"
 
-// #include "KX_Pult/kx_protocol.h"
-// #include "KX_Pult/qkx_coeffs.h"
+#include "KX_Pult/kx_protocol.h"
+#include "KX_Pult/qkx_coeffs.h"
 
 using json = nlohmann::json;
 
@@ -23,7 +23,7 @@ namespace Ui {
     class StabilizationWindow;
 }
 
-class StabilizationWindow: public QWidget {
+class StabilizationWindow : public QWidget {
     Q_OBJECT
 
 public:
@@ -32,7 +32,7 @@ public:
     // ~StabilizationWindow();
 
 private slots:
-    // void updateVariables_KX();
+    void updateVariables_KX();
 
     void SetCircuitMarch();
     void SetCircuitLag();
@@ -43,21 +43,23 @@ private slots:
 
     void CircuitEdited();
     void saveConfigClicked();
+    void FillUiStates();
+
 
 private:
+    QTimer* updateTimer;
     Ui::StabilizationWindow* ui;
     ITuningData interface;
 
     QString jsonName;
     json allStabilizationJson;
 
-    // x_protocol* X_Protocol;
+    x_protocol* X_Protocol;
     e_circuit currentCircuit;
     UV_CircuitConstants circuitConstants[6];
     UV_CircuitStates circuitStates[6];
 
     void FillUiConstants();
-    void FillUiStates();
 
     void getJsonFromFile();
     void getJsonFromConstants();
