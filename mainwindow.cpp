@@ -14,7 +14,6 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 
     QTimer* update_timer = new QTimer(this);
     connect(update_timer, SIGNAL(timeout()), this, SLOT(updateUi()));
-    update_timer->start(50);
 
     gamepad = new Gamepad(50);
 
@@ -58,7 +57,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     //    x_protocol* xProtocol = new x_protocol(ConfigFile, XI, X);
 
     updateUi();
-        getDefaultSettings();
+    getDefaultSettings();
+    update_timer->start(50);
 }
 
 void MainWindow::updateUi() {
@@ -257,15 +257,13 @@ void MainWindow::clearResetDepth() {
 }
 
 void MainWindow::getDefaultSettings() {
-    // Qt::Checked
-
-    checkBox_ThrustersOn->setChecked(uv_interface.getThrustersOn());
-    checkBox_StabilizeMarch->setChecked(uv_interface.getStabilizeMarch());
-    checkBox_StabilizeLag->setChecked(uv_interface.getStabilizeLag());
-    checkBox_StabilizeDepth->setChecked(uv_interface.getStabilizeDepth());
-    checkBox_StabilizeRoll->setChecked(uv_interface.getStabilizeRoll());
-    checkBox_StabilizePitch->setChecked(uv_interface.getStabilizePitch());
-    checkBox_StabilizeYaw->setChecked(uv_interface.getStabilizeYaw());
-    checkBox_LowerLightOn->setChecked(uv_interface.getLowerLightOn());
-    checkBox_RGBLightOn->setChecked(uv_interface.getRGBLightOn());
+    if (uv_interface.getThrustersOn()) { checkBox_ThrustersOn->setCheckState(Qt::Checked); };
+    if (uv_interface.getStabilizeMarch()) { checkBox_StabilizeMarch->setCheckState(Qt::Checked); };
+    if (uv_interface.getStabilizeLag()) { checkBox_StabilizeLag->setCheckState(Qt::Checked); };
+    if (uv_interface.getStabilizeDepth()) { checkBox_StabilizeDepth->setCheckState(Qt::Checked); };
+    if (uv_interface.getStabilizeRoll()) { checkBox_StabilizeRoll->setCheckState(Qt::Checked); };
+    if (uv_interface.getStabilizePitch()) { checkBox_StabilizePitch->setCheckState(Qt::Checked); };
+    if (uv_interface.getStabilizeYaw()) { checkBox_StabilizeYaw->setCheckState(Qt::Checked); };
+    if (uv_interface.getLowerLightOn()) { checkBox_LowerLightOn->setCheckState(Qt::Checked); };
+    if (uv_interface.getRGBLightOn()) { checkBox_RGBLightOn->setCheckState(Qt::Checked); };
 }
