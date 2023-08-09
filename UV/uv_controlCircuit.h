@@ -41,9 +41,6 @@ struct UV_CircuitStates {
     float out;
 };
 
-/** \brief Base class for stabilization contour of the underwater vehicle
- * UV can receive configuration messages and send back debug informations about contour
- */
 class UV_ControlCircuit {
 public:
     UV_ControlCircuit();

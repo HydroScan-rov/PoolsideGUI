@@ -39,6 +39,8 @@ private:
     void upUiTelemetry(Telemetry telemetry);
     void upUiSensors(Sensors sensors);
 
+    void getDefaultSettings();
+
     Gamepad* gamepad = nullptr;
     StabilizationWindow stabilizationWindow;
     ThrusterWindow thrusterWindow;

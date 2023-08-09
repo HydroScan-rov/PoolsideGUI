@@ -14,9 +14,9 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 
     QTimer* update_timer = new QTimer(this);
     connect(update_timer, SIGNAL(timeout()), this, SLOT(updateUi()));
-    update_timer->start(20);
+    update_timer->start(50);
 
-    gamepad = new Gamepad(10);
+    gamepad = new Gamepad(50);
 
     connect(checkBox_ThrustersOn, SIGNAL(toggled(bool)), this, SLOT(setThrustersOn(bool)));
 
@@ -58,6 +58,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     //    x_protocol* xProtocol = new x_protocol(ConfigFile, XI, X);
 
     updateUi();
+        getDefaultSettings();
 }
 
 void MainWindow::updateUi() {
@@ -79,11 +80,13 @@ void MainWindow::upUiConnectionStatus(int connectionStatus, int reseivedConnecti
 
     if (abs(reseivedConnectionStatus - connectionStatus) == 0) {
         colorConnectionStatus.setRgb(0, 255, 0);
-    } else if (abs(reseivedConnectionStatus - connectionStatus) == 1) {
+    } else if (abs(reseivedConnectionStatus - connectionStatus) <= 1) {
+        colorConnectionStatus.setRgb(100, 255, 0);
+    } else if (abs(reseivedConnectionStatus - connectionStatus) <= 2) {
         colorConnectionStatus.setRgb(255, 255, 0);
-    } else if (abs(reseivedConnectionStatus - connectionStatus) == 2) {
+    } else if (abs(reseivedConnectionStatus - connectionStatus) <= 4) {
         colorConnectionStatus.setRgb(255, 165, 0);
-    } else if (abs(reseivedConnectionStatus - connectionStatus) >= 3) {
+    } else {
         colorConnectionStatus.setRgb(255, 0, 0);
     }
 
@@ -251,4 +254,18 @@ void MainWindow::resetDepth() {
 
 void MainWindow::clearResetDepth() {
     uv_interface.setResetDepth(false);
+}
+
+void MainWindow::getDefaultSettings() {
+    // Qt::Checked
+
+    checkBox_ThrustersOn->setChecked(uv_interface.getThrustersOn());
+    checkBox_StabilizeMarch->setChecked(uv_interface.getStabilizeMarch());
+    checkBox_StabilizeLag->setChecked(uv_interface.getStabilizeLag());
+    checkBox_StabilizeDepth->setChecked(uv_interface.getStabilizeDepth());
+    checkBox_StabilizeRoll->setChecked(uv_interface.getStabilizeRoll());
+    checkBox_StabilizePitch->setChecked(uv_interface.getStabilizePitch());
+    checkBox_StabilizeYaw->setChecked(uv_interface.getStabilizeYaw());
+    checkBox_LowerLightOn->setChecked(uv_interface.getLowerLightOn());
+    checkBox_RGBLightOn->setChecked(uv_interface.getRGBLightOn());
 }

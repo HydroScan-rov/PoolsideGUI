@@ -13,6 +13,16 @@ public:
     int getConnectionStatus();
     int getReseivedConnectionStatus();
 
+    bool getThrustersOn();
+    bool getStabilizeMarch();
+    bool getStabilizeLag();
+    bool getStabilizeDepth();
+    bool getStabilizeRoll();
+    bool getStabilizePitch();
+    bool getStabilizeYaw();
+    bool getLowerLightOn();
+    bool getRGBLightOn();
+
     ControlData getControlData();
     double getDeviceVelocity(e_device device);
     Light getLight();

@@ -7,8 +7,8 @@
 #include "i_basicData.h"
 #include "uv_state.h"
 
-#define GAIN_CURRENT 0.001
-#define GAIN_VOLTAGE 1
+#define GAIN_CURRENT 0.0039
+#define GAIN_VOLTAGE 0.001
 
 class IServerData : public IBasicData {
 public:

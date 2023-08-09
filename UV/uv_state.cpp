@@ -41,18 +41,18 @@ UV_State::UV_State() {
     connection_status = 0;
     reseived_connection_status = 0;
 
-    thrusters_on = false;
+    thrusters_on = true;
     reset_imu = false;
     reset_depth = false;
-    rgb_light_on = false;
-    lower_light_on = false;
+    rgb_light_on = true;
+    lower_light_on = true;
 
     stab_march = false;
     stab_lag = false;
-    stab_depth = false;
-    stab_roll = false;
-    stab_pitch = false;
-    stab_yaw = false;
+    stab_depth = true;
+    stab_roll = true;
+    stab_pitch = true;
+    stab_yaw = true;
 
     currentControlMode = MODE_HANDLE;
 }

@@ -520,6 +520,9 @@
           <property name="text">
            <string>Thrusters ON</string>
           </property>
+          <property name="checked">
+           <bool>false</bool>
+          </property>
          </widget>
         </item>
        </layout>
@@ -643,6 +646,9 @@
           <widget class="QCheckBox" name="checkBox_StabilizeMarch">
            <property name="text">
             <string>March</string>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
            </property>
           </widget>
          </item>

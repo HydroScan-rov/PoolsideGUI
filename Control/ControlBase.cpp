@@ -3,6 +3,7 @@
 
 ControlBase::ControlBase(QString name) {
     device_name = name;
+    
 }
 
 void ControlBase::sendAction(e_actionTypes type, float value) {

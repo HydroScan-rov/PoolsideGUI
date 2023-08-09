@@ -61,6 +61,70 @@ Sensors IUserInterfaceData::getSensorsData() {
     return data;
 }
 
+bool IUserInterfaceData::getThrustersOn() {
+    bool value;
+    UVMutex.lock();
+    value = UVState.thrusters_on;
+    UVMutex.unlock();
+    return value;
+}
+bool IUserInterfaceData::getStabilizeMarch() {
+    bool value;
+    UVMutex.lock();
+    UVState.stab_march;
+    UVMutex.unlock();
+    return value;
+}
+bool IUserInterfaceData::getStabilizeLag() {
+    bool value;
+    UVMutex.lock();
+    UVState.stab_lag;
+    UVMutex.unlock();
+    return value;
+}
+bool IUserInterfaceData::getStabilizeDepth() {
+    bool value;
+    UVMutex.lock();
+    UVState.stab_depth;
+    UVMutex.unlock();
+    return value;
+}
+bool IUserInterfaceData::getStabilizeRoll() {
+    bool value;
+    UVMutex.lock();
+    UVState.stab_roll;
+    UVMutex.unlock();
+    return value;
+}
+bool IUserInterfaceData::getStabilizePitch() {
+    bool value;
+    UVMutex.lock();
+    UVState.stab_pitch;
+    UVMutex.unlock();
+    return value;
+}
+bool IUserInterfaceData::getStabilizeYaw() {
+    bool value;
+    UVMutex.lock();
+    UVState.stab_yaw;
+    UVMutex.unlock();
+    return value;
+}
+bool IUserInterfaceData::getLowerLightOn() {
+    bool value;
+    UVMutex.lock();
+    UVState.rgb_light_on;
+    UVMutex.unlock();
+    return value;
+}
+bool IUserInterfaceData::getRGBLightOn() {
+    bool value;
+    UVMutex.lock();
+    UVState.lower_light_on;
+    UVMutex.unlock();
+    return value;
+}
+
 void IUserInterfaceData::setThrustersOn(bool value) {
     UVMutex.lock();
     UVState.thrusters_on = value;

@@ -38,7 +38,7 @@ int UdpClient::exec() {
             qDebug() << static_cast<uint8_t>(msg[i]); // иногда вылетает при смене типа посылок
         }
 
-        msleep(100); //  50 Hz
+        msleep(200); //  50 Hz
     }
 }
 
@@ -49,9 +49,9 @@ void UdpClient::readPendingDatagrams() { // parse a message that came from ROV
         QByteArray msg = datagram.data();
         bool exception_caught = false;
 
-        // qDebug() << "hasPendingDatagrams"; // for debug
-        // for (int i = 0; i < uv_interface->getCurrentPackageResponseLenghе(); i++) {
-        //     qDebug() << msg[i];
+        qDebug() << "hasPendingDatagrams"; // for debug
+        // for (int i = 0; i < uv_interface->getCurrentPackageResponseLenght(); i++) {
+        //     qDebug() << static_cast<uint8_t>(msg[i]);
         // }
 
         try {

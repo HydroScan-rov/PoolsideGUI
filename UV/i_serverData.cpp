@@ -389,9 +389,12 @@ void IServerData::pullFromStructure(ResponseNormalMessage res) {
     for (size_t i = 0; i < 8; i++) {
         UVState.telemetry.current_vma[i] = static_cast<float>(res.current_vma[i]) * GAIN_CURRENT;
     }
-    for (size_t i = 0; i < 4; i++) {
-        UVState.telemetry.voltage_battery_cell[i] = static_cast<float>(res.voltage_battery_cell[i]) * GAIN_VOLTAGE;
+
+    UVState.telemetry.voltage_battery_cell[0] = static_cast<float>(res.voltage_battery_cell[0]) * GAIN_VOLTAGE;
+    for (size_t i = 1; i < 4; i++) {
+        UVState.telemetry.voltage_battery_cell[i] = static_cast<float>(res.voltage_battery_cell[i] - res.voltage_battery_cell[i - 1]) * GAIN_VOLTAGE;
     }
+    UVState.telemetry.voltage_battery = res.voltage_battery_cell[4];
 
     UVMutex.unlock();
 }
@@ -483,9 +486,12 @@ void IServerData::pullFromStructure(ResponseConfigMessage res) {
     for (size_t i = 0; i < 8; i++) {
         UVState.telemetry.current_vma[i] = static_cast<float>(res.current_vma[i]) * GAIN_CURRENT;
     }
-    for (size_t i = 0; i < 4; i++) {
-        UVState.telemetry.voltage_battery_cell[i] = static_cast<float>(res.voltage_battery_cell[i]) * GAIN_VOLTAGE;
+
+    UVState.telemetry.voltage_battery_cell[0] = static_cast<float>(res.voltage_battery_cell[0]) * GAIN_VOLTAGE;
+    for (size_t i = 1; i < 4; i++) {
+        UVState.telemetry.voltage_battery_cell[i] = static_cast<float>(res.voltage_battery_cell[i] - res.voltage_battery_cell[i - 1]) * GAIN_VOLTAGE;
     }
+    UVState.telemetry.voltage_battery = res.voltage_battery_cell[4];
 
     UVMutex.unlock();
 }
@@ -528,9 +534,12 @@ void IServerData::pullFromStructure(ResponseDirectMessage res) {
     for (size_t i = 0; i < 8; i++) {
         UVState.telemetry.current_vma[i] = static_cast<float>(res.current_vma[i]) * GAIN_CURRENT;
     }
-    for (size_t i = 0; i < 4; i++) {
-        UVState.telemetry.voltage_battery_cell[i] = static_cast<float>(res.voltage_battery_cell[i]) * GAIN_VOLTAGE;
+
+    UVState.telemetry.voltage_battery_cell[0] = static_cast<float>(res.voltage_battery_cell[0]) * GAIN_VOLTAGE;
+    for (size_t i = 1; i < 4; i++) {
+        UVState.telemetry.voltage_battery_cell[i] = static_cast<float>(res.voltage_battery_cell[i] - res.voltage_battery_cell[i - 1]) * GAIN_VOLTAGE;
     }
+    UVState.telemetry.voltage_battery = res.voltage_battery_cell[4];
 
     UVMutex.unlock();
 }
