@@ -18,26 +18,26 @@ e_circuit IServerData::getCurrentCircuit() {
     return currentCircuit;
 }
 
-uint8_t IServerData::getCurrentPackageRequestLenght() {
+uint8_t IServerData::getCurrentPackageRequestLength() {
     switch (getCurrentPackageMode()) {
         case PACKAGE_NORMAL:
-            return RequestNormalMessage::lenght;
+            return RequestNormalMessage::length;
         case PACKAGE_CONFIG:
-            return RequestConfigMessage::lenght;
+            return RequestConfigMessage::length;
         case PACKAGE_DIRECT:
-            return RequestDirectMessage::lenght;
+            return RequestDirectMessage::length;
     }
     return 0;
 }
 
-uint8_t IServerData::getCurrentPackageResponseLenght() {
+uint8_t IServerData::getCurrentPackageResponseLength() {
     switch (getCurrentPackageMode()) {
         case PACKAGE_NORMAL:
-            return ResponseNormalMessage::lenght;
+            return ResponseNormalMessage::length;
         case PACKAGE_CONFIG:
-            return ResponseConfigMessage::lenght;
+            return ResponseConfigMessage::length;
         case PACKAGE_DIRECT:
-            return ResponseDirectMessage::lenght;
+            return ResponseDirectMessage::length;
     }
     return 0;
 }

@@ -31,10 +31,10 @@ int UdpClient::exec() {
         QNetworkDatagram datagram;
         datagram.setData(msg);
 
-        senderSocket->writeDatagram(msg, uv_interface->getCurrentPackageRequestLenght(), QHostAddress("192.168.1.67"), 5000); //  ROV address
+        senderSocket->writeDatagram(msg, uv_interface->getCurrentPackageRequestLength(), QHostAddress("192.168.1.67"), 5000); //  ROV address
 
         qDebug() << "writeDatagram";
-        for (size_t i = 0; i < uv_interface->getCurrentPackageRequestLenght(); i++) {
+        for (size_t i = 0; i < uv_interface->getCurrentPackageRequestLength(); i++) {
             qDebug() << static_cast<uint8_t>(msg[i]); // иногда вылетает при смене типа посылок
         }
 
@@ -50,7 +50,7 @@ void UdpClient::readPendingDatagrams() { // parse a message that came from ROV
         bool exception_caught = false;
 
         qDebug() << "hasPendingDatagrams"; // for debug
-        // for (int i = 0; i < uv_interface->getCurrentPackageResponseLenght(); i++) {
+        // for (int i = 0; i < uv_interface->getCurrentPackageResponseLength(); i++) {
         //     qDebug() << static_cast<uint8_t>(msg[i]);
         // }
 

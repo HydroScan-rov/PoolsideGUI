@@ -15,8 +15,8 @@ public:
     IServerData();
 
     QByteArray generateMessage();
-    uint8_t getCurrentPackageRequestLenght(); // pult -> ROV
-    uint8_t getCurrentPackageResponseLenght(); // ROV -> pult
+    uint8_t getCurrentPackageRequestLength(); // pult -> ROV
+    uint8_t getCurrentPackageResponseLength(); // ROV -> pult
     void parseMessage(QByteArray message);
 
     e_packageMode getCurrentPackageMode();
@@ -27,7 +27,7 @@ private:
 
     // Normal pult -> ROV
     struct RequestNormalMessage {
-        const static uint8_t lenght = 37;  // 1(type) + 34(message) + 2(checksum) = 37 dyte
+        const static uint8_t length = 37;  // 1(type) + 34(message) + 2(checksum) = 37 dyte
 
         const static uint8_t type = 0xA5;
         uint8_t connection_status;
@@ -36,12 +36,12 @@ private:
         uint8_t stab_flags; // [0]march, [1]lag, [2]depth, [3]roll, [4]pitch, [5]yaw
         uint8_t control_mode; // [0]handle , [1]auto (set depth and yaw, pitch and roll = 0), [2]maneuverable (set depth, yaw, pitch and roll)
 
-        float march; // NED coordinate system
-        float lag;
-        float depth;
-        float roll;
-        float pitch;
-        float yaw;
+        float_t march; // NED coordinate system
+        float_t lag;
+        float_t depth;
+        float_t roll;
+        float_t pitch;
+        float_t yaw;
 
         uint16_t tilt; // 1000-2000
 
@@ -55,7 +55,7 @@ private:
 
     // Normal ROV -> pult
     struct ResponseNormalMessage {
-        const static uint8_t lenght = 62; // 1(type) +49 (message) +2 (checksum) = 62 dyte
+        const static uint8_t length = 62; // 1(type) +49 (message) +2 (checksum) = 62 dyte
 
         uint8_t type;
         uint8_t connection_status;
@@ -80,7 +80,7 @@ private:
 
     // Config pult -> ROV
     struct RequestConfigMessage {
-        const static uint8_t lenght = 95; // 1(type) + 92(message) + 2(checksum) = 95 dyte
+        const static uint8_t length = 95; // 1(type) + 92(message) + 2(checksum) = 95 dyte
 
         const static uint8_t type = 0x55;
         uint8_t connection_status;
@@ -118,7 +118,7 @@ private:
 
     // Config ROV -> pult
     struct ResponseConfigMessage {
-        const static uint8_t lenght = 118; // 1(type) + 115(message) + 2(checksum) = 118 dyte
+        const static uint8_t length = 118; // 1(type) + 115(message) + 2(checksum) = 118 dyte
 
         uint8_t type;
         uint8_t connection_status;
@@ -156,7 +156,7 @@ private:
 
     // Direct pult -> ROV
     struct RequestDirectMessage {
-        const static uint8_t lenght = 24; // 1(type) + 21(message) + 2(checksum) = 24 dyte
+        const static uint8_t length = 24; // 1(type) + 21(message) + 2(checksum) = 24 dyte
 
         const static uint8_t type = 0xAA;
         uint8_t connection_status;
@@ -179,9 +179,9 @@ private:
 
     // Direct ROV -> pult
     struct ResponseDirectMessage {
-        const static uint8_t lenght = 30; // 1(type) + 27(message) + 2(checksum) = 30 dyte
+        const static uint8_t length = 30; // 1(type) + 27(message) + 2(checksum) = 30 dyte
 
-        uint8_t type;
+        const static uint8_t type = 0xAA;
         uint8_t connection_status;
 
         uint16_t current_logic_electronics; // from jetson + raspberry dc-dc
