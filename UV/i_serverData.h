@@ -181,7 +181,7 @@ private:
     struct ResponseDirectMessage {
         const static uint8_t length = 30; // 1(type) + 27(message) + 2(checksum) = 30 dyte
 
-        const static uint8_t type = 0xAA;
+        uint8_t type;
         uint8_t connection_status;
 
         uint16_t current_logic_electronics; // from jetson + raspberry dc-dc
