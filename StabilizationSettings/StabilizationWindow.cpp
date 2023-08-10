@@ -6,7 +6,7 @@ double X[2000][2];
 StabilizationWindow::StabilizationWindow(QWidget* parent) :
     QWidget(parent), ui(new Ui::StabilizationWindow) {
     ui->setupUi(this);
-    jsonName = "stabilizationJson.json";
+    jsonName = "stabilization.json";
 
     if (std::filesystem::exists(jsonName.toStdString())) {
         getJsonFromFile();

@@ -6,7 +6,7 @@ ThrusterWindow::ThrusterWindow(QWidget *parent) :
         ui(new Ui::ThrusterWindow) {
     ui->setupUi(this);
 
-    jsonName = "thrusterJson.json";
+    jsonName = "thrusters.json";
     std::ifstream file(jsonName.toStdString());
     if (!file) {
         qDebug() << jsonName << " не открыт";
