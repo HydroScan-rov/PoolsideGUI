@@ -314,14 +314,14 @@ void IServerData::fillStructure(RequestDirectMessage& req) {
 }
 
 void IServerData::parseMessage(QByteArray message) {
-    switch (getCurrentPackageMode()) {
-        case PACKAGE_NORMAL:
+    switch (message[0]) {
+        case RequestNormalMessage::type:
             parseNormalMessage(message);
             break;
-        case PACKAGE_CONFIG:
+        case RequestConfigMessage::type:
             parseConfigMessage(message);
             break;
-        case PACKAGE_DIRECT:
+        case RequestDirectMessage::type:
             parseDirectMessage(message);
             break;
         default:
