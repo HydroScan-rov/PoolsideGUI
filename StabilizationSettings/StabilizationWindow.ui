@@ -132,7 +132,7 @@
     </palette>
    </property>
    <property name="autoFillBackground">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="styleSheet">
     <string notr="true">background: url(:/images/CS_img_v2.jpg) no-repeat center center fixed</string>
@@ -758,10 +758,10 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>80</x>
-      <y>410</y>
-      <width>83</width>
-      <height>20</height>
+      <x>90</x>
+      <y>380</y>
+      <width>141</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="font">
@@ -773,7 +773,8 @@
      <string notr="true">background: url(:/images/CS_img_v2.jpg)</string>
     </property>
     <property name="text">
-     <string>Save to file</string>
+     <string>Save constants 
+to pult and ROV</string>
     </property>
     <property name="checkable">
      <bool>false</bool>

@@ -19,7 +19,8 @@ StabilizationWindow::StabilizationWindow(QWidget* parent) :
     }
     getConstantsFromJson();
 
-    connect(ui->pushButton_CS_saveConfig, SIGNAL(clicked()), this, SLOT(saveConfigClicked()));
+    connect(ui->pushButton_CS_saveConfig, SIGNAL(pressed()), this, SLOT(saveConfigPressed()));
+    connect(ui->pushButton_CS_saveConfig, SIGNAL(released()), this, SLOT(saveConfigReleased()));
 
     connect(ui->Const_k_joy, SIGNAL(editingFinished()), this, SLOT(CircuitEdited()));
     connect(ui->Const_k_tuning, SIGNAL(editingFinished()), this, SLOT(CircuitEdited()));
@@ -115,9 +116,14 @@ void StabilizationWindow::CircuitEdited() {
     interface.setCircuitConstants(circuitConstants[currentCircuit]);
 }
 
-void StabilizationWindow::saveConfigClicked() {
+void StabilizationWindow::saveConfigPressed() {
+    interface.setSaveConstants(true);
+}
+
+void StabilizationWindow::saveConfigReleased() {
     getJsonFromConstants();
     saveToFile();
+    interface.setSaveConstants(false);
 }
 
 void StabilizationWindow::FillUiConstants() {

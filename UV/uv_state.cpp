@@ -46,6 +46,7 @@ UV_State::UV_State() {
     reset_depth = false;
     rgb_light_on = true;
     lower_light_on = true;
+    save_constants = false;
 
     stab_march = false;
     stab_lag = false;

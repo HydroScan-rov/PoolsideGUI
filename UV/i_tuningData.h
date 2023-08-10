@@ -21,6 +21,7 @@ public:
     void setCircuitConstants(UV_CircuitConstants constants);
     void setCircuitConstants(UV_CircuitConstants constants, e_circuit circuit);
     void setCurrentCircuit(e_circuit circuit);
+    void setSaveConstants(bool saveConstants);
 };
 
 #endif // I_TUNINGDATA_H

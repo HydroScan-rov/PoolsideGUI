@@ -42,9 +42,9 @@ private slots:
     void SetCircuitYaw();
 
     void CircuitEdited();
-    void saveConfigClicked();
+    void saveConfigPressed();
+    void saveConfigReleased();
     void FillUiStates();
-
 
 private:
     QTimer* updateTimer;

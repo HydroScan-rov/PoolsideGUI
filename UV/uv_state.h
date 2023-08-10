@@ -124,6 +124,7 @@ public:
     bool reset_depth;
     bool rgb_light_on;
     bool lower_light_on;
+    bool save_constants;
 
     bool stab_march;
     bool stab_lag;

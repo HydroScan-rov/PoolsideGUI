@@ -212,6 +212,7 @@ void IServerData::fillStructure(RequestConfigMessage& req) {
     req.connection_status = UVState.connection_status;
 
     fillFlags(req.flags);
+    setBit(req.flags, 5, UVState.save_constants);
     fillStabFlags(req.stab_flags);
     for (int i = MARCH; i < YAW + 1; i++) {
         if (UVState.currentCircuit == i) { setBit(req.current_circuit, i, true); };
