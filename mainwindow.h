@@ -34,7 +34,7 @@ public:
 
 private:
     void upUiConnectionStatus(int connectionStatus, int reseivedConnectionStatus);
-    void upUiImpact(ControlData control, double tilt);
+    void upUiImpact(ControlData control, uint16_t tilt);
     void upUiLight(Light light);
     void upUiTelemetry(Telemetry telemetry);
     void upUiSensors(Sensors sensors);

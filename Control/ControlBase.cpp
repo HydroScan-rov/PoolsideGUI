@@ -3,7 +3,6 @@
 
 ControlBase::ControlBase(QString name) {
     device_name = name;
-    
 }
 
 void ControlBase::sendAction(e_actionTypes type, float value) {
@@ -33,21 +32,9 @@ void ControlBase::sendAction(e_actionTypes type, float value) {
         break;
 
     case TILT:
-        setTilt(static_cast<int8_t>(value));
+        setTilt(value);
         break;
     }
-}
-
-void ControlBase::sendAction(e_actionTypes type, int8_t value) {
-    // switch (type) {
-    // case GRAB:
-    //     setGrab(value);
-    //     break;
-
-    // case GRAB_ROTATE:
-    //     setGrabRotate(value);
-    //     break;
-    // }
 }
 
 void ControlBase::setMarch(float value) {
@@ -74,7 +61,7 @@ void ControlBase::setYaw(float value) {
     interface.setYaw(value);
 }
 
-void ControlBase::setTilt(double value) {
+void ControlBase::setTilt(float value) {
     interface.setDeviceVelocity(e_device::DEVICE_TILT, value);
 }
 

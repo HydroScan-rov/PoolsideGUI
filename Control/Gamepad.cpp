@@ -5,7 +5,7 @@ const Gamepad::control_axis Gamepad::axis_table[] = {
         {sf::Joystick::X,       SET_LAG,    0.919},
         {sf::Joystick::U,       SET_YAW,    0.31},
         {sf::Joystick::Y,       SET_PITCH,  0.12},
-        {sf::Joystick::PovY,    TILT,       1.27},
+        {sf::Joystick::PovY,    TILT,       0.04},
         {sf::Joystick::R,       SET_DEPTH,  1.20},
         {sf::Joystick::Z,       SET_DEPTH,  1.40},
 };

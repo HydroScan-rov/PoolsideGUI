@@ -1,7 +1,7 @@
 #include "i_controlData.h"
 
 IControlData::IControlData() :
-        IBasicData() {
+    IBasicData() {
 
 }
 
@@ -47,8 +47,13 @@ void IControlData::setYaw(double yaw) {
     UVMutex.unlock();
 }
 
-void IControlData::setDeviceVelocity(e_device device, double velocity) {
+void IControlData::setDeviceVelocity(e_device device, float velocity) {
     UVMutex.lock();
-    UVState.device[device].velocity = velocity;
+    UVState.device[device].pos += velocity;
+    if (UVState.device[device].pos > 2000) {
+        UVState.device[device].pos = 2000;
+    } else if (UVState.device[device].pos < 1000) {
+        UVState.device[device].pos = 1000;
+    }
     UVMutex.unlock();
 }

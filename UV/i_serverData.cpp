@@ -144,7 +144,7 @@ void IServerData::fillStructure(RequestNormalMessage& req) {
     req.pitch = UVState.control.pitch;
     req.yaw = UVState.control.yaw;
 
-    req.tilt = UVState.device[DEVICE_TILT].velocity;
+    req.tilt = static_cast<uint16_t>(UVState.device[DEVICE_TILT].pos);
 
     req.power_lower_light = UVState.light.power_lower_light;
     req.r_rgb_light = UVState.light.r_rgb_light;

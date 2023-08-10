@@ -1,5 +1,5 @@
 #include "uv_device.h"
 
 UV_Device::UV_Device() {
-    velocity = 0;
+    pos = 1500;
 }

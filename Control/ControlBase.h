@@ -24,7 +24,6 @@ protected:
     };
 
     void sendAction(e_actionTypes type, float value);
-    void sendAction(e_actionTypes type, int8_t value);
 
     void setMarch(float value);
     void setLag(float value);
@@ -33,7 +32,7 @@ protected:
     void setPitch(float value);
     void setYaw(float value);
 
-    void setTilt(double value);
+    void setTilt(float value);
 
 private:
     IControlData interface;

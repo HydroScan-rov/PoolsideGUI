@@ -29,10 +29,10 @@ ControlData IUserInterfaceData::getControlData() {
     return data;
 }
 
-double IUserInterfaceData::getDeviceVelocity(e_device device) {
-    double data;
+uint16_t IUserInterfaceData::getDeviceVelocity(e_device device) {
+    uint16_t data;
     UVMutex.lock();
-    data = UVState.device[device].velocity;
+    data = static_cast<uint16_t>(UVState.device[DEVICE_TILT].pos);
     UVMutex.unlock();
     return data;
 }

@@ -34,11 +34,11 @@ int UdpClient::exec() {
         senderSocket->writeDatagram(msg, uv_interface->getCurrentPackageRequestLength(), QHostAddress("192.168.1.67"), 5000); //  ROV address
 
         qDebug() << "writeDatagram";
-        for (size_t i = 0; i < uv_interface->getCurrentPackageRequestLength(); i++) {
-            qDebug() << static_cast<uint8_t>(msg[i]); // иногда вылетает при смене типа посылок
-        }
+        // for (size_t i = 0; i < uv_interface->getCurrentPackageRequestLength(); i++) {
+        //     qDebug() << static_cast<uint8_t>(msg[i]); // иногда вылетает при смене типа посылок
+        // }
 
-        msleep(200); //  50 Hz
+        msleep(20); //  50 Hz
     }
 }
 

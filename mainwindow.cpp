@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     QTimer* update_timer = new QTimer(this);
     connect(update_timer, SIGNAL(timeout()), this, SLOT(updateUi()));
 
-    gamepad = new Gamepad(50);
+    gamepad = new Gamepad(20);
 
     connect(checkBox_ThrustersOn, SIGNAL(toggled(bool)), this, SLOT(setThrustersOn(bool)));
 
@@ -58,7 +58,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 
     updateUi();
     getDefaultSettings();
-    update_timer->start(50);
+    update_timer->start(20);
 }
 
 void MainWindow::updateUi() {
@@ -96,7 +96,7 @@ void MainWindow::upUiConnectionStatus(int connectionStatus, int reseivedConnecti
     horizontalSlider_connection->setPalette(paletteConnectionStatus);
 }
 
-void MainWindow::upUiImpact(ControlData control, double tilt) {
+void MainWindow::upUiImpact(ControlData control, uint16_t tilt) {
     label_ImpactMarch->setText(QString::number(control.march, 'f', 1));
     label_ImpactLag->setText(QString::number(control.lag, 'f', 1));
     label_ImpactDepth->setText(QString::number(control.depth, 'f', 1));
