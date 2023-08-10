@@ -1,13 +1,13 @@
 #include "Gamepad.h"
 
 const Gamepad::control_axis Gamepad::axis_table[] = {
-        {sf::Joystick::V,       SET_MARCH,  -1.06},
-        {sf::Joystick::X,       SET_LAG,    1.06},
+        {sf::Joystick::V,       SET_MARCH,  -0.919},
+        {sf::Joystick::X,       SET_LAG,    0.919},
         {sf::Joystick::U,       SET_YAW,    0.31},
-        {sf::Joystick::Y,       SET_PITCH,  0.62},
+        {sf::Joystick::Y,       SET_PITCH,  0.12},
         {sf::Joystick::PovY,    TILT,       1.27},
-        {sf::Joystick::R,       SET_DEPTH,  1.64},
-        {sf::Joystick::Z,       SET_DEPTH,  1.36},
+        {sf::Joystick::R,       SET_DEPTH,  1.20},
+        {sf::Joystick::Z,       SET_DEPTH,  1.40},
 };
 
 const Gamepad::control_buttons Gamepad::buttons_table[] = {
@@ -23,7 +23,7 @@ void Gamepad::updateDevice() {
     sf::Joystick::update();
 
     for (unsigned int i = 0; i < sizeof(axis_table) / sizeof(axis_table[0]) - 2; i++) {
-        if (abs(sf::Joystick::getAxisPosition(id, axis_table[i].axis) * axis_table[i].multiplier) < 0.1) {
+        if (abs(sf::Joystick::getAxisPosition(id, axis_table[i].axis)) < 5) {
             sendAction(axis_table[i].action, static_cast<float>(0));
         } else {
             sendAction(axis_table[i].action,
