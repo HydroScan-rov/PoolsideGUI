@@ -315,14 +315,14 @@ void IServerData::fillStructure(RequestDirectMessage& req) {
 }
 
 void IServerData::parseMessage(QByteArray message) {
-    switch (message[0]) {
-        case RequestNormalMessage::type:
+    switch (getCurrentPackageMode()) {
+        case PACKAGE_NORMAL:
             parseNormalMessage(message);
             break;
-        case RequestConfigMessage::type:
+        case PACKAGE_CONFIG:
             parseConfigMessage(message);
             break;
-        case RequestDirectMessage::type:
+        case PACKAGE_DIRECT:
             parseDirectMessage(message);
             break;
         default:
@@ -339,6 +339,9 @@ void IServerData::parseNormalMessage(QByteArray msg) {
     stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
 
     stream >> res.type;
+    if (res.type != RequestNormalMessage::type) {
+        throw std::invalid_argument("res.type of package invalid");
+    }
     stream >> res.connection_status;
 
     stream >> res.depth;
@@ -409,6 +412,9 @@ void IServerData::parseConfigMessage(QByteArray msg) {
     stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
 
     stream >> res.type;
+    if (res.type != RequestConfigMessage::type) {
+        throw std::invalid_argument("res.type of package invalid");
+    }
     stream >> res.connection_status;
 
     stream >> res.depth;
@@ -506,6 +512,9 @@ void IServerData::parseDirectMessage(QByteArray msg) {
     stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
 
     stream >> res.type;
+    if (res.type != RequestDirectMessage::type) {
+        throw std::invalid_argument("res.type of package invalid");
+    }
     stream >> res.connection_status;
 
     stream >> res.current_logic_electronics;
