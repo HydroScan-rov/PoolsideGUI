@@ -148,24 +148,24 @@ void StabilizationWindow::FillUiConstants() {
 void StabilizationWindow::FillUiStates() {
     circuitStates[currentCircuit] = interface.getCircuitStates(currentCircuit);
 
-    ui->State_input->setText(QString::number(circuitStates[currentCircuit].input));
-    ui->State_pos->setText(QString::number(circuitStates[currentCircuit].pos));
-    ui->State_pos_filtered->setText(QString::number(circuitStates[currentCircuit].pos_filtered));
-    ui->State_speed->setText(QString::number(circuitStates[currentCircuit].speed));
-    ui->State_speed_filtered->setText(QString::number(circuitStates[currentCircuit].speed_filtered));
-    ui->State_joy_gained->setText(QString::number(circuitStates[currentCircuit].joy_gained));
-    ui->State_target_integrator->setText(QString::number(circuitStates[currentCircuit].target_integrator));
-    ui->State_pid_error->setText(QString::number(circuitStates[currentCircuit].pid_error));
-    ui->State_pid_Pout->setText(QString::number(circuitStates[currentCircuit].pid_Pout));
-    ui->State_pid_I_gained->setText(QString::number(circuitStates[currentCircuit].pid_I_gained));
-    ui->State_pid_Iout->setText(QString::number(circuitStates[currentCircuit].pid_Iout));
-    ui->State_pid_Dout->setText(QString::number(circuitStates[currentCircuit].pid_Dout));
-    ui->State_pid_SumOut->setText(QString::number(circuitStates[currentCircuit].pid_SumOut));
-    ui->State_pid_output->setText(QString::number(circuitStates[currentCircuit].pid_output));
-    ui->State_tuning_summator->setText(QString::number(circuitStates[currentCircuit].tuning_summator));
-    ui->State_speed_error->setText(QString::number(circuitStates[currentCircuit].speed_error));
-    ui->State_out_pre_saturation->setText(QString::number(circuitStates[currentCircuit].out_pre_saturation));
-    ui->State_out->setText(QString::number(circuitStates[currentCircuit].out));
+    ui->State_input->setText(QString::number(circuitStates[currentCircuit].input, 'f', 2));
+    ui->State_pos->setText(QString::number(circuitStates[currentCircuit].pos, 'f', 2));
+    ui->State_pos_filtered->setText(QString::number(circuitStates[currentCircuit].pos_filtered, 'f', 2));
+    ui->State_speed->setText(QString::number(circuitStates[currentCircuit].speed, 'f', 2));
+    ui->State_speed_filtered->setText(QString::number(circuitStates[currentCircuit].speed_filtered, 'f', 2));
+    ui->State_joy_gained->setText(QString::number(circuitStates[currentCircuit].joy_gained, 'f', 2));
+    ui->State_target_integrator->setText(QString::number(circuitStates[currentCircuit].target_integrator, 'f', 2));
+    ui->State_pid_error->setText(QString::number(circuitStates[currentCircuit].pid_error, 'f', 2));
+    ui->State_pid_Pout->setText(QString::number(circuitStates[currentCircuit].pid_Pout, 'f', 2));
+    ui->State_pid_I_gained->setText(QString::number(circuitStates[currentCircuit].pid_I_gained, 'f', 2));
+    ui->State_pid_Iout->setText(QString::number(circuitStates[currentCircuit].pid_Iout, 'f', 2));
+    ui->State_pid_Dout->setText(QString::number(circuitStates[currentCircuit].pid_Dout, 'f', 2));
+    ui->State_pid_SumOut->setText(QString::number(circuitStates[currentCircuit].pid_SumOut, 'f', 2));
+    ui->State_pid_output->setText(QString::number(circuitStates[currentCircuit].pid_output, 'f', 2));
+    ui->State_tuning_summator->setText(QString::number(circuitStates[currentCircuit].tuning_summator, 'f', 2));
+    ui->State_speed_error->setText(QString::number(circuitStates[currentCircuit].speed_error, 'f', 2));
+    ui->State_out_pre_saturation->setText(QString::number(circuitStates[currentCircuit].out_pre_saturation, 'f', 2));
+    ui->State_out->setText(QString::number(circuitStates[currentCircuit].out, 'f', 2));
 
     updateVariables_KX();
 }
