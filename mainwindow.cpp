@@ -48,6 +48,17 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     connect(pushButton_ResetDepth, SIGNAL(pressed()), this, SLOT(resetDepth()));
     connect(pushButton_ResetDepth, SIGNAL(released()), this, SLOT(clearResetDepth()));
 
+    // m_player = new QMediaPlayer(this);
+    // m_player->play();
+    // m_player->setSource(QUrl("gst-pipeline: udpsrc  port=8900 ! application/x-rtp, encoding-name=JPEG,payload=96 ! rtpjpegdepay ! jpegdec ! videoconvert ! autovideosink"));
+
+    // m_videoWidget = new QVideoWidget(this);
+    //     horizontalLayout_6->addWidget(m_videoWidget, 7);
+    // m_videoWidget->resize(1280, 720);
+    // m_player->setVideoOutput(m_videoWidget);
+
+
+
     //    const QString ConfigFile = "protocols.conf";
     //    const QString XI = "xi";
     //    const QString KI = "ki";

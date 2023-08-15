@@ -5,7 +5,7 @@
 QVector<double> K;
 
 Qkx_coeffs::Qkx_coeffs(const QString & config, const QString & name, bool _pult, QObject *parent) : QObject(parent) {
-    QPIConfig conf(config, QIODeviceBase::ReadOnly);
+    QPIConfig conf(config, QIODevice::ReadOnly);
     QPIConfig::Entry & e(conf.getValue(name));
     fname = e.getValue("file", "k.dat").value(); //k.dat
     ip_pult = e.getValue("sender.ip").value();
@@ -45,7 +45,7 @@ Qkx_coeffs::~Qkx_coeffs(){
 
 void Qkx_coeffs::readCoeffs() {
     {
-        QPIConfig conf(fname, QIODeviceBase::ReadOnly);
+        QPIConfig conf(fname, QIODevice::ReadOnly);
         int cnt = conf.rootEntry().childCount();
         K.resize(cnt);
         while (formulas.size() < cnt)
@@ -61,7 +61,7 @@ void Qkx_coeffs::readCoeffs() {
         }
     }
     QFile file (fname);
-    file.open(QIODeviceBase::ReadOnly);
+    file.open(QIODevice::ReadOnly);
     k_content = file.readAll();
     //qDebug() << k_content.size();
     qDebug() << "Readed" << K.size() << "coefficients in" << k_content.size() << "bytes";
@@ -71,7 +71,7 @@ void Qkx_coeffs::readCoeffs() {
 void Qkx_coeffs::writeCoeffs() {
     QFile::remove(fname);
     QFile file(fname);
-    file.open(QIODeviceBase::ReadWrite);
+    file.open(QIODevice::ReadWrite);
     QTextStream stream(&file);
 
     for (int i = 0; i < K.size(); i++) {
@@ -155,7 +155,7 @@ void Qkx_coeffs::received() {
         timer->stop();
         QFile::remove(fname);
         QFile conf(fname);
-        conf.open(QIODeviceBase::ReadWrite);
+        conf.open(QIODevice::ReadWrite);
         conf.write(k_tmp);
         conf.close();
         readCoeffs();

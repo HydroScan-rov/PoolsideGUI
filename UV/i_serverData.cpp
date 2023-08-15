@@ -95,7 +95,7 @@ void IServerData::fillControlMode(uint8_t& control_mode) {
 QByteArray IServerData::generateNormalMessage() {
     QByteArray msg;
     msg.clear();
-    QDataStream stream(&msg, QIODeviceBase::Append);
+    QDataStream stream(&msg, QIODevice::Append);
     stream.setByteOrder(QDataStream::LittleEndian);
     stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
 
@@ -163,7 +163,7 @@ void IServerData::fillStructure(RequestNormalMessage& req) {
 QByteArray IServerData::generateConfigMessage() {
     QByteArray msg;
     msg.clear();
-    QDataStream stream(&msg, QIODeviceBase::Append);
+    QDataStream stream(&msg, QIODevice::Append);
     stream.setByteOrder(QDataStream::LittleEndian);
     stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
 
@@ -254,7 +254,7 @@ void IServerData::fillStructure(RequestConfigMessage& req) {
 QByteArray IServerData::generateDirectMessage() {
     QByteArray msg;
     msg.clear();
-    QDataStream stream(&msg, QIODeviceBase::Append);
+    QDataStream stream(&msg, QIODevice::Append);
     stream.setByteOrder(QDataStream::LittleEndian);
     stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
 
@@ -334,7 +334,7 @@ void IServerData::parseNormalMessage(QByteArray msg) {
     ResponseNormalMessage res;
     uint16_t checksum_calc = getCheckSumm16b(msg.data(), msg.size() - 2);
 
-    QDataStream stream(&msg, QIODeviceBase::ReadOnly);
+    QDataStream stream(&msg, QIODevice::ReadOnly);
     stream.setByteOrder(QDataStream::LittleEndian);
     stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
 
@@ -407,7 +407,7 @@ void IServerData::parseConfigMessage(QByteArray msg) {
     ResponseConfigMessage res;
     uint16_t checksum_calc = getCheckSumm16b(msg.data(), msg.size() - 2);
 
-    QDataStream stream(&msg, QIODeviceBase::ReadOnly);
+    QDataStream stream(&msg, QIODevice::ReadOnly);
     stream.setByteOrder(QDataStream::LittleEndian);
     stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
 
@@ -507,7 +507,7 @@ void IServerData::parseDirectMessage(QByteArray msg) {
     ResponseDirectMessage res;
     uint16_t checksum_calc = getCheckSumm16b(msg.data(), msg.size() - 2);
 
-    QDataStream stream(&msg, QIODeviceBase::ReadOnly);
+    QDataStream stream(&msg, QIODevice::ReadOnly);
     stream.setByteOrder(QDataStream::LittleEndian);
     stream.setFloatingPointPrecision(QDataStream::SinglePrecision);
 

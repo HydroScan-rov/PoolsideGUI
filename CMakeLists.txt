@@ -10,8 +10,18 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 COMPONENTS REQUIRED Core Gui Widgets SerialPort Network)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets SerialPort Network)
+add_compile_options(-Wall -Wextra)
+
+include(FindPkgConfig)
+if(!${PKG_CONFIG_FOUND})
+  MESSAGE(FATAL_ERROR "pkg-config required. Please install it")
+  return ("Error - pkg-config not found")
+endif()
+
+pkg_check_modules(GSTREAMER gstreamer-1.0>=1.6 gstreamer-video-1.0>=1.6 REQUIRED)
+
+find_package(QT NAMES Qt5 COMPONENTS REQUIRED Qml Quick SerialPort Core Gui Widgets Network)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Qml Quick SerialPort Core Gui Widgets Network)
 
 include_directories("${PROJECT_SOURCE_DIR}/Communication")
 include_directories("${PROJECT_SOURCE_DIR}/Control")
@@ -22,6 +32,10 @@ include_directories("${PROJECT_SOURCE_DIR}/UV")
 
 include_directories("${PROJECT_SOURCE_DIR}")
 
+qt5_add_resources(RESOURCES qmlsink.qrc)
+
+link_directories(${GSTREAMER_LIBRARY_DIRS})
+include_directories (${GSTREAMER_INCLUDE_DIRS})
 
 set(PROJECT_SOURCES
         main.cpp
@@ -55,14 +69,18 @@ set(PROJECT_SOURCES
 
 add_executable(${PROJECT_NAME}
         ${PROJECT_SOURCES}
+        ${RESOURCES}
         images.qrc
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
         sfml-graphics sfml-window sfml-system
-        Qt${QT_VERSION_MAJOR}::Core
-        Qt${QT_VERSION_MAJOR}::Gui
-        Qt${QT_VERSION_MAJOR}::Widgets
-        Qt${QT_VERSION_MAJOR}::SerialPort
-        Qt${QT_VERSION_MAJOR}::Network
+        ${GSTREAMER_LIBRARIES}
+        Qt5::Core
+        Qt5::Gui
+        Qt5::Widgets
+        Qt5::Network
+        Qt5::Qml
+        Qt5::Quick
+        Qt5::SerialPort
 )

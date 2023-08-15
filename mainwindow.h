@@ -33,6 +33,7 @@ public:
     explicit MainWindow(QWidget* parent = nullptr);
 
 private:
+
     void upUiConnectionStatus(int connectionStatus, int reseivedConnectionStatus);
     void upUiImpact(ControlData control, uint16_t tilt);
     void upUiLight(Light light);

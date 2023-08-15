@@ -36,12 +36,12 @@ private:
         uint8_t stab_flags; // [0]march, [1]lag, [2]depth, [3]roll, [4]pitch, [5]yaw
         uint8_t control_mode; // [0]handle , [1]auto (set depth and yaw, pitch and roll = 0), [2]maneuverable (set depth, yaw, pitch and roll)
 
-        float_t march; // NED coordinate system
-        float_t lag;
-        float_t depth;
-        float_t roll;
-        float_t pitch;
-        float_t yaw;
+        float march; // NED coordinate system
+        float lag;
+        float depth;
+        float roll;
+        float pitch;
+        float yaw;
 
         uint16_t tilt; // 1000-2000
 
@@ -60,16 +60,16 @@ private:
         uint8_t type;
         uint8_t connection_status;
 
-        float_t depth;
-        float_t roll;
-        float_t pitch;
-        float_t yaw;
+        float depth;
+        float roll;
+        float pitch;
+        float yaw;
 
-        float_t distance_l; // distance from laser rangefinder
-        float_t distance_r;
+        float distance_l; // distance from laser rangefinder
+        float distance_r;
 
-        float_t speed_down; // speed signal from jetson
-        float_t speed_right;
+        float speed_down; // speed signal from jetson
+        float speed_right;
 
         uint16_t current_logic_electronics; // from jetson + raspberry dc-dc
         uint16_t current_vma[8];
@@ -89,29 +89,29 @@ private:
         uint8_t stab_flags; // stab [0]march, [1]lag, [2]depth, [3]roll, [4]pitch, [5]yaw, [6]thrusters_on, [6]reset_imu
         uint8_t current_circuit; // current contour: [0]march, [1]lag, [2]depth, [3]roll, [4]pitch, [5]yaw
 
-        float_t march;
-        float_t lag;
-        float_t depth;
-        float_t roll;
-        float_t pitch;
-        float_t yaw;
+        float march;
+        float lag;
+        float depth;
+        float roll;
+        float pitch;
+        float yaw;
 
-        float_t k_joy;
-        float_t k_tuning;
-        float_t pid_kp;
-        float_t pid_ki;
-        float_t pid_kd;
-        float_t pid_max_i;
-        float_t pid_min_i;
-        float_t pid_max;
-        float_t pid_min;
-        float_t posFilter_t;
-        float_t posFilter_k;
-        float_t speedFilter_t;
-        float_t speedFilter_k;
-        float_t out_k;
-        float_t out_max;
-        float_t out_min;
+        float k_joy;
+        float k_tuning;
+        float pid_kp;
+        float pid_ki;
+        float pid_kd;
+        float pid_max_i;
+        float pid_min_i;
+        float pid_max;
+        float pid_min;
+        float posFilter_t;
+        float posFilter_k;
+        float speedFilter_t;
+        float speedFilter_k;
+        float out_k;
+        float out_max;
+        float out_min;
 
         uint16_t checksum;
     };
@@ -123,29 +123,29 @@ private:
         uint8_t type;
         uint8_t connection_status;
 
-        float_t depth;
-        float_t roll;
-        float_t pitch;
-        float_t yaw;
+        float depth;
+        float roll;
+        float pitch;
+        float yaw;
 
-        float_t input;
-        float_t pos;
-        float_t pos_filtered;
-        float_t speed;
-        float_t speed_filtered;
-        float_t joy_gained;
-        float_t target_integrator;
-        float_t pid_error;
-        float_t pid_Pout;
-        float_t pid_I_gained;
-        float_t pid_Iout;
-        float_t pid_Dout;
-        float_t pid_SumOut;
-        float_t pid_output;
-        float_t tuning_summator;
-        float_t speed_error;
-        float_t out_pre_saturation;
-        float_t out;
+        float input;
+        float pos;
+        float pos_filtered;
+        float speed;
+        float speed_filtered;
+        float joy_gained;
+        float target_integrator;
+        float pid_error;
+        float pid_Pout;
+        float pid_I_gained;
+        float pid_Iout;
+        float pid_Dout;
+        float pid_SumOut;
+        float pid_output;
+        float tuning_summator;
+        float speed_error;
+        float out_pre_saturation;
+        float out;
 
         uint16_t current_logic_electronics; // from jetson + raspberry dc-dc
         uint16_t current_vma[8];
@@ -166,11 +166,11 @@ private:
         uint8_t id; // 0..7
         uint8_t adress; // 0..7
 
-        float_t target_forse; // newton
+        float target_forse; // newton
 
         uint8_t reverse;
-        float_t k_forward;
-        float_t k_backward;
+        float k_forward;
+        float k_backward;
         int16_t s_forward; // max PWM
         int16_t s_backward; // min PWM
 

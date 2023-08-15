@@ -57,13 +57,13 @@ class QPIConfig: public QFile
 public:
 	enum FileType {Config, XML};
 
-	QPIConfig(const QString & path, QIODeviceBase::OpenMode mode, QPIConfig::FileType type);
-	QPIConfig(const QString & path, QIODeviceBase::OpenMode mode = QIODeviceBase::ReadWrite);
+	QPIConfig(const QString & path, QIODevice::OpenMode mode, QPIConfig::FileType type);
+	QPIConfig(const QString & path, QIODevice::OpenMode mode = QIODevice::ReadWrite);
 	QPIConfig(const QString & path, QPIConfig::FileType type);
 	QPIConfig(QString * str, QPIConfig::FileType type = QPIConfig::Config);
 	~QPIConfig();
 
-	void setFile(const QString & path, QIODeviceBase::OpenMode mode = QIODeviceBase::ReadWrite);
+	void setFile(const QString & path, QIODevice::OpenMode mode = QIODevice::ReadWrite);
 	void setString(QString * str);
 
 	class Entry;
