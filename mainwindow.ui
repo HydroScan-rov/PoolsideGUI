@@ -834,12 +834,18 @@
            <property name="maximum">
             <number>255</number>
            </property>
+           <property name="singleStep">
+            <number>5</number>
+           </property>
           </widget>
          </item>
          <item row="3" column="2">
           <widget class="QSpinBox" name="spinBox_LightR">
            <property name="maximum">
             <number>255</number>
+           </property>
+           <property name="singleStep">
+            <number>5</number>
            </property>
           </widget>
          </item>
@@ -869,6 +875,9 @@
            <property name="maximum">
             <number>255</number>
            </property>
+           <property name="singleStep">
+            <number>5</number>
+           </property>
           </widget>
          </item>
          <item row="2" column="0" colspan="3">
@@ -882,6 +891,9 @@
           <widget class="QSpinBox" name="spinBox_LightG">
            <property name="maximum">
             <number>255</number>
+           </property>
+           <property name="singleStep">
+            <number>5</number>
            </property>
           </widget>
          </item>
