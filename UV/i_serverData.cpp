@@ -266,16 +266,13 @@ QByteArray IServerData::generateDirectMessage() {
 
     stream << req.flags;
 
-    stream << req.id;
-    stream << req.adress;
-
-    stream << req.target_forse;
-
-    stream << req.reverse;
-    stream << req.k_forward;
-    stream << req.k_backward;
-    stream << req.s_forward;
-    stream << req.s_backward;
+    for (size_t i = 0; i < 8; i++) { stream >> req.reverse[i]; }
+    for (size_t i = 0; i < 8; i++) { stream >> req.id[i]; }
+    for (size_t i = 0; i < 8; i++) { stream >> req.target_force[i]; }
+    for (size_t i = 0; i < 8; i++) { stream >> req.k_forward[i]; }
+    for (size_t i = 0; i < 8; i++) { stream >> req.k_backward[i]; }
+    for (size_t i = 0; i < 8; i++) { stream >> req.dPWM_forward[i]; }
+    for (size_t i = 0; i < 8; i++) { stream >> req.dPWM_backward[i]; }
 
     uint16_t checksum = getCheckSumm16b(msg.data(), msg.size());
     stream << checksum;
@@ -290,20 +287,15 @@ void IServerData::fillStructure(RequestDirectMessage& req) {
 
     req.connection_status = UVState.connection_status;
 
-    req.id = UVState.currentThruster;
-    req.adress = UVState.thruster[UVState.currentThruster].adress;
-
-    if (UVState.thruster[UVState.currentThruster].power == false) {
-        req.target_forse = 0;
-    } else {
-        req.target_forse = UVState.thruster[UVState.currentThruster].target_forse;
+    for (size_t i = 0; i < 8; i++) {
+        req.reverse[i] = int(UVState.thruster[i].reverse);
+        req.id[i] = UVState.thruster[i].id;
+        req.target_force[i] = UVState.thruster[i].target_force;
+        req.k_forward[i] = UVState.thruster[i].k_forward;
+        req.k_backward[i] = UVState.thruster[i].k_backward;
+        req.dPWM_forward[i] = UVState.thruster[i].dPWM_forward;
+        req.dPWM_backward[i] = UVState.thruster[i].dPWM_backward;
     }
-
-    req.reverse = UVState.thruster[UVState.currentThruster].reverse;
-    req.k_forward = UVState.thruster[UVState.currentThruster].kForward;
-    req.k_backward = UVState.thruster[UVState.currentThruster].kBackward;
-    req.s_forward = UVState.thruster[UVState.currentThruster].sForward;
-    req.s_backward = UVState.thruster[UVState.currentThruster].sBackward;
 
     if (UVState.connection_status == 255) {
         UVState.connection_status = 0;
@@ -359,6 +351,10 @@ void IServerData::parseNormalMessage(QByteArray msg) {
     for (size_t i = 0; i < 8; i++) { stream >> res.current_vma[i]; }
     for (size_t i = 0; i < 4; i++) { stream >> res.voltage_battery_cell[i]; }
 
+    stream >> res.inside_pressure;
+    stream >> res.inside_temperature;
+    stream >> res.outside_temperature;
+
     stream >> res.checksum;
 
     if (res.checksum != checksum_calc) {
@@ -370,6 +366,7 @@ void IServerData::parseNormalMessage(QByteArray msg) {
             std::ios::hex << res.checksum << "]";
         throw std::invalid_argument(stream.str());
     }
+
 
     pullFromStructure(res);
 }
@@ -388,6 +385,10 @@ void IServerData::pullFromStructure(ResponseNormalMessage res) {
     UVState.sensors.distance_r = res.distance_r;
     UVState.sensors.speed_down = res.speed_down;
     UVState.sensors.speed_right = res.speed_right;
+
+    UVState.sensors.inside_pressure = res.inside_pressure;
+    UVState.sensors.inside_temperature = res.inside_temperature;
+    UVState.sensors.outside_temperature = res.outside_temperature;
 
     UVState.telemetry.current_logic_electronics = res.current_logic_electronics;
     for (size_t i = 0; i < 8; i++) {
@@ -445,6 +446,10 @@ void IServerData::parseConfigMessage(QByteArray msg) {
     for (size_t i = 0; i < 8; i++) { stream >> res.current_vma[i]; }
     for (size_t i = 0; i < 4; i++) { stream >> res.voltage_battery_cell[i]; }
 
+    stream >> res.inside_pressure;
+    stream >> res.inside_temperature;
+    stream >> res.outside_temperature;
+
     stream >> res.checksum;
 
     if (res.checksum != checksum_calc) {
@@ -469,6 +474,9 @@ void IServerData::pullFromStructure(ResponseConfigMessage res) {
     UVState.sensors.roll = res.roll;
     UVState.sensors.pitch = res.pitch;
     UVState.sensors.yaw = res.yaw;
+    UVState.sensors.inside_pressure = res.inside_pressure;
+    UVState.sensors.inside_temperature = res.inside_temperature;
+    UVState.sensors.outside_temperature = res.outside_temperature;
 
     UVState.controlCircuit[UVState.currentCircuit].states.input = res.input;
     UVState.controlCircuit[UVState.currentCircuit].states.pos = res.pos;

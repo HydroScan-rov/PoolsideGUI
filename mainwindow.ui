@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1134</width>
+    <width>1239</width>
     <height>288</height>
    </rect>
   </property>
@@ -1677,6 +1677,27 @@
              </property>
             </widget>
            </item>
+           <item>
+            <widget class="QLabel" name="label_InsideTemp">
+             <property name="text">
+              <string>0</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_OutsideTemp">
+             <property name="text">
+              <string>0</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_InsidePressure">
+             <property name="text">
+              <string>0</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </item>
          <item row="3" column="0">
@@ -1747,6 +1768,27 @@
              </property>
             </widget>
            </item>
+           <item>
+            <widget class="QLabel" name="label_8">
+             <property name="text">
+              <string>In T</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_12">
+             <property name="text">
+              <string>Out T</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_13">
+             <property name="text">
+              <string>In P</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </item>
          <item row="2" column="0" colspan="2">
@@ -1789,7 +1831,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1134</width>
+     <width>1239</width>
      <height>22</height>
     </rect>
    </property>

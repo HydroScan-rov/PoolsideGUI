@@ -1,17 +1,14 @@
 #include "uv_thruster.h"
 
 UV_Thruster::UV_Thruster() {
-    power = false;
+    power = true;
 
+    slot = 0;
     id = 0;
-    adress = 0;
-
-    target_forse = 0;
-
     reverse = false;
-    kForward = 1;
-    kBackward = 1;
-
-    sForward = 100;
-    sBackward = 100;
+    target_force = 0;
+    k_forward = 1;
+    k_backward = 1;
+    dPWM_forward = 500;
+    dPWM_backward = 500;
 }

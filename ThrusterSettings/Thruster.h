@@ -38,7 +38,7 @@ private:
     bool autoSave;
 
 signals:
-    void speedSpinBoxChange(int);
+    void speedSpinBoxChange(double);
     void parametorsChanged(json json, UV_Thruster thruster);
     void powerChanged(int id, bool power);
 
@@ -50,8 +50,8 @@ public slots:
 private slots:
     void powerCheckBoxChanged(int power);
 
-    void adressChanged(int id);
-    void speedChanged(int speed);
+    void idChanged(int id);
+    void targetForceChanged(double target_force);
     void forwardKChanged(double forwardK);
     void backwardKChanged(double backwardK);
     void forwardSaturationChanged(int forwardSaturation);

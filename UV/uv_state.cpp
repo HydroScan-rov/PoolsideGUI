@@ -5,6 +5,13 @@ Sensors::Sensors() {
     roll = 0;
     pitch = 0;
     yaw = 0;
+    distance_l = 0;
+    distance_r = 0;
+    speed_down = 0;
+    speed_right = 0;
+    inside_pressure = 0;
+    inside_temperature = 0;
+    outside_temperature = 0;
 }
 
 ControlData::ControlData() {

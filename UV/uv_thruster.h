@@ -8,21 +8,17 @@ class UV_Thruster {
 public:
     UV_Thruster();
 
-    bool power;
+    bool power; // sets target_force to 0 on pult
 
+    int slot; //  location on the ROV
     int id;
-    int adress; //  location on the ROV
-
-    int8_t target_forse;
-
     bool reverse;
-
-    // relative to the positive directions of the X and Z axes on the ROV
-    int8_t kForward;
-    int8_t kBackward;
-
-    int8_t sForward;
-    int8_t sBackward;
+    float_t target_force;
+    // relative to the positive directions of thrusters on the ROV
+    float_t k_forward;
+    float_t k_backward;
+    uint16_t dPWM_forward; // 0-500
+    uint16_t dPWM_backward; // 0-500
 };
 
 #endif // UV_THRUSTER_H

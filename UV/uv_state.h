@@ -42,12 +42,13 @@ struct Sensors {
     float roll;
     float pitch;
     float yaw;
-
     float distance_l; // distance from laser rangefinder
     float distance_r;
-
     float speed_down; // speed signal from jetson
     float speed_right;
+    float inside_pressure;
+    float inside_temperature;
+    float outside_temperature;
 };
 
 struct Telemetry {
