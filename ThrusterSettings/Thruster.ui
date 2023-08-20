@@ -507,7 +507,7 @@
         <number>0</number>
        </property>
        <property name="maximum">
-        <number>100</number>
+        <number>500</number>
        </property>
        <property name="singleStep">
         <number>2</number>
@@ -554,6 +554,9 @@
      </item>
      <item row="11" column="0" colspan="4">
       <widget class="QDoubleSpinBox" name="doubleSpinBox_ThrusterSetTargetForce">
+       <property name="minimum">
+        <double>-40.000000000000000</double>
+       </property>
        <property name="maximum">
         <double>40.000000000000000</double>
        </property>
@@ -572,7 +575,7 @@
      <item row="18" column="0" colspan="4">
       <widget class="QDoubleSpinBox" name="DoubleSpinBox_SetBackwardK">
        <property name="maximum">
-        <double>1.000000000000000</double>
+        <double>2.000000000000000</double>
        </property>
        <property name="singleStep">
         <double>0.050000000000000</double>
@@ -588,7 +591,7 @@
         <number>0</number>
        </property>
        <property name="maximum">
-        <number>100</number>
+        <number>500</number>
        </property>
        <property name="singleStep">
         <number>2</number>
@@ -642,7 +645,7 @@
      <item row="15" column="0" colspan="4">
       <widget class="QDoubleSpinBox" name="DoubleSpinBox_SetForwardK">
        <property name="maximum">
-        <double>1.000000000000000</double>
+        <double>2.000000000000000</double>
        </property>
        <property name="singleStep">
         <double>0.050000000000000</double>

@@ -169,7 +169,7 @@ private:
         const static uint8_t type = 0xAA;
         uint8_t connection_status;
         uint8_t flags; // [0]thrusters_on, [1]reset_imu, [2]reset_depth, [3]rgb_light_on, [4]lower_light_on, [5]save_constants
-        uint8_t reverse[8]; // [0]reverse of 0 thruster, [1]reverse of 1st thruster
+        uint8_t reverse; // [0]reverse of 0 thruster, [1]reverse of 1st thruster
         uint8_t id[8]; // [0]id of horizontal-front-left, [1]id of horizontal-front-right....
         float_t target_force[8]; // newton
         float_t k_forward[8];

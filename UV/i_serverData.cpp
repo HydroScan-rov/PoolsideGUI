@@ -266,13 +266,13 @@ QByteArray IServerData::generateDirectMessage() {
 
     stream << req.flags;
 
-    for (size_t i = 0; i < 8; i++) { stream >> req.reverse[i]; }
-    for (size_t i = 0; i < 8; i++) { stream >> req.id[i]; }
-    for (size_t i = 0; i < 8; i++) { stream >> req.target_force[i]; }
-    for (size_t i = 0; i < 8; i++) { stream >> req.k_forward[i]; }
-    for (size_t i = 0; i < 8; i++) { stream >> req.k_backward[i]; }
-    for (size_t i = 0; i < 8; i++) { stream >> req.dPWM_forward[i]; }
-    for (size_t i = 0; i < 8; i++) { stream >> req.dPWM_backward[i]; }
+    stream << req.reverse;
+    for (size_t i = 0; i < 8; i++) { stream << req.id[i]; }
+    for (size_t i = 0; i < 8; i++) { stream << req.target_force[i]; }
+    for (size_t i = 0; i < 8; i++) { stream << req.k_forward[i]; }
+    for (size_t i = 0; i < 8; i++) { stream << req.k_backward[i]; }
+    for (size_t i = 0; i < 8; i++) { stream << req.dPWM_forward[i]; }
+    for (size_t i = 0; i < 8; i++) { stream << req.dPWM_backward[i]; }
 
     uint16_t checksum = getCheckSumm16b(msg.data(), msg.size());
     stream << checksum;
@@ -281,14 +281,14 @@ QByteArray IServerData::generateDirectMessage() {
 
 void IServerData::fillStructure(RequestDirectMessage& req) {
     UVMutex.lock();
-    UVState.setThrusterNext();
 
     fillFlags(req.flags);
+    setBit(req.flags, 5, UVState.save_constants);
 
     req.connection_status = UVState.connection_status;
 
     for (size_t i = 0; i < 8; i++) {
-        req.reverse[i] = int(UVState.thruster[i].reverse);
+        setBit(req.reverse, i, UVState.thruster[i].reverse);
         req.id[i] = UVState.thruster[i].id;
         req.target_force[i] = UVState.thruster[i].target_force;
         req.k_forward[i] = UVState.thruster[i].k_forward;

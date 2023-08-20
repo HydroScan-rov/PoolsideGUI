@@ -30,9 +30,19 @@ ThrusterWindow::ThrusterWindow(QWidget *parent) :
 
         connect(ui->CheckBox_AutoSave, SIGNAL(stateChanged(int)), &thrusters[i], SLOT(setAutoSave(int)));
         connect(ui->PushButton_Save, SIGNAL(clicked(bool)), &thrusters[i], SLOT(save(bool)));
+        connect(ui->PushButton_Save, SIGNAL(pressed(bool)), this, SLOT(savePressed(bool)));
+        connect(ui->PushButton_Save, SIGNAL(released(bool)), this, SLOT(saveReleased(bool)));
         connect(&thrusters[i], SIGNAL(parametorsChanged(json, UV_Thruster)), this, SLOT(thrusterEdited(json, UV_Thruster)));
     }
     ui->CheckBox_AutoSave->setCheckState(Qt::Checked);
+}
+
+void ThrusterWindow::savePressed() {
+    interface.setSaveConstants(true);
+}
+
+void ThrusterWindow::saveReleased() {
+    interface.setSaveConstants(false);
 }
 
 ThrusterWindow::~ThrusterWindow() {
