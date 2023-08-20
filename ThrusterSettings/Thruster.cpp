@@ -125,7 +125,7 @@ void Thruster::reverseChanged(int state) {
 }
 
 void Thruster::speedSetForward() {
-    emit speedSpinBoxChange(5);
+    emit speedSpinBoxChange(10);
 }
 
 void Thruster::speedSetStop() {
@@ -133,5 +133,5 @@ void Thruster::speedSetStop() {
 }
 
 void Thruster::speedSetBackward() {
-    emit speedSpinBoxChange(-5);
+    emit speedSpinBoxChange(-10);
 }
