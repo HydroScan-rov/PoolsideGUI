@@ -399,7 +399,7 @@ void IServerData::pullFromStructure(ResponseNormalMessage res) {
     for (size_t i = 1; i < 4; i++) {
         UVState.telemetry.voltage_battery_cell[i] = static_cast<float>(res.voltage_battery_cell[i] - res.voltage_battery_cell[i - 1]) * GAIN_VOLTAGE;
     }
-    UVState.telemetry.voltage_battery = res.voltage_battery_cell[4];
+    UVState.telemetry.voltage_battery = static_cast<float>(res.voltage_battery_cell[4]) * GAIN_VOLTAGE;
 
     UVMutex.unlock();
 }
