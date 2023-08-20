@@ -51,7 +51,7 @@ void Thruster::save(bool click) {
     ThrusterJson["dPWM_forward"] = ThisThruster.dPWM_forward;
     ThrusterJson["dPWM_backward"] = ThisThruster.dPWM_backward;
 
-    emit parametorsChanged(ThrusterJson, ThisThruster);
+    emit parametersChanged(ThrusterJson, ThisThruster);
 }
 
 void Thruster::setUV_Thruster() {
@@ -80,48 +80,48 @@ void Thruster::setUi() {
 
 void Thruster::powerCheckBoxChanged(int power) {
     ThisThruster.power = power;
-    emit parametorsChanged(ThrusterJson, ThisThruster);
+    emit parametersChanged(ThrusterJson, ThisThruster);
 }
 
 void Thruster::idChanged(int id) {
     if (autoSave == true) ThrusterJson["id"] = id;
     ThisThruster.id = id;
-    emit parametorsChanged(ThrusterJson, ThisThruster);
+    emit parametersChanged(ThrusterJson, ThisThruster);
 }
 
 void Thruster::targetForceChanged(double target_force) {
     ThisThruster.target_force = target_force;
-    emit parametorsChanged(ThrusterJson, ThisThruster);
+    emit parametersChanged(ThrusterJson, ThisThruster);
 }
 
 void Thruster::forwardKChanged(double forwardK) {
     if (autoSave == true) ThrusterJson["k_forward"] = forwardK;
     ThisThruster.k_forward = forwardK;
-    emit parametorsChanged(ThrusterJson, ThisThruster);
+    emit parametersChanged(ThrusterJson, ThisThruster);
 }
 
 void Thruster::backwardKChanged(double backwardK) {
     if (autoSave == true) ThrusterJson["k_backward"] = backwardK;
     ThisThruster.k_backward = backwardK;
-    emit parametorsChanged(ThrusterJson, ThisThruster);
+    emit parametersChanged(ThrusterJson, ThisThruster);
 }
 
 void Thruster::forwardSaturationChanged(int forwardSaturation) {
     if (autoSave == true) ThrusterJson["forward_saturation"] = forwardSaturation;
     ThisThruster.dPWM_forward = forwardSaturation;
-    emit parametorsChanged(ThrusterJson, ThisThruster);
+    emit parametersChanged(ThrusterJson, ThisThruster);
 }
 
 void Thruster::backwardSaturationChanged(int backwardSaturation) {
     if (autoSave == true) ThrusterJson["backward_saturation"] = backwardSaturation;
     ThisThruster.dPWM_backward = backwardSaturation;
-    emit parametorsChanged(ThrusterJson, ThisThruster);
+    emit parametersChanged(ThrusterJson, ThisThruster);
 }
 
 void Thruster::reverseChanged(int state) {
     if (autoSave == true) ThrusterJson["reverse"] = !!state;
     ThisThruster.reverse = !!state;
-    emit parametorsChanged(ThrusterJson, ThisThruster);
+    emit parametersChanged(ThrusterJson, ThisThruster);
 }
 
 void Thruster::speedSetForward() {

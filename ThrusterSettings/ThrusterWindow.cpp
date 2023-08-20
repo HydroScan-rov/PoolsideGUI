@@ -2,8 +2,8 @@
 #include "ui_ThrusterWindow.h"
 
 ThrusterWindow::ThrusterWindow(QWidget *parent) :
-        QWidget(parent),
-        ui(new Ui::ThrusterWindow) {
+    QWidget(parent),
+    ui(new Ui::ThrusterWindow) {
     ui->setupUi(this);
 
     jsonName = "thrusters.json";
@@ -30,7 +30,9 @@ ThrusterWindow::ThrusterWindow(QWidget *parent) :
 
         connect(ui->CheckBox_AutoSave, SIGNAL(stateChanged(int)), &thrusters[i], SLOT(setAutoSave(int)));
         connect(ui->PushButton_Save, SIGNAL(clicked(bool)), &thrusters[i], SLOT(save(bool)));
-        connect(&thrusters[i], SIGNAL(parametorsChanged(json, UV_Thruster)), this, SLOT(thrusterEdited(json, UV_Thruster)));
+        connect(&thrusters[i], SIGNAL(parametersChanged(json, UV_Thruster)), this, SLOT(thrusterEdited(json, UV_Thruster)));
+        connect(ui->PushButton_Save, SIGNAL(pressed()), this, SLOT(saveDirectPressed()));
+        connect(ui->PushButton_Save, SIGNAL(released()), this, SLOT(saveDirectReleased()));
     }
     ui->CheckBox_AutoSave->setCheckState(Qt::Checked);
 }
@@ -42,16 +44,24 @@ ThrusterWindow::~ThrusterWindow() {
 
 void ThrusterWindow::thrusterEdited(json thrusterJson, UV_Thruster thruster) {
     interface.setThrusterData(thruster.id, thruster);
-
     allThrusterJson["thrusters"][thruster.id] = thrusterJson;
+}
+
+void ThrusterWindow::saveDirectPressed() {
+    interface.setSaveConstants(true);
+}
+
+void ThrusterWindow::saveDirectReleased() {
+    qDebug() << "save direct json";
     std::ofstream o(jsonName.toStdString());
     o << std::setw(4) << allThrusterJson << std::endl;
     o.close();
+    interface.setSaveConstants(false);
 }
 
 void ThrusterWindow::createDefaultThrusterJson() {
     std::ofstream o(jsonName.toStdString());
-    json j = {{"thrusters", {
+    json j = { {"thrusters", {
             {
                     {"name", "FrLowR"},
                     {"id", 0},
@@ -125,7 +135,7 @@ void ThrusterWindow::createDefaultThrusterJson() {
                     {"k_forward", 1},
                     {"reverse", true}
             },
-    }}};
+    }} };
     o << std::setw(4) << j << std::endl;
     o.close();
 }

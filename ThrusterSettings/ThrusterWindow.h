@@ -46,6 +46,8 @@ private:
 public slots:
 
     void thrusterEdited(json thrusterJson, UV_Thruster thruster);
+    void saveDirectPressed();
+    void saveDirectReleased();
 //    void powerEdited(int slot, bool power);
 
 };

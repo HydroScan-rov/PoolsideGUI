@@ -243,7 +243,7 @@ void StabilizationWindow::createDefaultStabilizationJson() {
 }
 
 void StabilizationWindow::saveToFile() {
-    qDebug() << "saveToFile()";
+    qDebug() << "save config json";
     std::ofstream o(jsonName.toStdString());
     o << std::setw(4) << allStabilizationJson << std::endl;
     o.close();
