@@ -20,7 +20,7 @@ endif()
 
 pkg_check_modules(GSTREAMER gstreamer-1.0>=1.6 gstreamer-video-1.0>=1.6 REQUIRED)
 
-find_package(QT NAMES Qt5 COMPONENTS REQUIRED Qml Quick SerialPort Core Gui Widgets Network)
+find_package(QT NAMES Qt6 COMPONENTS REQUIRED Qml Quick SerialPort Core Gui Widgets Network)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Qml Quick SerialPort Core Gui Widgets Network)
 
 include_directories("${PROJECT_SOURCE_DIR}/Communication")
@@ -32,7 +32,7 @@ include_directories("${PROJECT_SOURCE_DIR}/UV")
 
 include_directories("${PROJECT_SOURCE_DIR}")
 
-qt5_add_resources(RESOURCES qmlsink.qrc)
+qt6_add_resources(RESOURCES qmlsink.qrc)
 
 link_directories(${GSTREAMER_LIBRARY_DIRS})
 include_directories (${GSTREAMER_INCLUDE_DIRS})
@@ -76,11 +76,11 @@ add_executable(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME} PRIVATE
         sfml-graphics sfml-window sfml-system
         ${GSTREAMER_LIBRARIES}
-        Qt5::Core
-        Qt5::Gui
-        Qt5::Widgets
-        Qt5::Network
-        Qt5::Qml
-        Qt5::Quick
-        Qt5::SerialPort
+        Qt${QT_VERSION_MAJOR}::Core
+        Qt${QT_VERSION_MAJOR}::Gui
+        Qt${QT_VERSION_MAJOR}::Widgets
+        Qt${QT_VERSION_MAJOR}::Network
+        Qt${QT_VERSION_MAJOR}::Qml
+        Qt${QT_VERSION_MAJOR}::Quick
+        Qt${QT_VERSION_MAJOR}::SerialPort
 )
