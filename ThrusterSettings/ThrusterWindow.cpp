@@ -2,8 +2,8 @@
 #include "ui_ThrusterWindow.h"
 
 ThrusterWindow::ThrusterWindow(QWidget *parent) :
-        QWidget(parent),
-        ui(new Ui::ThrusterWindow) {
+    QWidget(parent),
+    ui(new Ui::ThrusterWindow) {
     ui->setupUi(this);
 
     jsonName = "thrusters.json";
@@ -30,7 +30,9 @@ ThrusterWindow::ThrusterWindow(QWidget *parent) :
 
         connect(ui->CheckBox_AutoSave, SIGNAL(stateChanged(int)), &thrusters[i], SLOT(setAutoSave(int)));
         connect(ui->PushButton_Save, SIGNAL(clicked(bool)), &thrusters[i], SLOT(save(bool)));
-        connect(&thrusters[i], SIGNAL(parametorsChanged(json, UV_Thruster)), this, SLOT(thrusterEdited(json, UV_Thruster)));
+        connect(&thrusters[i], SIGNAL(parametersChanged(json, UV_Thruster)), this, SLOT(thrusterEdited(json, UV_Thruster)));
+        connect(ui->PushButton_Save, SIGNAL(pressed()), this, SLOT(saveDirectPressed()));
+        connect(ui->PushButton_Save, SIGNAL(released()), this, SLOT(saveDirectReleased()));
     }
     ui->CheckBox_AutoSave->setCheckState(Qt::Checked);
 }
@@ -42,90 +44,98 @@ ThrusterWindow::~ThrusterWindow() {
 
 void ThrusterWindow::thrusterEdited(json thrusterJson, UV_Thruster thruster) {
     interface.setThrusterData(thruster.id, thruster);
-
     allThrusterJson["thrusters"][thruster.id] = thrusterJson;
+}
+
+void ThrusterWindow::saveDirectPressed() {
+    interface.setSaveConstants(true);
+}
+
+void ThrusterWindow::saveDirectReleased() {
+    qDebug() << "save direct json";
     std::ofstream o(jsonName.toStdString());
     o << std::setw(4) << allThrusterJson << std::endl;
     o.close();
+    interface.setSaveConstants(false);
 }
 
 void ThrusterWindow::createDefaultThrusterJson() {
     std::ofstream o(jsonName.toStdString());
-    json j = {{"thrusters", {
+    json j = { {"thrusters", {
             {
                     {"name", "FrLowR"},
                     {"id", 0},
-                    {"backward_saturation", 75},
-                    {"forward_saturation", 75},
-                    {"adress", 0},
-                    {"kBackward", 1},
-                    {"kForward", 1},
+                    {"target_force", 0},
+                    {"dPWM_backward", 75},
+                    {"dPWM_forward", 75},
+                    {"k_backward", 1},
+                    {"k_forward", 1},
                     {"reverse", true}
             }, {
                     {"name", "FrLowL"},
                     {"id", 1},
-                    {"backward_saturation", 75},
-                    {"forward_saturation", 75},
-                    {"adress", 1},
-                    {"kBackward", 1},
-                    {"kForward", 1},
+                    {"target_force", 0},
+                    {"dPWM_backward", 75},
+                    {"dPWM_forward", 75},
+                    {"k_backward", 1},
+                    {"k_forward", 1},
                     {"reverse", false}
             }, {
                     {"name", "BackLowR"},
                     {"id", 2},
-                    {"backward_saturation", 75},
-                    {"forward_saturation", 75},
-                    {"adress", 2},
-                    {"kBackward", 1},
-                    {"kForward", 1},
+                    {"target_force", 0},
+                    {"dPWM_backward", 75},
+                    {"dPWM_forward", 75},
+                    {"k_backward", 1},
+                    {"k_forward", 1},
                     {"reverse", true}
             }, {
                     {"name", "BackLowL"},
                     {"id", 3},
-                    {"backward_saturation", 75},
-                    {"forward_saturation", 75},
-                    {"adress", 3},
-                    {"kBackward", 1},
-                    {"kForward", 1},
+                    {"target_force", 0},
+                    {"dPWM_backward", 75},
+                    {"dPWM_forward", 75},
+                    {"k_backward", 1},
+                    {"k_forward", 1},
                     {"reverse", true}
             }, {
                     {"name", "FrUpR"},
                     {"id", 4},
-                    {"backward_saturation", 75},
-                    {"forward_saturation", 75},
-                    {"adress", 4},
-                    {"kBackward", 1},
-                    {"kForward", 1},
+                    {"target_force", 0},
+                    {"dPWM_backward", 75},
+                    {"dPWM_forward", 75},
+                    {"k_backward", 1},
+                    {"k_forward", 1},
                     {"reverse", true}
             }, {
                     {"name", "FrUpL"},
                     {"id", 5},
-                    {"backward_saturation", 75},
-                    {"forward_saturation", 75},
-                    {"adress", 5},
-                    {"kBackward", 1},
-                    {"kForward", 1},
+                    {"target_force", 0},
+                    {"dPWM_backward", 75},
+                    {"dPWM_forward", 75},
+                    {"k_backward", 1},
+                    {"k_forward", 1},
                     {"reverse", true}
             }, {
                     {"name", "BackUpL"},
                     {"id", 6},
-                    {"backward_saturation", 75},
-                    {"forward_saturation", 75},
-                    {"adress", 6},
-                    {"kBackward", 1},
-                    {"kForward", 1},
+                    {"target_force", 0},
+                    {"dPWM_backward", 75},
+                    {"dPWM_forward", 75},
+                    {"k_backward", 1},
+                    {"k_forward", 1},
                     {"reverse", true}
             }, {
                     {"name", "BackUpR"},
                     {"id", 7},
-                    {"backward_saturation", 75},
-                    {"forward_saturation", 75},
-                    {"adress", 7},
-                    {"kBackward", 1},
-                    {"kForward", 1},
+                    {"target_force", 0},
+                    {"dPWM_backward", 75},
+                    {"dPWM_forward", 75},
+                    {"k_backward", 1},
+                    {"k_forward", 1},
                     {"reverse", true}
             },
-    }}};
+    }} };
     o << std::setw(4) << j << std::endl;
     o.close();
 }

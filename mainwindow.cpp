@@ -156,6 +156,9 @@ void MainWindow::upUiSensors(Sensors sensors) {
     label_TelemetryRoll->setText(QString::number(sensors.roll, 'f', 2));
     label_TelemetryPitch->setText(QString::number(sensors.pitch, 'f', 2));
     label_TelemetryYaw->setText(QString::number(sensors.yaw, 'f', 2));
+    label_InsideTemp->setText(QString::number(sensors.inside_temperature, 'f', 2));
+    label_OutsideTemp->setText(QString::number(sensors.outside_temperature, 'f', 2));
+    label_InsidePressure->setText(QString::number(sensors.inside_pressure, 'f', 2));
 
     label_BarDepth->setText(QString::number(sensors.depth, 'f', 2));
     progressBar_Depth->setValue(static_cast<int>(sensors.depth * 10));

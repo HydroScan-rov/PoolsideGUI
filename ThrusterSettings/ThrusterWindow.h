@@ -22,17 +22,17 @@ namespace Ui {
 }
 
 class ThrusterWindow : public QWidget {
-Q_OBJECT
+    Q_OBJECT
 
 public:
-    explicit ThrusterWindow(QWidget *parent = nullptr);
+    explicit ThrusterWindow(QWidget* parent = nullptr);
 
     ~ThrusterWindow();
 
     QString jsonName;
 
     int thrusters_amount;
-    Thruster *thrusters;
+    Thruster* thrusters;
     std::ifstream file;
 
 private:
@@ -40,12 +40,13 @@ private:
 
     void createDefaultThrusterJson();
 
-    Ui::ThrusterWindow *ui;
+    Ui::ThrusterWindow* ui;
     ITuningData interface;
 
 public slots:
-
     void thrusterEdited(json thrusterJson, UV_Thruster thruster);
+    void saveDirectPressed();
+    void saveDirectReleased();
 //    void powerEdited(int slot, bool power);
 
 };

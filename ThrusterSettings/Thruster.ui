@@ -466,6 +466,16 @@
      </property>
     </widget>
    </item>
+   <item row="0" column="1">
+    <widget class="Line" name="line_9">
+     <property name="lineWidth">
+      <number>2</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
    <item row="1" column="0">
     <widget class="Line" name="line_7">
      <property name="lineWidth">
@@ -491,10 +501,81 @@
      <property name="spacing">
       <number>0</number>
      </property>
-     <item row="15" column="1" colspan="2">
-      <widget class="QDoubleSpinBox" name="DoubleSpinBox_SetForwardK">
+     <item row="25" column="0" colspan="4">
+      <widget class="QSpinBox" name="SpinBox_ThrusterSet_dPWM_backward">
+       <property name="minimum">
+        <number>0</number>
+       </property>
        <property name="maximum">
-        <double>1.000000000000000</double>
+        <number>500</number>
+       </property>
+       <property name="singleStep">
+        <number>2</number>
+       </property>
+       <property name="value">
+        <number>100</number>
+       </property>
+      </widget>
+     </item>
+     <item row="21" column="1" colspan="2">
+      <widget class="QLabel" name="label_SetForwardSaturation">
+       <property name="text">
+        <string>dPWM_forward</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="1" colspan="2">
+      <widget class="QPushButton" name="PushButton_ThrusterSetStop">
+       <property name="text">
+        <string>Stop</string>
+       </property>
+      </widget>
+     </item>
+     <item row="29" column="1" colspan="2">
+      <widget class="QCheckBox" name="CheckBox_ThrusterReverse">
+       <property name="text">
+        <string>Reverse</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="1" colspan="2">
+      <widget class="QPushButton" name="PushButton_ThrusterSetBackward">
+       <property name="text">
+        <string>Backward</string>
+       </property>
+      </widget>
+     </item>
+     <item row="14" column="1" colspan="2">
+      <widget class="QLabel" name="label_SetForwardK">
+       <property name="text">
+        <string>Forward K</string>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="0" colspan="4">
+      <widget class="QDoubleSpinBox" name="doubleSpinBox_ThrusterSetTargetForce">
+       <property name="minimum">
+        <double>-40.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>40.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="28" column="0" colspan="4">
+      <widget class="Line" name="line">
+       <property name="lineWidth">
+        <number>2</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="18" column="0" colspan="4">
+      <widget class="QDoubleSpinBox" name="DoubleSpinBox_SetBackwardK">
+       <property name="maximum">
+        <double>2.000000000000000</double>
        </property>
        <property name="singleStep">
         <double>0.050000000000000</double>
@@ -504,23 +585,13 @@
        </property>
       </widget>
      </item>
-     <item row="12" column="0" colspan="4">
-      <widget class="Line" name="line_11">
-       <property name="lineWidth">
-        <number>2</number>
-       </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="22" column="1" colspan="2">
-      <widget class="QSpinBox" name="SpinBox_ThrusterSetForwardSaturation">
+     <item row="22" column="0" colspan="4">
+      <widget class="QSpinBox" name="SpinBox_ThrusterSet_dPWM_forward">
        <property name="minimum">
         <number>0</number>
        </property>
        <property name="maximum">
-        <number>100</number>
+        <number>500</number>
        </property>
        <property name="singleStep">
         <number>2</number>
@@ -530,74 +601,24 @@
        </property>
       </widget>
      </item>
-     <item row="6" column="0" colspan="4">
-      <widget class="Line" name="line_10">
-       <property name="lineWidth">
-        <number>2</number>
-       </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="19" column="0" colspan="4">
-      <widget class="Line" name="line_3">
-       <property name="lineWidth">
-        <number>2</number>
-       </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="20" column="0" colspan="4">
-      <widget class="Line" name="line_2">
-       <property name="lineWidth">
-        <number>2</number>
-       </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="1" colspan="2">
-      <widget class="QPushButton" name="PushButton_ThrusterSetForward">
-       <property name="text">
-        <string>Forward</string>
-       </property>
-      </widget>
-     </item>
-     <item row="21" column="1">
-      <widget class="QLabel" name="label_SetForwardSaturation">
-       <property name="text">
-        <string>F Saturation %</string>
-       </property>
-      </widget>
-     </item>
-     <item row="24" column="1">
-      <widget class="QLabel" name="label_SetBackwardSaturation">
-       <property name="text">
-        <string>B Saturation %</string>
-       </property>
-      </widget>
-     </item>
-     <item row="11" column="1" colspan="2">
-      <widget class="QSpinBox" name="SpinBox_ThrusterSetSpeed">
-       <property name="minimum">
-        <number>-100</number>
-       </property>
+     <item row="3" column="2">
+      <widget class="QSpinBox" name="SpinBox_ThrusterId">
        <property name="maximum">
-        <number>100</number>
-       </property>
-       <property name="singleStep">
-        <number>2</number>
+        <number>7</number>
        </property>
       </widget>
      </item>
-     <item row="8" column="1" colspan="2">
-      <widget class="QPushButton" name="PushButton_ThrusterSetStop">
+     <item row="2" column="1" colspan="2">
+      <widget class="QCheckBox" name="CheckBox_ThrusterPower">
        <property name="text">
-        <string>Stop</string>
+        <string>Power </string>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="1" colspan="2">
+      <widget class="QLabel" name="label_SetSpeed">
+       <property name="text">
+        <string>Target force (N)</string>
        </property>
       </widget>
      </item>
@@ -611,29 +632,72 @@
        </property>
       </widget>
      </item>
-     <item row="30" column="1" colspan="2">
-      <widget class="QPushButton" name="PushButton_Flash">
-       <property name="text">
-        <string>Flash</string>
+     <item row="6" column="0" colspan="4">
+      <widget class="Line" name="line_10">
+       <property name="lineWidth">
+        <number>2</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>
-     <item row="29" column="1" colspan="2">
-      <widget class="QCheckBox" name="CheckBox_ThrusterReverse">
-       <property name="text">
-        <string>Reverse</string>
+     <item row="15" column="0" colspan="4">
+      <widget class="QDoubleSpinBox" name="DoubleSpinBox_SetForwardK">
+       <property name="maximum">
+        <double>2.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.050000000000000</double>
+       </property>
+       <property name="value">
+        <double>1.000000000000000</double>
        </property>
       </widget>
      </item>
-     <item row="10" column="1" colspan="2">
-      <widget class="QLabel" name="label_SetSpeed">
+     <item row="16" column="1" colspan="2">
+      <widget class="QLabel" name="label_SetBackwardK">
        <property name="text">
-        <string>Speed %</string>
+        <string>Backward K</string>
        </property>
       </widget>
      </item>
-     <item row="28" column="0" colspan="4">
-      <widget class="Line" name="line">
+     <item row="7" column="1" colspan="2">
+      <widget class="QPushButton" name="PushButton_ThrusterSetForward">
+       <property name="text">
+        <string>Forward</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0" colspan="4">
+      <widget class="Line" name="line_5">
+       <property name="lineWidth">
+        <number>2</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLabel" name="label_ThrusterAdress">
+       <property name="text">
+        <string>id</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="24" column="1" colspan="2">
+      <widget class="QLabel" name="label_SetBackwardSaturation">
+       <property name="text">
+        <string>dPWM_backward</string>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="0" colspan="4">
+      <widget class="Line" name="line_11">
        <property name="lineWidth">
         <number>2</number>
        </property>
@@ -652,8 +716,8 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="0" colspan="4">
-      <widget class="Line" name="line_5">
+     <item row="20" column="0" colspan="4">
+      <widget class="Line" name="line_2">
        <property name="lineWidth">
         <number>2</number>
        </property>
@@ -662,91 +726,17 @@
        </property>
       </widget>
      </item>
-     <item row="9" column="1" colspan="2">
-      <widget class="QPushButton" name="PushButton_ThrusterSetBackward">
-       <property name="text">
-        <string>Backward</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="2">
-      <widget class="QSpinBox" name="SpinBox_ThrusterAdress">
-       <property name="maximum">
-        <number>7</number>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QLabel" name="label_ThrusterAdress">
-       <property name="text">
-        <string>adress</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="16" column="1" colspan="2">
-      <widget class="QLabel" name="label_SetBackwardK">
-       <property name="text">
-        <string>Backward K</string>
-       </property>
-      </widget>
-     </item>
-     <item row="25" column="1" colspan="2">
-      <widget class="QSpinBox" name="SpinBox_ThrusterSetBackwardSaturation">
-       <property name="minimum">
-        <number>0</number>
-       </property>
-       <property name="maximum">
-        <number>100</number>
-       </property>
-       <property name="singleStep">
+     <item row="19" column="0" colspan="4">
+      <widget class="Line" name="line_3">
+       <property name="lineWidth">
         <number>2</number>
        </property>
-       <property name="value">
-        <number>100</number>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1" colspan="2">
-      <widget class="QCheckBox" name="CheckBox_ThrusterPower">
-       <property name="text">
-        <string>Power </string>
-       </property>
-      </widget>
-     </item>
-     <item row="14" column="1" colspan="2">
-      <widget class="QLabel" name="label_SetForwardK">
-       <property name="text">
-        <string>Forward K</string>
-       </property>
-      </widget>
-     </item>
-     <item row="18" column="1" colspan="2">
-      <widget class="QDoubleSpinBox" name="DoubleSpinBox_SetBackwardK">
-       <property name="maximum">
-        <double>1.000000000000000</double>
-       </property>
-       <property name="singleStep">
-        <double>0.050000000000000</double>
-       </property>
-       <property name="value">
-        <double>1.000000000000000</double>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>
     </layout>
-   </item>
-   <item row="0" column="1">
-    <widget class="Line" name="line_9">
-     <property name="lineWidth">
-      <number>2</number>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
    </item>
   </layout>
  </widget>

@@ -10,6 +10,12 @@ void ITuningData::setThrusterData(int slot, UV_Thruster data) {
     UVMutex.unlock();
 }
 
+void ITuningData::setSaveConstants(bool saveConstants) {
+    UVMutex.lock();
+    UVState.save_constants = saveConstants;
+    UVMutex.unlock();
+}
+
 UV_Thruster ITuningData::getThrusterData(int slot) {
     UV_Thruster data;
 
@@ -49,11 +55,5 @@ void ITuningData::setCircuitConstants(UV_CircuitConstants constants, e_circuit c
 void ITuningData::setCurrentCircuit(e_circuit contour) {
     UVMutex.lock();
     UVState.currentCircuit = contour;
-    UVMutex.unlock();
-}
-
-void ITuningData::setSaveConstants(bool saveConstants) {
-    UVMutex.lock();
-    UVState.save_constants = saveConstants;
     UVMutex.unlock();
 }
