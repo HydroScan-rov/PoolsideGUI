@@ -56,7 +56,7 @@ StabilizationWindow::StabilizationWindow(QWidget* parent) :
 
     updateTimer = new QTimer(this);
     connect(updateTimer, SIGNAL(timeout()), this, SLOT(FillUiStates()));
-    updateTimer->start(50);
+    updateTimer->start(20);
 }
 
 void StabilizationWindow::SetCircuitMarch() {
@@ -163,11 +163,13 @@ void StabilizationWindow::FillUiStates() {
     ui->State_pid_SumOut->setText(QString::number(circuitStates[currentCircuit].pid_SumOut, 'f', 2));
     ui->State_pid_output->setText(QString::number(circuitStates[currentCircuit].pid_output, 'f', 2));
     ui->State_tuning_summator->setText(QString::number(circuitStates[currentCircuit].tuning_summator, 'f', 2));
+    qDebug() << "circuitStates[currentCircuit].tuning_summator: " << circuitStates[currentCircuit].tuning_summator;
     ui->State_speed_error->setText(QString::number(circuitStates[currentCircuit].speed_error, 'f', 2));
     ui->State_out_pre_saturation->setText(QString::number(circuitStates[currentCircuit].out_pre_saturation, 'f', 2));
     ui->State_out->setText(QString::number(circuitStates[currentCircuit].out, 'f', 2));
 
     updateVariables_KX();
+    // qDebug() << "updateVariables_KX";
 }
 
 void StabilizationWindow::getJsonFromFile() {
