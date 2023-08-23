@@ -79,7 +79,7 @@ const struct {
     uint8_t R;
     uint8_t G;
     uint8_t B;
-} rgbPresetWhite = {255, 255, 255};
+} rgbPresetWhite = {200, 180, 215};
 
 struct ControlData {
     ControlData();

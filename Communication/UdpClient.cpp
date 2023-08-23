@@ -6,7 +6,7 @@ UdpClient::UdpClient() {
     senderSocket = new QUdpSocket(this);
 
     receiverSocket = new QUdpSocket(this);
-    receiverSocket->bind(QHostAddress("192.168.1.150"), 5001); //  pult address
+    receiverSocket->bind(QHostAddress("192.168.1.246"), 5001); //  pult address
     connect(receiverSocket, &QUdpSocket::readyRead, this, &UdpClient::readPendingDatagrams);
 
     this->start();
@@ -33,12 +33,12 @@ int UdpClient::exec() {
 
         senderSocket->writeDatagram(msg, uv_interface->getCurrentPackageRequestLength(), QHostAddress("192.168.1.67"), 5000); //  ROV address
 
-        qDebug() << "writeDatagram";
+        // qDebug() << "writeDatagram";
         // for (size_t i = 0; i < uv_interface->getCurrentPackageRequestLength(); i++) {
         //     qDebug() << static_cast<uint8_t>(msg[i]); // иногда вылетает при смене типа посылок
         // }
 
-        msleep(20); //  50 Hz
+        msleep(10); //  50 Hz
     }
 }
 
@@ -49,7 +49,7 @@ void UdpClient::readPendingDatagrams() { // parse a message that came from ROV
         QByteArray msg = datagram.data();
         bool exception_caught = false;
 
-        qDebug() << "hasPendingDatagrams"; // for debug
+        // qDebug() << "hasPendingDatagrams"; // for debug
         // for (int i = 0; i < uv_interface->getCurrentPackageResponseLength(); i++) {
         //     qDebug() << static_cast<uint8_t>(msg[i]);
         // }
