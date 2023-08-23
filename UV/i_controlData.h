@@ -18,6 +18,14 @@ public:
     void setPitch(double pitch);
     void setYaw(double yaw);
     void setDeviceVelocity(e_device device, float pos);
+
+    void toggleThrustersOn();
+    void toggleLightOn();
+    void setLightTuningNext();
+    void setLightPower(int value);
+    void setControlModeNext();
+    void setControlSpeedFast();
+    void setControlSpeedFine();
 };
 
 #endif // I_CONTROLDATA_H

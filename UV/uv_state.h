@@ -35,6 +35,13 @@ enum e_device : unsigned char {
     DEVICE_DEV,
 };
 
+enum e_light : unsigned char {
+    LIGHT_LOWER,
+    LIGHT_R,
+    LIGHT_G,
+    LIGHT_B
+};
+
 struct Sensors {
     Sensors();
 
@@ -73,13 +80,13 @@ const struct {
     uint8_t R;
     uint8_t G;
     uint8_t B;
-} rgbPresetBlue = {0, 255, 255};
+} rgbPresetBlue = { 0, 255, 255 };
 
 const struct {
     uint8_t R;
     uint8_t G;
     uint8_t B;
-} rgbPresetWhite = {200, 180, 215};
+} rgbPresetWhite = { 200, 180, 215 };
 
 struct ControlData {
     ControlData();
@@ -103,6 +110,7 @@ public:
     ControlData control;
     e_controlMode currentControlMode;
     e_packageMode currentPackageMode;
+    e_light currentTunningLight;
 
     Sensors sensors;
     Light light;
@@ -115,9 +123,6 @@ public:
 
     UV_ControlCircuit controlCircuit[6];
     e_circuit currentCircuit;
-
-    QString udpHostAddress;
-    quint16 udpHostPort;
 
     // Flags
     bool thrusters_on;

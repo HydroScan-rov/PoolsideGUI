@@ -57,3 +57,54 @@ void IControlData::setDeviceVelocity(e_device device, float velocity) {
     }
     UVMutex.unlock();
 }
+
+void IControlData::toggleThrustersOn() {
+    UVMutex.lock();
+    UVState.thrusters_on = -UVState.thrusters_on;
+    UVMutex.unlock();
+}
+
+void IControlData::toggleLightOn() {
+    UVMutex.lock();
+    UVState.rgb_light_on = -UVState.rgb_light_on;
+    UVState.rgb_light_on = UVState.rgb_light_on;
+    UVMutex.unlock();
+}
+
+void IControlData::setLightTuningNext() {
+    UVMutex.lock();
+    if (UVState.currentTunningLight != LIGHT_B)
+        UVState.currentTunningLight++;
+    else
+        UVState.currentTunningLight = LIGHT_LOWER;
+
+
+    UVMutex.unlock();
+}
+
+void IControlData::setLightPower(int value) {
+    UVMutex.lock();
+
+    UVMutex.unlock();
+}
+
+void IControlData::setControlModeNext() {
+    UVMutex.lock();
+
+    UVMutex.unlock();
+}
+
+void IControlData::setControlSpeedFast() {
+    UVMutex.lock();
+
+    UVMutex.unlock();
+}
+
+void IControlData::setControlSpeedFine() {
+    UVMutex.lock();
+
+    UVMutex.unlock();
+}
+
+
+

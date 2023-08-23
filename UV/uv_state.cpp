@@ -42,9 +42,6 @@ Telemetry::Telemetry() {
 }
 
 UV_State::UV_State() {
-    udpHostAddress = "192.168.31.100";
-    udpHostPort = 5000;
-
     connection_status = 0;
     reseived_connection_status = 0;
 
@@ -63,6 +60,8 @@ UV_State::UV_State() {
     stab_yaw = true;
 
     currentControlMode = MODE_HANDLE;
+    currentPackageMode = PACKAGE_NORMAL;
+    currentTunningLight = LIGHT_LOWER;
 }
 
 UV_State::~UV_State() {
