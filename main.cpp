@@ -9,15 +9,14 @@
 int main(int argc, char *argv[]) {
     // QApplication a(argc, argv);
 
-    // MainWindow mainWindow;
-    // mainWindow.show();
-    // return a.exec();
-
     if (!g_thread_supported())
         g_thread_init(NULL);
 
     gst_init(&argc, &argv);
     QApplication app(argc, argv);
+    MainWindow mainWindow;
+    mainWindow.show();
+    // return a.exec();
     app.connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
 
     // prepare the pipeline
@@ -30,11 +29,11 @@ int main(int argc, char *argv[]) {
 
     // prepare the ui
 
-    QWidget window;
-    window.resize(320, 240);
-    window.show();
+    // QWidget window;
+    // window.resize(320, 240);
+    // window.show();
 
-    WId xwinid = window.winId();
+    WId xwinid = mainWindow.getVideoWidget()->winId();
     gst_video_overlay_set_window_handle(GST_VIDEO_OVERLAY(sink), xwinid);
 
     // run the pipeline
@@ -50,7 +49,7 @@ int main(int argc, char *argv[]) {
 
     int ret = app.exec();
 
-    window.hide();
+    mainWindow.hide();
     gst_element_set_state(pipeline, GST_STATE_NULL);
     gst_object_unref(pipeline);
 

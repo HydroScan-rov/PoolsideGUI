@@ -5,7 +5,7 @@
 
 //double X[2000][2];
 
-MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     setupUi(this);
 
     // Menu:
@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     udp_client = new UdpClient();
     connect(udp_client, SIGNAL(dataUpdated()), this, SLOT(updateUi()));
 
-    QTimer* update_timer = new QTimer(this);
+    QTimer *update_timer = new QTimer(this);
     connect(update_timer, SIGNAL(timeout()), this, SLOT(updateUi()));
 
     gamepad = new Gamepad(20);
@@ -81,6 +81,10 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     updateUi();
     getDefaultSettings();
     update_timer->start(20);
+}
+
+QWidget *MainWindow::getVideoWidget() {
+    return widget;
 }
 
 void MainWindow::updateUi() {

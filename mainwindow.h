@@ -31,6 +31,7 @@ class MainWindow : public QMainWindow, private Ui::MainWindow {
 
 public:
     explicit MainWindow(QWidget* parent = nullptr);
+    QWidget* getVideoWidget();
 
 private:
 
