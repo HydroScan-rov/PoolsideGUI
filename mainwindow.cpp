@@ -1,4 +1,7 @@
 #include "mainwindow.h"
+#include <glib.h>
+#include <gst/gst.h>
+#include <gst/video/videooverlay.h>
 
 //double X[2000][2];
 
@@ -56,6 +59,14 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     //     horizontalLayout_6->addWidget(m_videoWidget, 7);
     // m_videoWidget->resize(1280, 720);
     // m_player->setVideoOutput(m_videoWidget);
+
+    // GstElement *pipeline_2 = gst_parse_launch("udpsrc port=20000 ! application/x-rtp,encoding-name=JPEG,payload=26 ! rtpjpegdepay ! jpegparse ! jpegdec ! videoconvert ! videoscale ! ximagesink  name=mySink", NULL);
+
+    // GstElement *sink = gst_bin_get_by_name((GstBin *)pipeline_2, "mySink");
+
+    // WId xwinid = this->winId();
+    // gst_video_overlay_set_window_handle(GST_VIDEO_OVERLAY(sink), (guintptr)xwinid);
+    // GstStateChangeReturn sret = gst_element_set_state(pipeline_2, GST_STATE_PLAYING);
 
 
 

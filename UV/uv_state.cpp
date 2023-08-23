@@ -66,12 +66,12 @@ UV_State::UV_State() {
 }
 
 UV_State::~UV_State() {
-    if (thruster != nullptr) {
-        delete[] thruster;
-    }
-    if (controlCircuit != nullptr) {
-        delete[] controlCircuit;
-    }
+    // if (thruster != nullptr) {
+    //     delete[] thruster;
+    // }
+    // if (controlCircuit != nullptr) {
+    //     delete[] controlCircuit;
+    // }
 }
 
 void UV_State::setThrusterNext() {
