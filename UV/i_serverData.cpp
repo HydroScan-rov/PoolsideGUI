@@ -175,6 +175,7 @@ QByteArray IServerData::generateConfigMessage() {
 
     stream << req.flags;
     stream << req.stab_flags;
+    stream << req.control_mode;
     stream << req.current_circuit;
 
     stream << req.march;
@@ -213,6 +214,7 @@ void IServerData::fillStructure(RequestConfigMessage& req) {
 
     fillFlags(req.flags);
     setBit(req.flags, 5, UVState.save_constants);
+    fillControlMode(req.control_mode);
     fillStabFlags(req.stab_flags);
     for (int i = MARCH; i < YAW + 1; i++) {
         if (UVState.currentCircuit == i) { setBit(req.current_circuit, i, true); };

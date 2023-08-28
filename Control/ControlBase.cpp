@@ -37,17 +37,6 @@ void ControlBase::sendAction(e_actionTypes type, float value) {
     }
 }
 
-void ControlBase::sendAction(e_actionTypes type, int value) {
-    switch (type) {
-        case LIGHT_POWER_UP:
-            setLightPowerUp(value);
-            break;
-        case LIGHT_POWER_DOWN:
-            setLightPowerDown(value);
-            break;
-    }
-}
-
 void ControlBase::sendAction(e_actionTypes type) {
     switch (type) {
         case TOGGLE_THRUSTER_ON:
@@ -59,6 +48,13 @@ void ControlBase::sendAction(e_actionTypes type) {
         case LIGHT_TUNING_NEXT:
             setLightTuningNext();
             break;
+        case LIGHT_POWER_UP:
+            setLightPowerUp();
+            break;
+        case LIGHT_POWER_DOWN:
+            setLightPowerDown();
+            break;
+
         case CONTROL_MODE_NEXT:
             setControlModeNext();
             break;
@@ -100,28 +96,33 @@ void ControlBase::setTilt(float value) {
 }
 
 void ControlBase::toggleThrustersOn() {
-
+    interface.toggleThrustersOn();
 }
+
 void ControlBase::toggleLightOn() {
-
+    interface.toggleLightOn();
 }
+
 void ControlBase::setLightTuningNext() {
-
+    interface.setLightTuningNext();
 }
-void ControlBase::setLightPowerUp(int value) {
 
+void ControlBase::setLightPowerUp() {
+    interface.setLightPowerUp();
 }
-void ControlBase::setLightPowerDown(int value) {
 
+void ControlBase::setLightPowerDown() {
+    interface.setLightPowerDown();
 }
+
 void ControlBase::setControlModeNext() {
-
+    interface.setControlModeNext();
 }
+
 void ControlBase::setControlSpeedFast() {
-
+    interface.setControlSpeedFast();
 }
+
 void ControlBase::setControlSpeedFine() {
-
+    interface.setControlSpeedFine();
 }
-
-

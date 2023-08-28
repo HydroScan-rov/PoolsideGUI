@@ -26,13 +26,12 @@ private:
 
     struct control_buttons {
         unsigned int button_id;
-        unsigned int button_idReverse;
         e_actionTypes action;
-        int8_t setterValue;
+        bool previousState;
     };
 
     const static control_axis axis_table[];
-    const static control_buttons buttons_table[];
+    static control_buttons buttons_table[];
 };
 
 #endif // GAMEPAD_H

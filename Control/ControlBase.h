@@ -47,13 +47,13 @@ protected:
     void toggleThrustersOn();
     void toggleLightOn();
     void setLightTuningNext();
-    void setLightPowerUp(int value);
-    void setLightPowerDown(int value);
+    void setLightPowerUp();
+    void setLightPowerDown();
     void setControlModeNext();
     void setControlSpeedFast();
     void setControlSpeedFine();
 
-private:
+protected:
     IControlData interface;
 };
 

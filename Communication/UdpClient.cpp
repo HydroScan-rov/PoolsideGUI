@@ -6,7 +6,7 @@ UdpClient::UdpClient() {
     senderSocket = new QUdpSocket(this);
 
     receiverSocket = new QUdpSocket(this);
-    receiverSocket->bind(QHostAddress("192.168.1.246"), 5001); //  pult address
+    receiverSocket->bind(QHostAddress("192.168.1.48"), 5001); //  pult address
     connect(receiverSocket, &QUdpSocket::readyRead, this, &UdpClient::readPendingDatagrams);
 
     this->start();

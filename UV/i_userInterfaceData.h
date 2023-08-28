@@ -24,6 +24,7 @@ public:
     bool getRGBLightOn();
 
     ControlData getControlData();
+    e_controlMode getCurrentControlMode();
     uint16_t getDeviceVelocity(e_device device);
     Light getLight();
     Telemetry getTelemetry();

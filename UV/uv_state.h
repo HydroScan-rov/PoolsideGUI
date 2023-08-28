@@ -9,6 +9,8 @@
 #include "uv_thruster.h"
 #include "uv_controlCircuit.h"
 
+#define MAX_LOWER_LIGHT 210
+
 enum e_packageMode : unsigned char {
     PACKAGE_NORMAL,
     PACKAGE_CONFIG,
@@ -77,10 +79,15 @@ struct Light {
 };
 
 const struct {
+    float fast;
+    float slow;
+} controlSpeedPreset = { 1, 0.5 };
+
+const struct {
     uint8_t R;
     uint8_t G;
     uint8_t B;
-} rgbPresetBlue = { 0, 255, 255 };
+} rgbPresetBlue = { 0, 200, 200 };
 
 const struct {
     uint8_t R;
@@ -116,6 +123,7 @@ public:
     Light light;
     Telemetry telemetry;
     UV_Device device[2];
+    float controlSpeed;
 
     UV_Thruster thruster[8];
     void setThrusterNext();

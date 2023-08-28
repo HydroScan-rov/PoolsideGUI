@@ -63,7 +63,10 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 
 void MainWindow::updateUi() {
     upUiConnectionStatus(uv_interface.getConnectionStatus(), uv_interface.getReseivedConnectionStatus());
+    checkBox_ThrustersOn->setChecked(uv_interface.getThrustersOn());
+    upUiControlMode(uv_interface.getCurrentControlMode());
     upUiImpact(uv_interface.getControlData(), uv_interface.getDeviceVelocity(DEVICE_TILT));
+    upUiLight(uv_interface.getLight(), uv_interface.getLowerLightOn(), uv_interface.getRGBLightOn());
     upUiTelemetry(uv_interface.getTelemetry());
     upUiSensors(uv_interface.getSensorsData());
 }
@@ -96,6 +99,29 @@ void MainWindow::upUiConnectionStatus(int connectionStatus, int reseivedConnecti
     horizontalSlider_connection->setPalette(paletteConnectionStatus);
 }
 
+void MainWindow::upUiControlMode(e_controlMode controlMode) {
+    switch (controlMode) {
+        case MODE_HANDLE:
+            radioButton_ControModeHandle->setChecked(true);
+            radioButton_ControModeAuto->setChecked(false);
+            radioButton_ControModeManeuverable->setChecked(false);
+            break;
+
+        case MODE_AUTO:
+            radioButton_ControModeHandle->setChecked(false);
+            radioButton_ControModeAuto->setChecked(true);
+            radioButton_ControModeManeuverable->setChecked(false);
+            break;
+
+        case MODE_MANEUVERABLE:
+            radioButton_ControModeHandle->setChecked(false);
+            radioButton_ControModeAuto->setChecked(false);
+            radioButton_ControModeManeuverable->setChecked(true);
+            break;
+    }
+}
+
+
 void MainWindow::upUiImpact(ControlData control, uint16_t tilt) {
     label_ImpactMarch->setText(QString::number(control.march, 'f', 1));
     label_ImpactLag->setText(QString::number(control.lag, 'f', 1));
@@ -106,11 +132,21 @@ void MainWindow::upUiImpact(ControlData control, uint16_t tilt) {
     label_DevicesTilt->setText(QString::number(tilt));
 }
 
-void MainWindow::upUiLight(Light light) {
+void MainWindow::upUiLight(Light light, bool LowerLightOn, bool RGBLightOn) {
+
     spinBox_LightLowerPower->setValue(light.power_lower_light);
     spinBox_LightR->setValue(light.r_rgb_light);
     spinBox_LightG->setValue(light.g_rgb_light);
     spinBox_LightB->setValue(light.b_rgb_light);
+
+    if (LowerLightOn)
+        checkBox_LowerLightOn->setCheckState(Qt::CheckState::Checked);
+    else
+        checkBox_LowerLightOn->setCheckState(Qt::CheckState::Unchecked);
+    if (RGBLightOn)
+        checkBox_RGBLightOn->setCheckState(Qt::CheckState::Checked);
+    else
+        checkBox_RGBLightOn->setCheckState(Qt::CheckState::Unchecked);
 }
 
 void MainWindow::upUiTelemetry(Telemetry telemetry) {

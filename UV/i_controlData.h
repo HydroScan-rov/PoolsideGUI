@@ -11,6 +11,8 @@ public:
 
     void setControlData(ControlData data);
 
+    float getControlSpeed();
+
     void setMarch(double march);
     void setLag(double lag);
     void setDepth(double depth);
@@ -22,7 +24,8 @@ public:
     void toggleThrustersOn();
     void toggleLightOn();
     void setLightTuningNext();
-    void setLightPower(int value);
+    void setLightPowerUp();
+    void setLightPowerDown();
     void setControlModeNext();
     void setControlSpeedFast();
     void setControlSpeedFine();

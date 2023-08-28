@@ -62,6 +62,7 @@ UV_State::UV_State() {
     currentControlMode = MODE_HANDLE;
     currentPackageMode = PACKAGE_NORMAL;
     currentTunningLight = LIGHT_LOWER;
+    controlSpeed = 1;
 }
 
 UV_State::~UV_State() {

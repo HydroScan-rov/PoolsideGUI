@@ -29,6 +29,14 @@ ControlData IUserInterfaceData::getControlData() {
     return data;
 }
 
+e_controlMode IUserInterfaceData::getCurrentControlMode() {
+    e_controlMode data;
+    UVMutex.lock();
+    data = UVState.currentControlMode;
+    UVMutex.unlock();
+    return data;
+}
+
 uint16_t IUserInterfaceData::getDeviceVelocity(e_device device) {
     uint16_t data;
     UVMutex.lock();
